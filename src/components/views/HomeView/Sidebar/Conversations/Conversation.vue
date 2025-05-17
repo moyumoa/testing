@@ -109,7 +109,7 @@ const isActive = computed(
         <div class="w-full">
           <!--conversation name-->
           <div class="flex items-start">
-            <div class="grow mb-4 text-start">
+            <div class="grow mb-3 text-start">
               <p class="heading-2 text-black/70 dark:text-white/70">
                 {{ getName(props.conversation) }}
               </p>

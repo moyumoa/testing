@@ -71,13 +71,13 @@ const handleSubmit = () => {
   <Collapse id="account-settings-collapse" :collapsed="props.collapsed">
     <LabeledTextInput
       label="First name"
-      inputClasses="mb-7"
+      class="mb-5"
       :value="accountValues?.firstName"
       @value-changed="(value) => (accountValues.firstName = value)"
     />
     <LabeledTextInput
       label="Last name"
-      inputClasses="mb-7"
+      class="mb-5"
       :value="accountValues?.lastName"
       @value-changed="(value) => (accountValues.lastName = value)"
     />

@@ -75,6 +75,10 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+  * {
+    line-height: 160%;
+  }
+
   *,
   ::after,
   ::before,
@@ -96,31 +100,31 @@
 /* component classes */
 @utility body-1 {
   /***  Typography  ***/
-  @apply text-xs font-light leading-4 tracking-[.01rem];
+  @apply text-xs font-light leading-5 tracking-[.01rem];
 }
 @utility body-2 {
-  @apply text-sm font-normal leading-4 tracking-[.01rem];
+  @apply text-sm font-normal leading-5 tracking-[.01rem];
 }
 @utility body-3 {
   @apply text-sm font-light leading-5 tracking-[.01rem];
 }
 @utility body-4 {
-  @apply text-xs font-light leading-4 tracking-[.01rem];
+  @apply text-xs font-light leading-5 tracking-[.01rem];
 }
 @utility body-5 {
-  @apply text-[1rem]  leading-4 tracking-[.01rem];
+  @apply text-[1rem]  leading-5 tracking-[.01rem];
 }
 @utility body-6 {
-  @apply text-[1.5rem] leading-4 tracking-[.01rem];
+  @apply text-[1.5rem] leading-5 tracking-[.01rem];
 }
 @utility heading-1 {
-  @apply text-xl leading-4 tracking-[.01rem];
+  @apply text-xl leading-5 tracking-[.01rem];
 }
 @utility heading-2 {
-  @apply text-sm font-semibold leading-4 tracking-[.01rem];
+  @apply text-sm font-semibold leading-5 tracking-[.01rem];
 }
 @utility heading-3 {
-  @apply text-xs font-semibold leading-4 tracking-[.01rem];
+  @apply text-xs font-semibold leading-5 tracking-[.01rem];
 }
 @utility heading-4 {
   @apply text-3xl leading-9 tracking-[.01rem];
@@ -129,13 +133,13 @@
   @apply outline-hidden text-3xl leading-9 tracking-[.01rem];
 }
 @utility contained-text {
-  @apply text-sm font-semibold leading-4 tracking-[.01rem] text-white;
+  @apply text-sm font-semibold leading-5 tracking-[.01rem] text-white;
 }
 @utility outlined-text {
-  @apply text-sm font-semibold leading-4 tracking-[.01rem] text-black/70 dark:text-white hover:text-white focus:text-white;
+  @apply text-sm font-semibold leading-5 tracking-[.01rem] text-black/70 dark:text-white hover:text-white focus:text-white;
 }
 @utility ghost-text {
-  @apply text-sm font-light leading-4 tracking-[.01rem] text-black/70 dark:text-white dark:hover:text-white;
+  @apply text-sm font-light leading-5 tracking-[.01rem] text-black/70 dark:text-white dark:hover:text-white;
 }
 @utility btn {
   /***  Button  ***/

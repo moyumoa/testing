@@ -51,14 +51,12 @@ import LabeledTextInput from "@src/components/ui/inputs/LabeledTextInput.vue";
 
     <!--oauth controls-->
     <Button class="outlined-primary outlined-text w-full mb-5">
-      <span class="flex">
-        <img
-          src="@src/assets/vectors/google-logo.svg"
-          class="mr-3"
-          alt="google-logo"
-        />
-        Sign in with google
-      </span>
+      <img
+        src="@src/assets/vectors/google-logo.svg"
+        class="mr-3"
+        alt="google-logo"
+      />
+      Sign in with google
     </Button>
   </div>
 </template>
