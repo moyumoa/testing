@@ -68,7 +68,7 @@ watch(
     <Transition name="fade">
       <div
         v-show="props.open"
-        class="fixed inset-0 bg-black bg-opacity-60 transition-opacity"
+        class="fixed inset-0 bg-black/60 transition-opacity"
       ></div>
     </Transition>
 

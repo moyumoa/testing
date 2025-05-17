@@ -43,7 +43,8 @@ import LabeledTextInput from "@src/components/ui/inputs/LabeledTextInput.vue";
       <span
         class="w-full border border-dashed border-gray-100 dark:border-gray-600 rounded-[.0625rem]"
       ></span>
-      <p class="body-3 text-color px-4 text-opacity-75 font-light">or</p>
+      <!--text-opacity-75-->
+      <p class="body-3 text-color px-4 font-light">or</p>
       <span
         class="w-full border border-dashed border-gray-100 dark:border-gray-600 rounded-[.0625rem]"
       ></span>

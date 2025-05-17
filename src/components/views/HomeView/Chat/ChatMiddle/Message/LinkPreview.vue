@@ -11,11 +11,11 @@ const props = defineProps<{
 
 <template>
   <div
-    class="border-l pl-3 cursor-pointer border-opacity-50 duration-200"
+    class="border-l pl-3 cursor-pointer duration-200"
     :class="
       props.self
-        ? ['border-white']
-        : ['border-black', 'dark:border-white', 'dark:border-opacity-70']
+        ? ['border-white/50']
+        : ['border-black/70', 'dark:border-white']
     "
   >
     <!--title-->

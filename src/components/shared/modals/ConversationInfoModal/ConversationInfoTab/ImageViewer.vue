@@ -19,7 +19,7 @@ const props = defineProps<{
     <Transition name="fade">
       <div
         v-show="props.open"
-        class="fixed inset-0 bg-black bg-opacity-60 transition-opacity"
+        class="fixed inset-0 bg-black/60 transition-opacity"
       ></div>
     </Transition>
 
@@ -30,7 +30,7 @@ const props = defineProps<{
           <div class="w-full flex justify-end">
             <button
               @click="closeImage"
-              class="rounded-full p-2 hover:bg-white hover:bg-opacity-10 active:bg-opacity-20 transition-all duration-200"
+              class="rounded-full p-2 hover:bg-white/10 active:bg-white/20 transition-all duration-200"
               aria-label="previous item"
             >
               <XMarkIcon class="w-7 h-7 text-white stroke-1" />

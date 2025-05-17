@@ -56,7 +56,7 @@ const props = defineProps<{
       <div class="mr-5 flex flex-col justify-center items-center">
         <IconButton class="ic-btn-contained-gray p-3 mb-3">
           <SpeakerXMarkIcon
-            class="w-[1.0625rem] h-[1.0625rem] text-black text-opacity-60 dark:text-white dark:text-opacity-70"
+            class="w-[1.0625rem] h-[1.0625rem] text-black/60 dark:text-white/70"
           />
         </IconButton>
         <p class="body-4 text-color">mute</p>
@@ -66,7 +66,7 @@ const props = defineProps<{
       <div class="flex flex-col justify-center items-center">
         <IconButton class="ic-btn-contained-gray p-3 mb-3">
           <ChatBubbleBottomCenterTextIcon
-            class="w-[1.0625rem] h-[1.0625rem] text-black text-opacity-60 dark:text-white dark:text-opacity-70"
+            class="w-[1.0625rem] h-[1.0625rem] text-black/60 dark:text-white/70"
           />
         </IconButton>
         <p class="body-4 text-color">chat</p>

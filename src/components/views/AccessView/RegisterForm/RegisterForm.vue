@@ -45,7 +45,8 @@ const changeActiveSection = (event: {
           class="w-[1.375rem] h-[1.125rem] mb-5 opacity-70"
         />
         <p class="heading-2 text-color mb-4">Get started with Avian</p>
-        <p class="body-3 text-color text-opacity-75 font-light">
+        <!-- text-opacity-75 -->
+        <p class="body-3 text-color font-light">
           Sign in to start using messaging!
         </p>
       </div>

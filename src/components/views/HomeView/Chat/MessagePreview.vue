@@ -13,10 +13,11 @@ const store = useStore();
 </script>
 
 <template>
+  
   <div
     v-if="props.message"
-    class="border-l-2 pl-3 cursor-pointer outline-none border-opacity-50 duration-200"
-    :class="['border-gray-900', 'dark:border-white', 'dark:border-opacity-50']"
+    class="border-l-2 pl-3 cursor-pointer outline-none duration-200"
+    :class="['border-gray-900/50', 'dark:border-white/50']"
     tabindex="0"
     :aria-label="'reply to: ' + getFullName(props.message.sender)"
   >

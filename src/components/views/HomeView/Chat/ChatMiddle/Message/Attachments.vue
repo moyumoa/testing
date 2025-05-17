@@ -124,13 +124,13 @@ const isNumber = (
             <!--first image-->
             <div
               v-if="isNumber(attachment, 1)"
-              class="w-full h-full flex justify-center items-center rounded bg-black bg-opacity-20 hover:bg-opacity-10 transition duration-200"
+              class="w-full h-full flex justify-center items-center rounded bg-black/20 hover:bg-black/10 transition duration-200"
             ></div>
 
             <!--more images overlay-->
             <div
               v-if="isNumber(attachment, 2) && numberOfMedia > 2"
-              class="w-full h-full flex items-center justify-center rounded bg-black bg-opacity-40 text-white hover:bg-opacity-10 transition duration-200"
+              class="w-full h-full flex items-center justify-center rounded bg-black/40 text-white hover:bg-black/10 transition duration-200"
             >
               {{ (props.message.attachments as []).length - 1 }}+
             </div>
@@ -168,10 +168,10 @@ const isNumber = (
             <!--first video-->
             <div
               v-if="isNumber(attachment, 1)"
-              class="w-full h-full flex justify-center items-center rounded bg-black bg-opacity-20 hover:bg-opacity-10 transition duration-200"
+              class="w-full h-full flex justify-center items-center rounded bg-black/20 hover:bg-black/10 transition duration-200"
             >
               <span
-                class="p-3 rounded-full bg-white bg-opacity-40 transition-all duration-200"
+                class="p-3 rounded-full bg-white/40 transition-all duration-200"
               >
                 <PlayIcon class="w-5 h-5 text-white" />
               </span>
@@ -180,10 +180,10 @@ const isNumber = (
             <!--second video-->
             <div
               v-else-if="isNumber(attachment, 2) && numberOfMedia < 3"
-              class="w-full h-full flex justify-center items-center rounded bg-black bg-opacity-20 hover:bg-opacity-10 transition duration-200"
+              class="w-full h-full flex justify-center items-center rounded bg-black/20 hover:bg-black/10 transition duration-200"
             >
               <span
-                class="p-3 rounded-full bg-white bg-opacity-40 transition-all duration-200"
+                class="p-3 rounded-full bg-white/40 transition-all duration-200"
               >
                 <PlayIcon class="w-5 h-5 text-white" />
               </span>
@@ -192,7 +192,7 @@ const isNumber = (
             <!--more videos overlay-->
             <div
               v-else-if="isNumber(attachment, 2) && numberOfMedia > 2"
-              class="w-full h-full flex items-center justify-center rounded bg-black bg-opacity-40 text-white hover:bg-opacity-10 transition duration-200"
+              class="w-full h-full flex items-center justify-center rounded bg-black/40 text-white hover:bg-black/10 transition duration-200"
             >
               {{ (props.message.attachments as []).length - 1 }}+
             </div>

@@ -22,7 +22,8 @@ const password = ref("");
           alt="bird logo"
         />
         <p class="heading-2 text-color mb-4">Welcome back</p>
-        <p class="body-3 text-color text-opacity-75 font-light">
+        <!--text-opacity-75--->
+        <p class="body-3 text-color font-light">
           Create an account a start messaging now!
         </p>
       </div>
@@ -61,7 +62,8 @@ const password = ref("");
         <span
           class="w-full border border-dashed border-gray-100 dark:border-gray-600 rounded-[.0625rem]"
         ></span>
-        <p class="body-3 text-color px-4 text-opacity-75 font-light">or</p>
+        <!--text-opacity-75-->
+        <p class="body-3 text-color px-4 font-light">or</p>
         <span
           class="w-full border border-dashed border-gray-100 dark:border-gray-600 rounded-[.0625rem]"
         ></span>

@@ -22,15 +22,15 @@ const props = defineProps<{
       class="w-8 h-8 mr-4 flex justify-center items-center rounded-full bg-gray-50 dark:bg-gray-500"
     >
       <PhotoIcon
-        class="h-5 w-5 text-gray-500 dark:text-white dark:text-opacity-70"
+        class="h-5 w-5 text-gray-500 dark:text-white/70"
         v-if="props.attachment.type === 'image'"
       />
       <DocumentIcon
-        class="h-5 w-5 text-gray-500 dark:text-white dark:text-opacity-70"
+        class="h-5 w-5 text-gray-500 dark:text-white/70"
         v-else-if="props.attachment.type === 'file'"
       />
       <VideoCameraIcon
-        class="h-5 w-5 text-gray-500 dark:text-white dark:text-opacity-70"
+        class="h-5 w-5 text-gray-500 dark:text-white/70"
         v-else-if="props.attachment.type === 'video'"
       />
     </div>
