@@ -10,7 +10,11 @@ import IconButton from "@src/components/ui/inputs/IconButton.vue";
   <div>
     <!--header-->
     <div class="px-5 mb-6 flex justify-between items-center">
-      <p id="modal-title" class="heading-1 text-color" tabindex="0">
+      <p
+        id="modal-title"
+        class="heading-1 text-black/70 dark:text-white/70"
+        tabindex="0"
+      >
         Edit Group Info
       </p>
 

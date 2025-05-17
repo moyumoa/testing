@@ -42,7 +42,11 @@ const imageUrl = computed(() => {
   <div>
     <div class="mb-6 px-5 flex justify-between items-center">
       <!--title-->
-      <p class="heading-1 text-color" id="modal-title" tabindex="0">
+      <p
+        class="heading-1 text-black/70 dark:text-white/70"
+        id="modal-title"
+        tabindex="0"
+      >
         <span v-if="conversation.type === 'couple' || props.contact"
           >Contact</span
         >
@@ -99,13 +103,17 @@ const imageUrl = computed(() => {
         <!--name-->
         <div class="w-full flex justify-between">
           <div>
-            <p class="heading-2 text-color mb-3 mr-5 text-start">
+            <p
+              class="heading-2 text-black/70 dark:text-white/70 mb-3 mr-5 text-start"
+            >
               <span>
                 {{ getName(props.conversation) }}
               </span>
             </p>
 
-            <p class="body-2 text-color font-extralight text-start">
+            <p
+              class="body-2 text-black/70 dark:text-white/70 font-extralight text-start"
+            >
               <!--last seen-->
               <!--or number of group members-->
               {{

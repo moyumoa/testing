@@ -33,7 +33,10 @@ const props = defineProps<{
         />
       </div>
 
-      <p class="heading-2 text-color mb-4 outline-none" tabindex="0">
+      <p
+        class="heading-2 text-black/70 dark:text-white/70 mb-4 outline-none"
+        tabindex="0"
+      >
         {{ getCallName(activeCall) }}
       </p>
 
@@ -49,7 +52,7 @@ const props = defineProps<{
         <IconButton class="ic-btn-contained-gray p-3 mb-3">
           <UserPlusIcon class="w-4.25 h-4.25" />
         </IconButton>
-        <p class="body-4 text-color">add</p>
+        <p class="body-4 text-black/70 dark:text-white/70">add</p>
       </div>
 
       <!--mute sound-->
@@ -59,7 +62,7 @@ const props = defineProps<{
             class="w-4.25 h-4.25 text-black/60 dark:text-white/70"
           />
         </IconButton>
-        <p class="body-4 text-color">mute</p>
+        <p class="body-4 text-black/70 dark:text-white/70">mute</p>
       </div>
 
       <!--open chat-->
@@ -69,7 +72,7 @@ const props = defineProps<{
             class="w-4.25 h-4.25 text-black/60 dark:text-white/70"
           />
         </IconButton>
-        <p class="body-4 text-color">chat</p>
+        <p class="body-4 text-black/70 dark:text-white/70">chat</p>
       </div>
     </div>
 

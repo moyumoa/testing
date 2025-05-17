@@ -62,8 +62,10 @@ const handleSubmit = () => {
     aria-controls="account-settings-collapse"
     @click="handleToggle()"
   >
-    <p class="heading-2 text-color mb-4">Account</p>
-    <p class="body-2 text-color">Update your profile details</p>
+    <p class="heading-2 text-black/70 dark:text-white/70 mb-4">Account</p>
+    <p class="body-2 text-black/70 dark:text-white/70">
+      Update your profile details
+    </p>
   </AccordionButton>
 
   <Collapse id="account-settings-collapse" :collapsed="props.collapsed">

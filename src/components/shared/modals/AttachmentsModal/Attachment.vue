@@ -38,13 +38,13 @@ const props = defineProps<{
     <!--name, date and size-->
     <div class="grow">
       <div class="flex items-center justify-between mb-3">
-        <p class="heading-2 text-color" tabindex="0">
+        <p class="heading-2 text-black/70 dark:text-white/70" tabindex="0">
           {{ attachment.name }}
         </p>
       </div>
 
       <div class="flex justify-start">
-        <p class="body-2 text-color" tabindex="0">
+        <p class="body-2 text-black/70 dark:text-white/70" tabindex="0">
           {{ attachment.size }}
         </p>
       </div>

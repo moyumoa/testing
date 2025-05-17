@@ -21,9 +21,10 @@ const password = ref("");
           class="w-5.5 h-4.5 mb-4 opacity-70"
           alt="bird logo"
         />
-        <p class="heading-2 text-color mb-4">Welcome back</p>
-        <!--text-opacity-75--->
-        <p class="body-3 text-color font-light">
+        <p class="heading-2 text-black/70 dark:text-white/70 mb-4">
+          Welcome back
+        </p>
+        <p class="body-3 text-black/75 dark:text-white/70 font-light">
           Create an account a start messaging now!
         </p>
       </div>
@@ -62,8 +63,9 @@ const password = ref("");
         <span
           class="w-full border border-dashed border-gray-100 dark:border-gray-600 rounded-[.0625rem]"
         ></span>
-        <!--text-opacity-75-->
-        <p class="body-3 text-color px-4 font-light">or</p>
+        <p class="body-3 text-black/75 dark:text-white/70 px-4 font-light">
+          or
+        </p>
         <span
           class="w-full border border-dashed border-gray-100 dark:border-gray-600 rounded-[.0625rem]"
         ></span>
@@ -84,7 +86,7 @@ const password = ref("");
 
         <!--bottom text-->
         <div class="flex justify-center">
-          <p class="body-2 text-color">
+          <p class="body-2 text-black/70 dark:text-white/70">
             Don’t have an account?
             <RouterLink
               to="/access/sign-up/"

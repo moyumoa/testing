@@ -110,13 +110,13 @@ const isActive = computed(
           <!--conversation name-->
           <div class="flex items-start">
             <div class="grow mb-4 text-start">
-              <p class="heading-2 text-color">
+              <p class="heading-2 text-black/70 dark:text-white/70">
                 {{ getName(props.conversation) }}
               </p>
             </div>
 
             <!--last message date-->
-            <p class="body-1 text-color">
+            <p class="body-1 text-black/70 dark:text-white/70">
               {{ lastMessage?.date }}
             </p>
           </div>
@@ -140,7 +140,7 @@ const isActive = computed(
               v-else-if="
                 lastMessage.type === 'recording' && lastMessage.content
               "
-              class="body-2 text-color flex justify-start items-center"
+              class="body-2 text-black/70 dark:text-white/70 flex justify-start items-center"
             >
               <MicrophoneIcon
                 class="w-4 h-4 mr-2 text-black opacity-60 dark:text-white dark:opacity-70"
@@ -155,7 +155,7 @@ const isActive = computed(
             <!--attachments title-->
             <p
               v-else-if="hasAttachments(lastMessage)"
-              class="body-2 text-color flex justify-start items-center"
+              class="body-2 text-black/70 dark:text-white/70 flex justify-start items-center"
               :class="{ 'text-indigo-400': props.conversation.unread }"
             >
               <span :class="{ 'text-indigo-400': props.conversation.unread }">
@@ -166,7 +166,7 @@ const isActive = computed(
             <!--last message content -->
             <p
               v-else
-              class="body-2 text-color flex justify-start items-center"
+              class="body-2 text-black/70 dark:text-white/70 flex justify-start items-center"
               :class="{ 'text-indigo-400': props.conversation.unread }"
             >
               <span :class="{ 'text-indigo-400': props.conversation.unread }">

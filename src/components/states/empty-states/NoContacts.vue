@@ -20,17 +20,17 @@ const props = defineProps<{
       <div
         class="w-7 h-7 mr-4 flex justify-center items-center rounded-full bg-gray-50 dark:bg-gray-700 transition duration-500"
       >
-        <UserGroupIcon
-          class="w-5 h-5 text-gray-500 dark:text-white/70"
-        />
+        <UserGroupIcon class="w-5 h-5 text-gray-500 dark:text-white/70" />
       </div>
     </div>
 
     <!--content-->
     <div :class="props.vertical ? [] : ['flex', 'flex-col', 'items-start']">
-      <p class="heading-2 text-color mb-3">No contacts</p>
+      <p class="heading-2 text-black/70 dark:text-white/70 mb-3">No contacts</p>
 
-      <p class="body-2 text-color flex">click the plus icon to add one.</p>
+      <p class="body-2 text-black/70 dark:text-white/70 flex">
+        click the plus icon to add one.
+      </p>
     </div>
   </div>
 </template>

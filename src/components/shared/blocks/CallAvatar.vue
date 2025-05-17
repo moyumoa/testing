@@ -29,6 +29,6 @@ const props = defineProps<{
     class="absolute top-0 left-[1.25rem] flex justify-center items-center rounded-full bg-gray-50 dark:bg-gray-700"
     :class="props.large ? ['w-25', 'h-25'] : ['w-7', 'h-7']"
   >
-    <p class="body-4 text-color">{{ props.membersLength - 1 }}+</p>
+    <p class="body-4 text-black/70 dark:text-white/70">{{ props.membersLength - 1 }}+</p>
   </div>
 </template>

@@ -176,7 +176,7 @@ const replyMessage = getMessageById(activeConversation, props.message.replyTo);
 
         <!--date-->
         <div :class="props.self ? ['ml-4', 'order-1'] : ['mr-4']">
-          <p class="body-1 text-color whitespace-pre">
+          <p class="body-1 text-black/70 dark:text-white/70 whitespace-pre">
             {{ props.message.date }}
           </p>
         </div>

@@ -17,7 +17,11 @@ const props = defineProps<{
   <div>
     <!--modal header-->
     <div class="px-5 flex justify-between items-center">
-      <p id="modal-title" class="heading-1 text-color" tabindex="0">
+      <p
+        id="modal-title"
+        class="heading-1 text-black/70 dark:text-white/70"
+        tabindex="0"
+      >
         Call Members
       </p>
 
@@ -41,10 +45,7 @@ const props = defineProps<{
     </div>
 
     <!--contacts-->
-    <ScrollBox
-      ref="contactContainer"
-      class="max-h-35 mb-5 overflow-y-scroll"
-    >
+    <ScrollBox ref="contactContainer" class="max-h-35 mb-5 overflow-y-scroll">
       <ContactItem
         v-for="(member, index) in props.call.members"
         variant="card"

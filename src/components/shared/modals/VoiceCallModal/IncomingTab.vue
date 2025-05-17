@@ -29,7 +29,7 @@ const props = defineProps<{
         />
       </div>
 
-      <p class="heading-2 text-color mb-4" tabindex="0">
+      <p class="heading-2 text-black/70 dark:text-white/70 mb-4" tabindex="0">
         {{ getCallName(activeCall) }}
       </p>
 

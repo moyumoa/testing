@@ -79,14 +79,18 @@ const store = useStore();
           <!--title-->
           <div class="flex items-start">
             <div class="grow mb-4 text-start">
-              <p class="heading-2 text-color">Archived Conversations</p>
+              <p class="heading-2 text-black/70 dark:text-white/70">
+                Archived Conversations
+              </p>
             </div>
           </div>
         </div>
 
         <div>
           <!--number of conversations -->
-          <p class="body-2 text-color flex justify-start items-center">
+          <p
+            class="body-2 text-black/70 dark:text-white/70 flex justify-start items-center"
+          >
             {{ store.archivedConversations.length }}
             conversations
           </p>

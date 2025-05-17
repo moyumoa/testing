@@ -28,9 +28,11 @@ const props = defineProps<{
 
     <!--content-->
     <div :class="props.vertical ? [] : ['flex', 'flex-col', 'items-start']">
-      <p class="heading-2 text-color mb-3">No Media</p>
+      <p class="heading-2 text-black/70 dark:text-white/70 mb-3">No Media</p>
 
-      <p class="body-2 text-color flex">No media in this conversations.</p>
+      <p class="body-2 text-black/70 dark:text-white/70 flex">
+        No media in this conversations.
+      </p>
     </div>
   </div>
 </template>

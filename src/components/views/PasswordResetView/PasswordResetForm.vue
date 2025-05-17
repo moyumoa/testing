@@ -19,9 +19,10 @@ const confirmNewPassword = ref("");
           class="w-5.5 h-4.5 mb-4 opacity-70"
           alt="bird logo"
         />
-        <p class="heading-2 text-color mb-4">Reset Your Password</p>
-        <!-- text-opacity-75 -->
-        <p class="body-3 text-color font-light">
+        <p class="heading-2 text-black/70 dark:text-white/70 mb-4">
+          Reset Your Password
+        </p>
+        <p class="body-3 text-black/75 dark:text-white/70 font-light">
           Enter your old password and your new password below to reset your
           password
         </p>

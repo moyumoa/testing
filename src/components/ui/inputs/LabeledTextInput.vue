@@ -17,7 +17,11 @@ const props = defineProps<{
 
 <template>
   <div class="flex flex-col">
-    <label v-if="props.label" :id="props.id" class="body-2 text-color mb-3">
+    <label
+      v-if="props.label"
+      :id="props.id"
+      class="body-2 text-black/70 dark:text-white/70 mb-3"
+    >
       {{ props.label }}
     </label>
 

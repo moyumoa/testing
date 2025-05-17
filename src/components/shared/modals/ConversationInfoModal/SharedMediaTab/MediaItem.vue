@@ -38,18 +38,18 @@ const props = defineProps<{
     <!--name, date and size-->
     <div class="grow">
       <div class="flex items-center justify-between mb-3">
-        <p class="heading-2 text-color">
+        <p class="heading-2 text-black/70 dark:text-white/70">
           {{ props.attachment.name }}
         </p>
 
-        <p class="body-4 text-color">
+        <p class="body-4 text-black/70 dark:text-white/70">
           {{ props.date }}
         </p>
       </div>
 
       <div class="flex justify-start">
         <p
-          class="body-2 text-color font-normal text-sm text-black opacity-60 leading-4 tracking-[.01rem]"
+          class="body-2 text-black/70 dark:text-white/70 font-normal text-sm text-black opacity-60 leading-4 tracking-[.01rem]"
         >
           {{ props.attachment.size }}
         </p>

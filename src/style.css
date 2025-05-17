@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -35,6 +35,16 @@
 
   --opacity-50: 54%;
 
+  --shadow-sm: 0rem 0.0625rem 0.1875rem 0rem rgba(5, 5, 5, 0.1);
+  --shadow-md:
+    0rem 0.1875rem 0.25rem 0rem rgba(3, 3, 3, 0.1),
+    0rem 0.125rem 0.25rem 0rem rgba(3, 3, 3, 0.1);
+  --shadow-lg:
+    0rem 0.625rem 1.25rem 0rem rgba(3, 3, 3, 0.1),
+    0rem 0.1875rem 0.375rem 0rem rgba(3, 3, 3, 0.1);
+  --shadow-xl:
+    0rem 0.9375rem 1.5625rem 0rem rgba(3, 3, 3, 0.1),
+    0rem 0.3125rem 0.625rem 0rem rgba(3, 3, 3, 0.1);
   --shadow-cxl:
     0 0.125rem 0.3125rem rgba(193, 202, 255, 0.5),
     0.125rem 0 0.3125rem rgba(193, 202, 255, 0.5),
@@ -81,9 +91,6 @@
   .scrollbar-hidden::-webkit-scrollbar {
     @apply hidden;
   }
-}
-@utility text-color {
-  @apply text-black/70 dark:text-white/70;
 }
 
 /* component classes */

@@ -44,9 +44,10 @@ const changeActiveSection = (event: {
           src="@src/assets/vectors/logo-gradient.svg"
           class="w-5.5 h-4.5 mb-5 opacity-70"
         />
-        <p class="heading-2 text-color mb-4">Get started with Avian</p>
-        <!-- text-opacity-75 -->
-        <p class="body-3 text-color font-light">
+        <p class="heading-2 text-black/70 dark:text-white/70 mb-4">
+          Get started with Avian
+        </p>
+        <p class="body-3 text-black/75 dark:text-white/70 font-light">
           Sign in to start using messaging!
         </p>
       </div>
@@ -61,7 +62,7 @@ const changeActiveSection = (event: {
 
       <!--bottom text-->
       <div class="flex justify-center">
-        <p class="body-2 text-color">
+        <p class="body-2 text-black/70 dark:text-white/70">
           Already have an account?
           <RouterLink to="/access/sign-in/" class="text-indigo-400 opacity-100">
             Sign in

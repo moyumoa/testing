@@ -68,11 +68,10 @@ const handleFileChange = (event: Event) => {
 
       <!--custom placeholder and input-->
       <div :class="{ hidden: active }">
-        <p v-if="value" class="body-2 text-color">{{ value.name }}</p>
-        <p
-          v-else
-          class="body-2 text-black/40 dark:text-white/70"
-        >
+        <p v-if="value" class="body-2 text-black/70 dark:text-white/70">
+          {{ value.name }}
+        </p>
+        <p v-else class="body-2 text-black/40 dark:text-white/70">
           Choose a file <br />
           or drop it here.
         </p>

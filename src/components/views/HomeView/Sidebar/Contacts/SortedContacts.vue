@@ -89,7 +89,7 @@ const handleClickOutside = (event: Event) => {
 <template>
   <div v-for="(group, groupIndex) in props.contactGroups" :key="groupIndex">
     <!--group title-->
-    <p class="heading-3 text-color w-full px-5 pb-3 pt-5">
+    <p class="heading-3 text-black/70 dark:text-white/70 w-full px-5 pb-3 pt-5">
       {{ group.letter }}
     </p>
 
@@ -102,7 +102,7 @@ const handleClickOutside = (event: Event) => {
         >
           <div class="flex-row">
             <!--contact name-->
-            <p class="heading-2 text-color">
+            <p class="heading-2 text-black/70 dark:text-white/70">
               {{ getFullName(contact) }}
             </p>
           </div>

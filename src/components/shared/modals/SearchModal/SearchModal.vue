@@ -21,7 +21,11 @@ const props = defineProps<{
       <div class="w-75 py-6 bg-white dark:bg-gray-800 rounded">
         <!--header-->
         <div class="mb-6 px-5 flex justify-between items-center">
-          <p id="modal-title" class="heading-1 text-color" tabindex="0">
+          <p
+            id="modal-title"
+            class="heading-1 text-black/70 dark:text-white/70"
+            tabindex="0"
+          >
             Messages
           </p>
 
