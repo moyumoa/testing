@@ -18,7 +18,7 @@ const store = useStore();
       class="outline-none"
       :class="{
         absolute: !SkipLinkFocused,
-        'right-[625rem]': !SkipLinkFocused,
+        'right-2500': !SkipLinkFocused,
       }"
     >
       <ForwardIcon class="w-7 h-6 text-indigo-300" />

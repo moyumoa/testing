@@ -61,9 +61,9 @@ const handleCloseOnClickOutside = (event: Event) => {
       :show="props.showDropdown"
       :position="[
         'md:bottom-0',
-        'md:left-[2.5rem]',
-        'md:top-[auto]',
-        'bottom-[3.125rem]',
+        'md:left-8',
+        'md:top-auto',
+        'bottom-12.5',
         'left-[-4.8125rem]',
       ]"
       :handle-click-outside="handleCloseOnClickOutside"

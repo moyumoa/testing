@@ -18,7 +18,7 @@ const props = defineProps<{
 <template>
   <Modal :open="props.open" :close-modal="props.closeModal">
     <template v-slot:content>
-      <div class="w-[18.75rem] py-6 bg-white dark:bg-gray-800 rounded">
+      <div class="w-75 py-6 bg-white dark:bg-gray-800 rounded">
         <!--header-->
         <div class="mb-6 px-5 flex justify-between items-center">
           <p id="modal-title" class="heading-1 text-color" tabindex="0">
@@ -40,7 +40,7 @@ const props = defineProps<{
         </div>
 
         <!--message-->
-        <ScrollBox class="max-h-[14.375rem] overflow-y-scroll">
+        <ScrollBox class="max-h-57.5 overflow-y-scroll">
           <MessageItem
             v-if="props.conversation.messages.length > 0"
             v-for="(message, index) in props.conversation.messages"

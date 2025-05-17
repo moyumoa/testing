@@ -49,7 +49,7 @@ const handleFileChange = (event: Event) => {
       @drop.prevent="handleFileDrop"
       :for="props.id"
       tabindex="0"
-      class="cursor-pointer w-full h-[6.25rem] border border-dashed rounded-sm p-5 border-gray-200 dark:border-gray-500 flex justify-center items-center hover:bg-white/0 active:bg-white/0 focus:bg-white/0 outline-none focus:outline-none duration-500 transition-all"
+      class="cursor-pointer w-full h-25 border border-dashed rounded-sm p-5 border-gray-200 dark:border-gray-500 flex justify-center items-center hover:bg-white/0 active:bg-white/0 focus:bg-white/0 outline-none focus:outline-none duration-500 transition-all"
       :class="{
         'bg-gray-50/0': active,
         'bg-gray-50 dark:bg-gray-700/70 dark:hover:bg-gray-700/0 dark:focus:bg-gray-700/0':

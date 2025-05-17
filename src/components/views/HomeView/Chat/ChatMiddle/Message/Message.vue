@@ -105,18 +105,18 @@ const replyMessage = getMessageById(activeConversation, props.message.replyTo);
           @click="handleCloseContextMenu"
           v-click-outside="contextConfig"
           @contextmenu.prevent="handleShowContextMenu"
-          class="group max-w-[31.25rem] p-5 rounded-b transition duration-500"
+          class="group max-w-125 p-5 rounded-b-xl transition duration-500"
           :class="{
-            'rounded-tl ml-4 order-2 bg-indigo-50 dark:bg-gray-600':
+            'rounded-tl-xl ml-4 order-2 bg-indigo-50 dark:bg-gray-600':
               props.self && !props.selected,
 
-            'rounded-tr mr-4 bg-gray-50 dark:bg-gray-600':
+            'rounded-tr-xl mr-4 bg-gray-50 dark:bg-gray-600':
               !props.self && !props.selected,
 
-            'rounded-tl ml-4 order-2 bg-indigo-200 dark:bg-indigo-500':
+            'rounded-tl-xl ml-4 order-2 bg-indigo-200 dark:bg-indigo-500':
               props.self && props.selected,
 
-            'rounded-tr mr-4 bg-indigo-200 dark:bg-indigo-500':
+            'rounded-tr-xl mr-4 bg-indigo-200 dark:bg-indigo-500':
               !props.self && props.selected,
           }"
         >

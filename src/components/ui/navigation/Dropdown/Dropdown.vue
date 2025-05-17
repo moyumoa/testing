@@ -39,7 +39,7 @@ onUnmounted(() => {
   <div>
     <div
       v-if="props.show"
-      class="fixed left-0 top-0 z-[50] w-full h-full"
+      class="fixed left-0 top-0 z-50 w-full h-full"
     ></div>
 
     <ScaleTransition>
@@ -48,7 +48,7 @@ onUnmounted(() => {
         :style="props.coordinates"
         v-show="props.show"
         v-click-outside="props.handleClickOutside"
-        class="absolute z-[100] w-[12.5rem] mt-2 rounded-sm bg-white dark:bg-gray-800 shadow-lg border border-gray-100 dark:border-gray-600 focus:outline-none"
+        class="absolute z-100 w-50 mt-2 rounded-sm bg-white dark:bg-gray-800 shadow-lg border border-gray-100 dark:border-gray-600 focus:outline-none"
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="menu-button"

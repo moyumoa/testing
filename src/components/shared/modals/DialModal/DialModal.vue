@@ -51,7 +51,7 @@ const handleSelectedContactsChange = (contact: IContact) => {
 <template>
   <Modal :open="props.open" :closeModal="props.closeModal">
     <template v-slot:content>
-      <div class="w-[18.75rem] py-6 bg-white dark:bg-gray-800 rounded">
+      <div class="w-75 py-6 bg-white dark:bg-gray-800 rounded">
         <!--modal header-->
         <div class="flex justify-between items-center mb-6 px-5">
           <p id="modal-title" class="heading-1 text-color" tabindex="0">
@@ -76,7 +76,7 @@ const handleSelectedContactsChange = (contact: IContact) => {
         <!--contacts-->
         <ScrollBox
           ref="contactContainer"
-          class="max-h-[13.5rem] mb-5 overflow-y-scroll"
+          class="max-h-54 mb-5 overflow-y-scroll"
         >
           <Circle2Lines
             v-if="store.status === 'loading' || store.delayLoading"

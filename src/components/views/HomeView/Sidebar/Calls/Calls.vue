@@ -61,7 +61,7 @@ const handleOpenInfoModal = (call: ICall) => {
       <div v-else>
         <ExpandTransition>
           <div
-            class="max-h-[12.5rem]"
+            class="max-h-50"
             v-if="store.callMinimized && store.activeCall"
           >
             <Call

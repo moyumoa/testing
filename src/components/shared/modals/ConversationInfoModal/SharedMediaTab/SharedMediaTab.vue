@@ -63,7 +63,7 @@ const attachmentMessages = computed(() => {
     </div>
 
     <!--media messages-->
-    <ScrollBox class="overflow-y-scroll max-h-[13.875rem]">
+    <ScrollBox class="overflow-y-scroll max-h-55.5">
       <div
         v-if="attachmentMessages.length > 0"
         v-for="(message, index) in attachmentMessages"

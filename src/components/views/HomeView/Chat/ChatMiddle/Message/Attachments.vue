@@ -112,12 +112,12 @@ const isNumber = (
             class="rounded bg-cover bg-center"
             :class="
               numberOfMedia === 1
-                ? ['w-[12.5rem]', 'h-[12.5rem]']
+                ? ['w-50', 'h-50']
                 : [
-                    'md:w-[6.875rem]',
-                    'md:h-[6.25rem]',
-                    'xs:w-[6.25rem]',
-                    'xs:h-[5.9375rem]',
+                    'md:w-27.5',
+                    'md:h-25',
+                    'xs:w-25',
+                    'xs:h-23.75',
                   ]
             "
           >
@@ -156,12 +156,12 @@ const isNumber = (
             class="rounded bg-cover bg-center"
             :class="
               numberOfMedia === 1
-                ? ['w-[12.5rem]', 'h-[12.5rem]']
+                ? ['w-50', 'h-50']
                 : [
-                    'md:w-[6.875rem]',
-                    'md:h-[6.25rem]',
-                    'xs:w-[6.25rem]',
-                    'xs:h-[5.9375rem]',
+                    'md:w-27.5',
+                    'md:h-25',
+                    'xs:w-25',
+                    'xs:h-23.75',
                   ]
             "
           >

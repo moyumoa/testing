@@ -91,7 +91,7 @@ const imageUrl = computed(() => {
               :style="{
                 backgroundImage: `url(${getAvatar(props.conversation)})`,
               }"
-              class="w-[2.375rem] h-[2.375rem] rounded-full bg-cover bg-center"
+              class="w-9.5 h-9.5 rounded-full bg-cover bg-center"
             ></div>
           </button>
         </div>

@@ -5,14 +5,14 @@ import blurPath from "@src/assets/images/blur.png";
 
 <template>
   <div
-    class="py-[3.125rem] px-[3.125rem] h-full basis-1/2 md:flex xs:hidden items-center justify-center"
+    class="py-12.5 px-12.5 h-full basis-1/2 md:flex xs:hidden items-center justify-center"
   >
     <div
       class="w-full h-full px-7 flex items-center bg-no-repeat bg-center bg-cover rounded-[.75rem]"
       :style="{ 'background-image': `url(${cloudPatternPath})` }"
     >
       <div
-        class="px-9 py-[3.75rem] rounded-[.3125rem] bg-cover bg-no-repeat"
+        class="px-9 py-15 rounded-[.3125rem] bg-cover bg-no-repeat"
         :style="{ 'background-image': `url(${blurPath})` }"
       >
         <p class="display mb-5 text-white">

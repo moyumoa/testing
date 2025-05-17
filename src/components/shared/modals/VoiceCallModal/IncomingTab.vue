@@ -42,11 +42,11 @@ const props = defineProps<{
     <div class="flex">
       <IconButton
         @click="handleCallStatusChange('ongoing')"
-        class="ic-btn-contained-success relative p-[1.0625rem] mr-8"
+        class="ic-btn-contained-success relative p-4.25 mr-8"
       >
-        <PhoneIcon class="w-[1rem] h-[1rem]" />
+        <PhoneIcon class="w-5 h-5" />
         <span
-          class="animate-ping absolute inline-flex w-[2.1875rem] h-[2.1875rem] rounded-full bg-green-400 opacity-75"
+          class="animate-ping absolute inline-flex w-8.75 h-8.75 rounded-full bg-green-400 opacity-75"
         ></span>
       </IconButton>
 
@@ -57,11 +57,11 @@ const props = defineProps<{
             props.closeModal();
           }
         "
-        class="ic-btn-contained-danger relative p-[1.0625rem]"
+        class="ic-btn-contained-danger relative p-4.25"
       >
-        <XMarkIcon class="w-[1rem] h-[1rem]" />
+        <XMarkIcon class="w-5 h-5" />
         <span
-          class="animate-ping absolute inline-flex w-[2.1875rem] h-[2.1875rem] rounded-full bg-red-400 opacity-75"
+          class="animate-ping absolute inline-flex w-8.75 h-8.75 rounded-full bg-red-400 opacity-75"
         ></span>
       </IconButton>
     </div>

@@ -81,13 +81,13 @@ onMounted(() => {
     <!--selected reply display-->
     <div
       class="relative transition-all duration-200"
-      :class="{ 'pt-[3.75rem]': activeConversation?.replyMessage }"
+      :class="{ 'pt-15': activeConversation?.replyMessage }"
     >
       <ReplyMessage />
     </div>
 
     <div
-      class="h-auto min-h-[5.25rem] p-5 flex items-end"
+      class="h-auto min-h-21 p-5 flex items-end"
       v-if="store.status !== 'loading'"
       :class="recording ? ['justify-between'] : []"
     >
@@ -111,7 +111,7 @@ onMounted(() => {
       <div class="grow md:mr-5 xs:mr-4 self-end" v-if="!recording">
         <div class="relative">
           <Textarea
-            class="max-h-[5rem] pr-[3.125rem] resize-none scrollbar-hidden"
+            class="max-h-[5rem] pr-12.5 resize-none scrollbar-hidden"
             @value-changed="(newValue: string) => (value = newValue)"
             @input="handleSetDraft"
             :value="value"
@@ -143,7 +143,7 @@ onMounted(() => {
               <div
                 v-click-outside="handleClickOutside"
                 v-show="showPicker"
-                class="absolute z-10 bottom-[3.4375rem] md:right-0 xs:right-[-5rem] mt-2"
+                class="absolute z-10 bottom-13.75 md:right-0 xs:right-[-5rem] mt-2"
               >
                 <div role="none">
                   <EmojiPicker :show="showPicker" />
@@ -201,7 +201,7 @@ onMounted(() => {
           title="send message"
           aria-label="send message"
         >
-          <PaperAirplaneIcon class="w-[1.0625rem] h-[1.0625rem]" />
+          <PaperAirplaneIcon class="w-4.25 h-4.25" />
         </IconButton>
       </div>
     </div>

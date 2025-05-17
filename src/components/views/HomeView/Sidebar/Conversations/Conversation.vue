@@ -91,7 +91,7 @@ const isActive = computed(
           handleSelectConversation();
         }
       "
-      class="w-full h-[5.75rem] px-5 py-6 mb-3 flex rounded focus:bg-indigo-50 dark:active:bg-gray-600 dark:focus:bg-gray-600 dark:hover:bg-gray-600 hover:bg-indigo-50 active:bg-indigo-100 focus:outline-none transition duration-500 ease-out"
+      class="w-full h-23 px-5 py-6 mb-3 flex rounded focus:bg-indigo-50 dark:active:bg-gray-600 dark:focus:bg-gray-600 dark:hover:bg-gray-600 hover:bg-indigo-50 active:bg-indigo-100 focus:outline-none transition duration-500 ease-out"
       :class="{
         'md:bg-indigo-50': isActive,
         'md:dark:bg-gray-600': isActive,
@@ -177,7 +177,7 @@ const isActive = computed(
 
           <div v-if="props.conversation.unread">
             <div
-              class="w-[1.125rem] h-[1.125rem] flex justify-center items-center rounded-[50%] bg-indigo-300"
+              class="w-4.5 h-4.5 flex justify-center items-center rounded-[50%] bg-indigo-300"
             >
               <p class="body-1 text-white">
                 {{ props.conversation.unread }}

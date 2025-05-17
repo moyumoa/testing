@@ -49,7 +49,7 @@ const handleRemoveReplyMessage = () => {
         title="remove reply"
         aria-label="remove reply"
       >
-        <XCircleIcon class="w-[1rem] h-[1rem]" />
+        <XCircleIcon class="w-5 h-5" />
       </IconButton>
     </div>
   </SlideTransition>

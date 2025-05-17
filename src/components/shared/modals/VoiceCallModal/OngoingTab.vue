@@ -47,7 +47,7 @@ const props = defineProps<{
       <!--add member to call-->
       <div class="mr-5 first-letter:flex flex-col justify-center items-center">
         <IconButton class="ic-btn-contained-gray p-3 mb-3">
-          <UserPlusIcon class="w-[1.0625rem] h-[1.0625rem]" />
+          <UserPlusIcon class="w-4.25 h-4.25" />
         </IconButton>
         <p class="body-4 text-color">add</p>
       </div>
@@ -56,7 +56,7 @@ const props = defineProps<{
       <div class="mr-5 flex flex-col justify-center items-center">
         <IconButton class="ic-btn-contained-gray p-3 mb-3">
           <SpeakerXMarkIcon
-            class="w-[1.0625rem] h-[1.0625rem] text-black/60 dark:text-white/70"
+            class="w-4.25 h-4.25 text-black/60 dark:text-white/70"
           />
         </IconButton>
         <p class="body-4 text-color">mute</p>
@@ -66,7 +66,7 @@ const props = defineProps<{
       <div class="flex flex-col justify-center items-center">
         <IconButton class="ic-btn-contained-gray p-3 mb-3">
           <ChatBubbleBottomCenterTextIcon
-            class="w-[1.0625rem] h-[1.0625rem] text-black/60 dark:text-white/70"
+            class="w-4.25 h-4.25 text-black/60 dark:text-white/70"
           />
         </IconButton>
         <p class="body-4 text-color">chat</p>
@@ -75,9 +75,9 @@ const props = defineProps<{
 
     <!--call actions-->
     <div
-      class="relative w-full h-[3.125rem] rounded-b flex justify-center bg-gray-50 dark:bg-gray-700"
+      class="relative w-full h-12.5 rounded-b-xl flex justify-center bg-gray-50 dark:bg-gray-700"
     >
-      <div class="absolute bottom-[1.1875rem]">
+      <div class="absolute bottom-4.75">
         <div class="p-3 rounded-full bg-white dark:bg-gray-800">
           <IconButton
             @click="
@@ -85,9 +85,9 @@ const props = defineProps<{
                 props.closeModal();
               }
             "
-            class="ic-btn-contained-danger p-[1.0625rem]"
+            class="ic-btn-contained-danger p-4.25"
           >
-            <PhoneIcon class="w-[1rem] h-[1rem]" />
+            <PhoneIcon class="w-5 h-5" />
           </IconButton>
         </div>
       </div>

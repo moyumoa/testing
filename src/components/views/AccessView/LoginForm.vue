@@ -18,7 +18,7 @@ const password = ref("");
       <div class="mb-6 flex flex-col">
         <img
           src="@src/assets/vectors/logo-gradient.svg"
-          class="w-[1.375rem] h-[1.125rem] mb-4 opacity-70"
+          class="w-5.5 h-4.5 mb-4 opacity-70"
           alt="bird logo"
         />
         <p class="heading-2 text-color mb-4">Welcome back</p>

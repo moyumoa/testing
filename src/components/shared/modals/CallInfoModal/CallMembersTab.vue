@@ -43,7 +43,7 @@ const props = defineProps<{
     <!--contacts-->
     <ScrollBox
       ref="contactContainer"
-      class="max-h-[8.75rem] mb-5 overflow-y-scroll"
+      class="max-h-35 mb-5 overflow-y-scroll"
     >
       <ContactItem
         v-for="(member, index) in props.call.members"

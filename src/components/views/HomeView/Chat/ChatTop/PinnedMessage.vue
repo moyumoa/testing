@@ -76,7 +76,7 @@ const handleRemovePinnedMessage = () => {
               store.user && activeConversation?.admins?.includes(store.user.id),
           }"
         >
-          <EyeSlashIcon class="w-[1rem] h-[1rem]" />
+          <EyeSlashIcon class="w-5 h-5" />
         </IconButton>
 
         <!--remove pinned Message-->
@@ -89,7 +89,7 @@ const handleRemovePinnedMessage = () => {
           title="close pinned message"
           aria-label="close pinned message"
         >
-          <XCircleIcon class="w-[1rem] h-[1rem]" />
+          <XCircleIcon class="w-5 h-5" />
         </IconButton>
       </div>
     </div>

@@ -91,9 +91,9 @@ onUnmounted(() => {
 
     <!--audio waveform-->
     <div class="w-full mr-4 relative flex items-center">
-      <div :id="'waveform-' + props.recording.id" class="w-[9.375rem]"></div>
+      <div :id="'waveform-' + props.recording.id" class="w-37.5"></div>
       <div
-        class="absolute border animate-pulse w-[9.375rem] border-gray-300"
+        class="absolute border animate-pulse w-37.5 border-gray-300"
         v-show="loading"
       ></div>
     </div>

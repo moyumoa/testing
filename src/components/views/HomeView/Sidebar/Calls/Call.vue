@@ -37,7 +37,7 @@ const handleOpenInfoModal = () => {
       :is="props.active ? 'div' : 'button'"
       :aria-label="'voice call with ' + getCallName(props.call, true)"
       @click="handleOpenInfoModal"
-      class="w-full h-[5.75rem] px-5 py-6 mb-3 flex rounded focus:outline-none transition duration-500 ease-out"
+      class="w-full h-23 px-5 py-6 mb-3 flex rounded focus:outline-none transition duration-500 ease-out"
       :class="
         props.active
           ? ['border border-dashed border-green-100 dark:border-green-800']
@@ -48,7 +48,7 @@ const handleOpenInfoModal = () => {
       tabindex="0"
     >
       <!--profile images-->
-      <div :class="members.length === 1 ? ['mr-4'] : ['mr-[2rem]']">
+      <div :class="members.length === 1 ? ['mr-4'] : ['mr-7']">
         <div class="relative">
           <button
             v-if="props.active"

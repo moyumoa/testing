@@ -269,7 +269,7 @@ onUnmounted(() => {
 
             <!--Image-->
             <img
-              class="absolute w-auto md:max-w-[43.75rem] xs:max-w-[21.25rem] cursor-grab transition-[transform,opacity] duration-200"
+              class="absolute w-auto md:max-w-175 xs:max-w-85 cursor-grab transition-[transform,opacity] duration-200"
               :class="{ 'opacity-0': imageInvisibility }"
               :style="{
                 transform: `scale(${zoom})`,
