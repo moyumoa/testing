@@ -1,5 +1,4 @@
-<script setup lang="ts">
-import type { ICall } from "@src/types";
+<script setup>
 
 import { computed } from "vue";
 
@@ -13,10 +12,18 @@ import {
 import IconAndText from "@src/components/shared/blocks/IconAndText.vue";
 import Button from "@src/components/ui/inputs/Button.vue";
 
-const props = defineProps<{
-  call: ICall;
-  closeModal: () => void;
-}>();
+const props = defineProps({
+  call: {
+    type: Object,
+    required: true,
+  },
+  closeModal: {
+    type: Function,
+    required: true,
+  },
+});
+
+const emit = defineEmits(["active-page-change"]);
 
 const CallStatusIcon = computed(() => {
   if (props.call) {
@@ -28,6 +35,7 @@ const CallStatusIcon = computed(() => {
       return PhoneArrowUpRightIcon;
     }
   }
+  return null;
 });
 </script>
 
@@ -44,20 +52,29 @@ const CallStatusIcon = computed(() => {
       </p>
 
       <Button
-        @click="props.closeModal"
         class="outlined-danger ghost-text py-2 px-4"
+        @click="props.closeModal"
       >
         esc
       </Button>
     </div>
 
-    <div v-if="props.call" class="w-full py-7">
+    <div
+      v-if="props.call"
+      class="w-full py-7"
+    >
       <div class="px-5 pb-5 flex items-center">
-        <IconAndText :icon="CalendarIcon" :title="props.call.date" />
+        <IconAndText
+          :icon="CalendarIcon"
+          :title="props.call.date"
+        />
       </div>
 
       <div class="px-5 pb-5 flex items-center">
-        <IconAndText :icon="CallStatusIcon" :title="props.call.status" />
+        <IconAndText
+          :icon="CallStatusIcon"
+          :title="props.call.status"
+        />
       </div>
 
       <div class="px-5 flex items-center">

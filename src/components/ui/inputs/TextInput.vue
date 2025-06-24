@@ -1,29 +1,29 @@
-<script setup lang="ts">
+<script setup>
 const emit = defineEmits(["valueChanged"]);
 
-const props = defineProps<{
-  id?: string;
-  type?: string;
-  value?: string;
-  name?: string;
-  placeholder?: string;
-  bordered?: boolean;
-}>();
+const props = defineProps({
+  id: String,
+  type: String,
+  value: String,
+  name: String,
+  placeholder: String,
+  bordered: Boolean,
+});
 
-const handleInput = (event: any) => {
-  emit("valueChanged", (event.target as HTMLInputElement).value);
+const handleInput = (event) => {
+  emit("valueChanged", event.target.value);
 };
 </script>
 
 <template>
   <input
-    :type="props.type || 'text'"
-    name="props.name"
     :id="props.id"
+    :type="props.type || 'text'"
+    :name="props.name"
     class="text-input"
     :class="[props.bordered ? 'bordered-input' : 'ringed-input']"
-    @input="handleInput"
     :value="props.value"
     :placeholder="props.placeholder"
-  />
+    @input="handleInput"
+  >
 </template>

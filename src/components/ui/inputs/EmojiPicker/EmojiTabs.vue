@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import IconButton from "@src/components/ui/inputs/IconButton.vue";
 import {
   FaceSmileIcon,
@@ -10,9 +10,10 @@ import {
   LightBulbIcon,
 } from "@heroicons/vue/24/outline";
 
-const props = defineProps<{
-  active: string;
-}>();
+const props = defineProps({
+  active: String
+});
+const emit = defineEmits(["tab-change"]);
 </script>
 
 <template>
@@ -27,9 +28,9 @@ const props = defineProps<{
       ]"
     >
       <IconButton
-        @click="$emit('tab-change', 'people')"
         title="people and smiles"
         aria-label="people and smiles"
+        @click="() => emit('tab-change', 'people')"
       >
         <FaceSmileIcon
           class="w-5 h-5 transition-colors duration-200"
@@ -54,7 +55,7 @@ const props = defineProps<{
       <IconButton
         title="nature"
         aria-label="nature"
-        @click="$emit('tab-change', 'nature')"
+        @click="() => emit('tab-change', 'nature')"
       >
         <FireIcon
           class="w-5 h-5 transition-colors duration-200"
@@ -79,7 +80,7 @@ const props = defineProps<{
       <IconButton
         title="food"
         aria-label="food"
-        @click="$emit('tab-change', 'food')"
+        @click="() => emit('tab-change', 'food')"
       >
         <CakeIcon
           class="w-5 h-5 transition-colors duration-200"
@@ -102,9 +103,9 @@ const props = defineProps<{
       ]"
     >
       <IconButton
-        @click="$emit('tab-change', 'activity')"
         title="activities and sports"
         aria-label="activities and sports"
+        @click="() => emit('tab-change', 'activity')"
       >
         <RocketLaunchIcon
           class="w-5 h-5 transition-colors duration-200"
@@ -126,7 +127,7 @@ const props = defineProps<{
           : 'border-transparent',
       ]"
     >
-      <IconButton @click="$emit('tab-change', 'objects')">
+      <IconButton @click="() => emit('tab-change', 'objects')">
         <LightBulbIcon
           class="w-5 h-5 transition-colors duration-200"
           :class="[
@@ -148,9 +149,9 @@ const props = defineProps<{
       ]"
     >
       <IconButton
-        @click="$emit('tab-change', 'travel')"
         title="travel"
         aria-label="travel"
+        @click="() => emit('tab-change', 'travel')"
       >
         <GlobeAsiaAustraliaIcon
           class="w-5 h-5 transition-colors duration-200"
@@ -175,7 +176,7 @@ const props = defineProps<{
       <IconButton
         title="flags"
         aria-label="flags"
-        @click="$emit('tab-change', 'flags')"
+        @click="() => emit('tab-change', 'flags')"
       >
         <FlagIcon
           class="w-5 h-5 transition-colors duration-200"

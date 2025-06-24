@@ -1,15 +1,18 @@
-<script setup lang="ts">
-import { MagnifyingGlassIcon, XCircleIcon } from "@heroicons/vue/24/outline";
-import IconButton from "@src/components/ui/inputs/IconButton.vue";
-import LabeledTextInput from "@src/components/ui/inputs/LabeledTextInput.vue";
+<script setup>
+// 引入图标和组件
+import { MagnifyingGlassIcon, XCircleIcon } from '@heroicons/vue/24/outline'
+import IconButton from '@src/components/ui/inputs/IconButton.vue'
+import LabeledTextInput from '@src/components/ui/inputs/LabeledTextInput.vue'
 
-defineEmits(["valueChanged"]);
+// 声明向父组件发事件
+defineEmits(['valueChanged'])
 
-const props = defineProps<{
-  variant?: string;
-  class?: string;
-  value?: string;
-}>();
+// 接收传入的属性
+const props = defineProps({
+  variant: String,
+  class: String,
+  value: String,
+})
 </script>
 
 <template>
@@ -19,22 +22,21 @@ const props = defineProps<{
     :value="props.value"
     @value-changed="(value) => $emit('valueChanged', value)"
   >
-    <template v-slot:startAdornment>
+    <!-- 左侧搜索图标 -->
+    <template #startAdornment>
       <MagnifyingGlassIcon
         class="w-5 h-5 mx-[8px] translate-y-[75%] text-gray-400 dark:text-white dark:opacity-70"
       />
     </template>
-    <template v-slot:endAdornment>
+
+    <!-- 右侧清除按钮 -->
+    <template #endAdornment>
       <IconButton
         v-if="props.value"
-        @click="
-          () => {
-            if (props.value) $emit('valueChanged', '');
-          }
-        "
         title="clear text"
         aria-label="clear text"
         class="ic-btn-ghost-gray m-[.5rem] p-2"
+        @click="$emit('valueChanged', '')"
       >
         <XCircleIcon class="w-5 h-5" />
       </IconButton>

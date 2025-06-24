@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { computed, ref } from "vue";
 
 import useStore from "@src/store/store";
@@ -9,10 +9,10 @@ import OngoingTab from "@src/components/shared/modals/VoiceCallModal/OngoingTab.
 import FadeTransition from "@src/components/ui/transitions/FadeTransition.vue";
 import Modal from "@src/components/ui/utils/Modal.vue";
 
-const props = defineProps<{
-  open: boolean;
-  closeModal: (endCall: boolean) => void;
-}>();
+const props = defineProps({
+  open: Boolean,
+  closeModal: Function
+});
 
 const store = useStore();
 
@@ -20,36 +20,46 @@ const members = computed(() => {
   if (store.activeCall) {
     return getOtherMembers(store.activeCall);
   }
+  return [];
 });
 
-// determine the modal width based on the active component
-const modalSize = ref("290px");
-
-// the active modal component
-const ActiveTab = computed((): any => {
+// 根据状态切换 tab
+const modalSize = computed(() => {
   if (store.activeCall) {
-    if (store?.activeCall.status === "dialing") {
-      modalSize.value = "290px";
+    if (store.activeCall.status === "dialing") {
+      return "290px";
+    } else if (store.activeCall.status === "ongoing") {
+      return "400px";
+    }
+  }
+  return "290px";
+});
+
+const ActiveTab = computed(() => {
+  if (store.activeCall) {
+    if (store.activeCall.status === "dialing") {
       return IncomingTab;
-    } else if (store?.activeCall.status === "ongoing") {
-      modalSize.value = "400px";
+    } else if (store.activeCall.status === "ongoing") {
       return OngoingTab;
     }
-  } else {
-    return "div";
   }
+  return "div";
 });
 
-const handleCallStatusChange = (status: string) => {
+const handleCallStatusChange = (status) => {
   if (store.activeCall) {
     store.activeCall.status = status;
   }
 };
 </script>
 
+
 <template>
-  <Modal :open="props.open" :close-modal="() => props.closeModal(false)">
-    <template v-slot:content>
+  <Modal
+    :open="props.open"
+    :close-modal="() => props.closeModal(false)"
+  >
+    <template #content>
       <div
         class="rounded bg-white dark:bg-gray-800 transition-all duration-300"
         :style="{ width: modalSize }"

@@ -1,9 +1,7 @@
-<script setup lang="ts">
-import type { Ref } from "vue";
-import type { IConversation } from "@src/types";
+<script setup>
+import { ref, inject, onMounted } from "vue";
 
 import useStore from "@src/store/store";
-import { ref, inject, onMounted } from "vue";
 import { getConversationIndex } from "@src/utils";
 
 import {
@@ -14,6 +12,7 @@ import {
   PaperClipIcon,
   XCircleIcon,
 } from "@heroicons/vue/24/outline";
+
 import AttachmentsModal from "@src/components/shared/modals/AttachmentsModal/AttachmentsModal.vue";
 import Button from "@src/components/ui/inputs/Button.vue";
 import IconButton from "@src/components/ui/inputs/IconButton.vue";
@@ -23,35 +22,34 @@ import EmojiPicker from "@src/components/ui/inputs/EmojiPicker/EmojiPicker.vue";
 import Textarea from "@src/components/ui/inputs/Textarea.vue";
 
 const store = useStore();
+const activeConversation = inject("activeConversation");
 
-const activeConversation = <IConversation>inject("activeConversation");
+// 消息内容
+const value = ref("");
 
-// the content of the message.
-const value: Ref<string> = ref("");
-
-// determines whether the app is recording or not.
+// 是否录音中
 const recording = ref(false);
 
-// open emoji picker.
+// 表情选择器是否显示
 const showPicker = ref(false);
 
-// open modal used to send multiple attachments attachments.
+// 附件弹窗是否打开
 const openAttachmentsModal = ref(false);
 
-// start and stop recording.
+// 开始/结束录音
 const handleToggleRecording = () => {
   recording.value = !recording.value;
 };
 
-// stop recording without sending.
+// 取消录音
 const handleCancelRecording = () => {
   recording.value = false;
 };
 
-// close picker when you click outside.
-const handleClickOutside = (event: Event) => {
-  let target = event.target as HTMLElement;
-  let parent = target.parentElement as HTMLElement;
+// 点击外部关闭表情选择器
+const handleClickOutside = (event) => {
+  const target = event.target;
+  const parent = target?.parentElement;
 
   if (
     target &&
@@ -63,7 +61,7 @@ const handleClickOutside = (event: Event) => {
   }
 };
 
-// (event) set the draft message equals the content of the text area
+// 设置草稿
 const handleSetDraft = () => {
   const index = getConversationIndex(activeConversation.id);
   if (index !== undefined) {
@@ -71,10 +69,12 @@ const handleSetDraft = () => {
   }
 };
 
+// 初始化草稿
 onMounted(() => {
   value.value = activeConversation.draftMessage;
 });
 </script>
+
 
 <template>
   <div class="w-full">
@@ -87,8 +87,8 @@ onMounted(() => {
     </div>
 
     <div
-      class="h-auto min-h-21 p-5 flex items-end"
       v-if="store.status !== 'loading'"
+      class="h-auto min-h-21 p-5 flex items-end"
       :class="recording ? ['justify-between'] : []"
     >
       <div class="min-h-[2.75rem]">
@@ -104,22 +104,30 @@ onMounted(() => {
         </IconButton>
 
         <!--recording timer-->
-        <p v-if="recording" class="body-1 text-indigo-300">00:11</p>
+        <p
+          v-if="recording"
+          class="body-1 text-indigo-300"
+        >
+          00:11
+        </p>
       </div>
 
       <!--message textarea-->
-      <div class="grow md:mr-5 xs:mr-4 self-end" v-if="!recording">
+      <div
+        v-if="!recording"
+        class="grow md:mr-5 xs:mr-4 self-end"
+      >
         <div class="relative">
           <Textarea
             class="max-h-[5rem] pr-12.5 resize-none scrollbar-hidden"
-            @value-changed="(newValue: string) => (value = newValue)"
-            @input="handleSetDraft"
             :value="value"
             auto-resize
             cols="30"
             rows="1"
             placeholder="Write your message here"
             aria-label="Write your message here"
+            @value-changed="newValue => value = newValue"
+            @input="handleSetDraft"
           />
 
           <!--emojis-->
@@ -128,10 +136,13 @@ onMounted(() => {
             <IconButton
               title="toggle emoji picker"
               aria-label="toggle emoji picker"
-              @click="showPicker = !showPicker"
               class="ic-btn-ghost-primary toggle-picker-button w-7 h-7 md:mr-5 xs:mr-4"
+              @click="showPicker = !showPicker"
             >
-              <XCircleIcon v-if="showPicker" class="w-[1.25rem] h-[1.25rem]" />
+              <XCircleIcon
+                v-if="showPicker"
+                class="w-[1.25rem] h-[1.25rem]"
+              />
               <FaceSmileIcon
                 v-else
                 class="w-[1.25rem] h-[1.25rem] text-gray-400 group-hover:text-indigo-300"
@@ -141,8 +152,8 @@ onMounted(() => {
             <!--emoji picker-->
             <ScaleTransition>
               <div
-                v-click-outside="handleClickOutside"
                 v-show="showPicker"
+                v-click-outside="handleClickOutside"
                 class="absolute z-10 bottom-13.75 md:right-0 xs:right-[-5rem] mt-2"
               >
                 <div role="none">
@@ -156,8 +167,13 @@ onMounted(() => {
 
       <div class="min-h-[2.75rem]">
         <!--cancel recording button-->
-        <div v-if="recording" @click="handleCancelRecording">
-          <Button class="ghost-danger ghost-text"> Cancel </Button>
+        <div
+          v-if="recording"
+          @click="handleCancelRecording"
+        >
+          <Button class="ghost-danger ghost-text">
+            Cancel
+          </Button>
         </div>
       </div>
 
@@ -167,13 +183,12 @@ onMounted(() => {
           v-if="recording"
           title="finish recording"
           aria-label="finish recording"
-          @click="handleToggleRecording"
           class="relative group w-7 h-7 flex justify-center items-center outline-none rounded-full bg-indigo-300 hover:bg-green-300 dark:hover:bg-green-400 dark:focus:bg-green-400 focus:outline-none transition-all duration-200"
+          @click="handleToggleRecording"
         >
           <span
             class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-300 group-hover:bg-green-300 opacity-40"
-          >
-          </span>
+          />
 
           <MicrophoneIcon
             class="w-[1.25rem] h-[1.25rem] text-white group-hover:hidden"
@@ -186,10 +201,10 @@ onMounted(() => {
         <!--start recording button-->
         <IconButton
           v-else
-          @click="handleToggleRecording"
           title="start recording"
           aria-label="start recording"
           class="ic-btn-ghost-primary w-7 h-7 md:mr-5 xs:mr-4"
+          @click="handleToggleRecording"
         >
           <MicrophoneIcon class="w-[1.25rem] h-[1.25rem]" />
         </IconButton>

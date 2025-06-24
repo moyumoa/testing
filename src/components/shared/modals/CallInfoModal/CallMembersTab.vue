@@ -1,16 +1,20 @@
-<script setup lang="ts">
+<script setup>
 import { ArrowUturnLeftIcon } from "@heroicons/vue/24/solid";
 
-import type { ICall } from "@src/types";
 
 import SearchInput from "@src/components/ui/inputs/SearchInput.vue";
 import ContactItem from "@src/components/shared/blocks/ContactItem.vue";
 import ScrollBox from "@src/components/ui/utils/ScrollBox.vue";
 import IconButton from "@src/components/ui/inputs/IconButton.vue";
 
-const props = defineProps<{
-  call: ICall;
-}>();
+const props = defineProps({
+  call: {
+    type: Object,
+    required: true,
+  },
+});
+
+const emit = defineEmits(['active-page-change']);
 </script>
 
 <template>
@@ -27,13 +31,13 @@ const props = defineProps<{
 
       <!--return button-->
       <IconButton
+        class="p-2 ic-btn-outlined-danger"
         @click="
           $emit('active-page-change', {
             tabName: 'call-info',
             animationName: 'slide-right',
           })
         "
-        class="p-2 ic-btn-outlined-danger"
       >
         <ArrowUturnLeftIcon class="w-5 h-5" />
       </IconButton>
@@ -45,13 +49,16 @@ const props = defineProps<{
     </div>
 
     <!--contacts-->
-    <ScrollBox ref="contactContainer" class="max-h-35 mb-5 overflow-y-scroll">
+    <ScrollBox
+      ref="contactContainer"
+      class="max-h-35 mb-5 overflow-y-scroll"
+    >
       <ContactItem
         v-for="(member, index) in props.call.members"
+        :key="index"
         variant="card"
         :unselectable="true"
         :contact="member"
-        :key="index"
       />
     </ScrollBox>
   </div>

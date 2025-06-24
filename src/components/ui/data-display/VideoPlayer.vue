@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 
 import {
@@ -9,65 +9,50 @@ import {
   SpeakerWaveIcon,
   SpeakerXMarkIcon,
 } from "@heroicons/vue/24/solid";
+
 import RangeSlider from "@src/components/ui/inputs/RangeSlider.vue";
 import { VideoPlayer } from "@videojs-player/vue";
-
 import "video.js/dist/video-js.css";
 
 defineEmits(["videoLoad"]);
 
-const props = defineProps<{
-  id: string;
-  url: string;
-  name?: string;
-  thumbnail: string;
-}>();
+const props = defineProps({
+  id: String,
+  url: String,
+  name: String,
+  thumbnail: String,
+});
 
-// if the fullscreen is toggled or not
 const fullScreen = ref(false);
-
-// percentage of the video that played
 const percentage = ref(0);
-
-// value representing the volume
 const volume = ref(0);
-
-// controls showing the volume slider when hovering over mute/unmute buttons
 const volumeSliderInvisible = ref(false);
-
-// tells us if the video was started
 const started = ref(false);
 
-// (event) mute and unmute the audio of the video
-const handleToggleMute = (player: any) => {
+const handleToggleMute = (player) => {
   player.muted(!player.muted());
 };
 
-// (event) increases and decreases volume based on the volume range slider location
-const handleVolumeSliderChange = (value: any, player: any) => {
+const handleVolumeSliderChange = (value, player) => {
   player.volume(value / 100);
 };
 
-// (event) update the volume ref when the video volume changes
-const handleVolumeChange = (event: any) => {
+const handleVolumeChange = (event) => {
   volume.value = event.target.player.volume() * 100;
 };
 
-// (event) increase and decrease the percentage based on the video time
-const handleTimeChange = (event: any) => {
+const handleTimeChange = (event) => {
   percentage.value =
     (event.target.player.cache_.currentTime /
       event.target.player.cache_.duration) *
     100;
 };
 
-// (event) change the current time of the video based on the slider's value
-const handleTrackInput = (value: any, player: any, state: any) => {
+const handleTrackInput = (value, player, state) => {
   player.currentTime((value / 100) * state.duration);
 };
 
-// (event) pause and play the video
-const handleToggleVideo = (state: any, player: any) => {
+const handleToggleVideo = (state, player) => {
   if (!state.playing && !started.value) {
     started.value = true;
     volume.value = player.volume() * 100;
@@ -75,6 +60,7 @@ const handleToggleVideo = (state: any, player: any) => {
   state.playing ? player.pause() : player.play();
 };
 </script>
+
 
 <template>
   <VideoPlayer
@@ -85,11 +71,16 @@ const handleToggleVideo = (state: any, player: any) => {
     @volumechange="handleVolumeChange"
     @loadstart="(event) => $emit('videoLoad', event)"
   >
-    <template v-slot="{ player, state }">
+    <template #default="{ player, state }">
       <div class="overlay-container">
         <!--video title-->
-        <div v-if="props.name" class="video-title">
-          <p class="body-5">{{ props.name }}</p>
+        <div
+          v-if="props.name"
+          class="video-title"
+        >
+          <p class="body-5">
+            {{ props.name }}
+          </p>
         </div>
 
         <!--pause and start buttons-->
@@ -97,24 +88,27 @@ const handleToggleVideo = (state: any, player: any) => {
           <!--play button-->
           <button
             v-if="!state.playing"
-            @click="() => handleToggleVideo(state, player)"
             class="control-button play-button"
+            @click="() => handleToggleVideo(state, player)"
           >
             <PlayIcon class="icon large" />
           </button>
           <!--pause button-->
           <button
             v-if="state.playing"
-            @click="() => handleToggleVideo(state, player)"
             class="control-button pause-button"
             :class="{ 'opacity-0': state.playing }"
+            @click="() => handleToggleVideo(state, player)"
           >
             <PauseIcon class="icon large" />
           </button>
         </div>
 
         <!--controls-->
-        <div v-if="started" class="controls-container">
+        <div
+          v-if="started"
+          class="controls-container"
+        >
           <!--audio controls-->
           <div
             class="audio-controls-container"
@@ -145,12 +139,12 @@ const handleToggleVideo = (state: any, player: any) => {
               :style="{ opacity: volumeSliderInvisible ? 0 : 1 }"
             >
               <RangeSlider
-                @value-changed="
-                  ($event) => handleVolumeSliderChange($event, player)
-                "
                 :percentage="volume"
                 class="volume-slider"
                 aria-label="volume change slider"
+                @value-changed="
+                  ($event) => handleVolumeSliderChange($event, player)
+                "
               />
             </div>
           </div>

@@ -1,5 +1,4 @@
-<script setup lang="ts">
-import type { IAttachment } from "@src/types";
+<script setup>
 
 import {
   DocumentIcon,
@@ -7,10 +6,16 @@ import {
   VideoCameraIcon,
 } from "@heroicons/vue/24/outline";
 
-const props = defineProps<{
-  attachment: IAttachment;
-  date: string;
-}>();
+const props = defineProps({
+  attachment: {
+    type: Object,
+    required: true,
+  },
+  date: {
+    type: String,
+    required: true,
+  },
+});
 </script>
 
 <template>
@@ -22,16 +27,16 @@ const props = defineProps<{
       class="w-8 h-8 mr-4 flex justify-center items-center rounded-full bg-gray-50 dark:bg-gray-500"
     >
       <PhotoIcon
-        class="h-5 w-5 text-gray-500 dark:text-white/70"
         v-if="props.attachment.type === 'image'"
+        class="h-5 w-5 text-gray-500 dark:text-white/70"
       />
       <DocumentIcon
-        class="h-5 w-5 text-gray-500 dark:text-white/70"
         v-else-if="props.attachment.type === 'file'"
+        class="h-5 w-5 text-gray-500 dark:text-white/70"
       />
       <VideoCameraIcon
-        class="h-5 w-5 text-gray-500 dark:text-white/70"
         v-else-if="props.attachment.type === 'video'"
+        class="h-5 w-5 text-gray-500 dark:text-white/70"
       />
     </div>
 

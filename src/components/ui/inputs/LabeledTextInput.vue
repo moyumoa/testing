@@ -1,18 +1,18 @@
-<script setup lang="ts">
-import TextInput from "@src/components/ui/inputs/TextInput.vue";
+<script setup>
+import TextInput from '@src/components/ui/inputs/TextInput.vue'
 
-defineEmits(["valueChanged"]);
+const emit = defineEmits(['valueChanged'])
 
-const props = defineProps<{
-  id?: string;
-  type?: string;
-  label?: string;
-  value?: string;
-  name?: string;
-  class?: string;
-  placeholder?: string;
-  bordered?: boolean;
-}>();
+const props = defineProps({
+  id: String,
+  type: String,
+  label: String,
+  value: String,
+  name: String,
+  class: String,
+  placeholder: String,
+  bordered: Boolean,
+})
 </script>
 
 <template>
@@ -26,26 +26,28 @@ const props = defineProps<{
     </label>
 
     <div class="relative">
+      <!-- 左边插槽 -->
       <div class="absolute left-0 top-0">
-        <slot name="startAdornment"></slot>
+        <slot name="startAdornment" />
       </div>
 
       <TextInput
-        :type="props.type || 'text'"
-        name="props.name"
         :id="props.id"
-        :value="value"
+        :type="props.type || 'text'"
+        :name="props.name"
+        :value="props.value"
         class="text-input"
         :class="[
           props.bordered ? 'bordered-input' : 'ringed-input',
           props.class,
         ]"
         :placeholder="props.placeholder"
-        @value-changed="(value) => $emit('valueChanged', value)"
+        @value-changed="(value) => emit('valueChanged', value)"
       />
 
+      <!-- 右边插槽 -->
       <div class="absolute top-0 right-0">
-        <slot name="endAdornment"></slot>
+        <slot name="endAdornment" />
       </div>
     </div>
   </div>

@@ -1,8 +1,5 @@
-<script setup lang="ts">
-import type { IConversation } from "@src/types";
-
+<script setup>
 import { inject } from "vue";
-
 import useStore from "@src/store/store";
 import { getConversationIndex } from "@src/utils";
 
@@ -11,42 +8,30 @@ import IconButton from "@src/components/ui/inputs/IconButton.vue";
 import SlideTransition from "@src/components/ui/transitions/SlideTransition.vue";
 import MessagePreview from "@src/components/views/HomeView/Chat/MessagePreview.vue";
 
+// 使用状态管理
 const store = useStore();
 
-const activeConversation = <IConversation>inject("activeConversation");
-// (event) hide the pinned message
+// 注入当前激活的会话对象
+const activeConversation = inject("activeConversation");
+
+// 🧩 隐藏置顶消息
 const handleHidePinnedMessage = () => {
   if (activeConversation) {
-    // get the active conversation index in the state store
-    let activeConversationIndex = getConversationIndex(activeConversation.id);
-
-    if (
-      store.conversations &&
-      activeConversationIndex !== undefined &&
-      activeConversationIndex !== null
-    ) {
-      // update the conversation in the state store
-      store.conversations[activeConversationIndex].pinnedMessageHidden = true;
+    const index = getConversationIndex(activeConversation.id);
+    if (store.conversations && index !== undefined && index !== null) {
+      store.conversations[index].pinnedMessageHidden = true;
     }
   }
 };
 
-// (event) remove the pinned message
+// 🧩 移除置顶消息
 const handleRemovePinnedMessage = () => {
   if (activeConversation) {
-    // get the active conversation index in the state store
-    let activeConversationIndex = getConversationIndex(activeConversation.id);
+    const index = getConversationIndex(activeConversation.id);
+    if (store.conversations && index !== undefined && index !== null) {
+      store.conversations[index].pinnedMessage = undefined;
 
-    if (
-      store.conversations &&
-      activeConversationIndex !== undefined &&
-      activeConversationIndex !== null
-    ) {
-      // update the conversation in the state store
-      store.conversations[activeConversationIndex].pinnedMessage = undefined;
-
-      // send socket message notifying other users that the message is removed
-      // ...
+      // 👉 此处可以加入 socket 通知逻辑（如 emit("unpinned-message", ...)）
     }
   }
 };
@@ -55,11 +40,11 @@ const handleRemovePinnedMessage = () => {
 <template>
   <SlideTransition animation="shelf-down">
     <div
-      class="absolute z-10 w-full px-5 py-2 bg-white dark:bg-gray-800 flex items-center justify-between transition-all duration-500"
       v-if="
         activeConversation.pinnedMessage &&
-        !activeConversation.pinnedMessageHidden
+          !activeConversation.pinnedMessageHidden
       "
+      class="absolute z-10 w-full px-5 py-2 bg-white dark:bg-gray-800 flex items-center justify-between transition-all duration-500"
     >
       <!--pinned message preview-->
       <MessagePreview :message="activeConversation?.pinnedMessage" />
@@ -69,12 +54,12 @@ const handleRemovePinnedMessage = () => {
         <IconButton
           title="hide pinned message"
           aria-label="hide pinned message"
-          @click="handleHidePinnedMessage"
           class="ic-btn-ghost-primary w-7 h-7"
           :class="{
             'mr-3':
               store.user && activeConversation?.admins?.includes(store.user.id),
           }"
+          @click="handleHidePinnedMessage"
         >
           <EyeSlashIcon class="w-5 h-5" />
         </IconButton>
@@ -84,10 +69,10 @@ const handleRemovePinnedMessage = () => {
           v-if="
             store.user && activeConversation?.admins?.includes(store.user.id)
           "
-          @click="handleRemovePinnedMessage"
           class="ic-btn-ghost-primary w-7 h-7"
           title="close pinned message"
           aria-label="close pinned message"
+          @click="handleRemovePinnedMessage"
         >
           <XCircleIcon class="w-5 h-5" />
         </IconButton>

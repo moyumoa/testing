@@ -6,11 +6,11 @@
       tabindex="0"
       class="heading-1 text-black/70 dark:text-white/70 outline-none"
     >
-      <slot name="title"></slot>
+      <slot name="title" />
     </p>
 
     <div>
-      <slot name="actions"></slot>
+      <slot name="actions" />
     </div>
   </div>
 </template>

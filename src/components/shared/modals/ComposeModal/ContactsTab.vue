@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import useStore from "@src/store/store";
 
 import NoContacts from "@src/components/states/empty-states/NoContacts.vue";
@@ -19,24 +19,29 @@ const store = useStore();
 
     <!--contacts-->
     <ScrollBox class="overflow-y-scroll max-h-50">
-      <Circle2Lines
-        v-if="store.status === 'loading' || store.delayLoading"
-        v-for="item in 3"
-      />
+      <template v-if="store.status === 'loading' || store.delayLoading">
+        <Circle2Lines
+          v-for="index in 3"
+          :key="index"
+        />
+      </template>
 
       <ContactItem
+        v-for="(contact, index) in store.user.contacts"
         v-else-if="
           store.status === 'success' &&
-          !store.delayLoading &&
-          store.user &&
-          store.user.contacts.length > 0
+            !store.delayLoading &&
+            store.user &&
+            store.user.contacts.length > 0
         "
-        v-for="(contact, index) in store.user.contacts"
         :key="index"
         :contact="contact"
       />
 
-      <NoContacts vertical v-else />
+      <NoContacts
+        v-else
+        vertical
+      />
     </ScrollBox>
   </div>
 </template>

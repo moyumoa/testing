@@ -1,15 +1,15 @@
-<script setup lang="ts">
-import type { INotification } from "@src/types";
-
+<script setup>
+// 👉 通知图标
 import {
   ArrowPathIcon,
   LockClosedIcon,
   PlusCircleIcon,
 } from "@heroicons/vue/24/outline";
 
-const props = defineProps<{
-  notification: INotification;
-}>();
+// 👉 接收外部传入的通知对象
+const props = defineProps({
+  notification: Object,
+});
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const props = defineProps<{
     tabindex="0"
     :aria-label="props.notification.message"
   >
-    <!--notifications icon-->
+    <!--通知图标区域-->
     <div class="mr-4">
       <div
         class="w-7 h-7 flex justify-center items-center rounded-full transition duration-500"
@@ -30,6 +30,7 @@ const props = defineProps<{
             notification.flag === 'added-to-group',
         }"
       >
+        <!--根据 flag 不同显示不同图标-->
         <ArrowPathIcon
           v-if="notification.flag === 'account-update'"
           class="w-5 h-5 stroke-1 text-blue-500 dark:text-white transition duration-500"
@@ -45,12 +46,11 @@ const props = defineProps<{
       </div>
     </div>
 
-    <!--notification content-->
+    <!--通知内容区域-->
     <div class="grow">
       <p class="heading-2 text-black/70 dark:text-white/70 mb-4">
         {{ props.notification.title }}
       </p>
-
       <p class="body-2 text-black/70 dark:text-white/70">
         {{ props.notification.message }}
       </p>

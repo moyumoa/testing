@@ -1,47 +1,49 @@
-<script setup lang="ts">
-import type { IRecording } from "@src/types";
-import type { Ref } from "vue";
-
+<script setup>
+// 引入依赖
 import { ref, onMounted, onUnmounted } from "vue";
-
 import { PauseIcon, PlayIcon } from "@heroicons/vue/24/outline";
 import WaveSurfer from "wavesurfer.js";
 import Spinner from "@src/components/ui/utils/Spinner.vue";
 
-const props = defineProps<{
-  recording: IRecording;
-  self?: boolean;
-}>();
+// 接收 props 参数
+const props = defineProps({
+  recording: Object,
+  self: Boolean
+});
 
-const wavesurfer: Ref<any> = ref(null);
+// 🎵 WaveSurfer 实例
+const wavesurfer = ref(null);
+
+// 🔁 播放状态
 const playing = ref(false);
+
+// ⏳ 是否加载中
 const loading = ref(true);
 
-// (event) turns the audio on/off
+// 播放/暂停控制
 const handleTogglePlay = () => {
-  if (wavesurfer.value) {
-    if (playing.value) {
-      playing.value = false;
-      wavesurfer.value.pause();
-    } else {
-      playing.value = true;
-      wavesurfer.value.play();
-    }
+  if (!wavesurfer.value) return;
+
+  if (playing.value) {
+    wavesurfer.value.pause();
+    playing.value = false;
+  } else {
+    wavesurfer.value.play();
+    playing.value = true;
   }
 };
 
-// when mounted load the audio
+// 组件挂载时初始化 WaveSurfer
 onMounted(() => {
-  const waveform: HTMLElement | null = document.querySelector(
-    "#waveform-" + props.recording.id,
-  );
+  const waveform = document.querySelector("#waveform-" + props.recording.id);
 
   if (waveform) {
+    // 初始化
     wavesurfer.value = WaveSurfer.create({
       container: waveform,
-      waveColor: "rgb(209 213 219)",
-      progressColor: "rgb(165 180 252)",
-      cursorColor: "transparent",
+      waveColor: "rgb(209 213 219)", // 灰色波形
+      progressColor: "rgb(165 180 252)", // 蓝色进度
+      cursorColor: "transparent", // 不显示游标
       barWidth: 1,
       barRadius: 1,
       cursorWidth: 1,
@@ -49,20 +51,24 @@ onMounted(() => {
       barGap: 4,
     });
 
-    // load the audio
+    // 加载音频
     wavesurfer.value.load(props.recording.src);
 
-    wavesurfer.value.on("ready", function () {
+    // 监听准备就绪事件
+    wavesurfer.value.on("ready", () => {
       loading.value = false;
     });
   }
 });
 
-// when the component is unmounted stop thr audio
+// 卸载时暂停音频
 onUnmounted(() => {
-  wavesurfer.value.pause();
+  if (wavesurfer.value) {
+    wavesurfer.value.pause();
+  }
 });
 </script>
+
 
 <template>
   <!--loading indicator-->
@@ -81,21 +87,30 @@ onUnmounted(() => {
     <!--play/pause button-->
     <button
       v-else
-      @click="handleTogglePlay"
       class="p-4 mr-4 flex justify-center items-center rounded-[.75rem] outline-none transition-all duration-200 bg-indigo-300 active:bg-indigo-400"
       :aria-label="playing ? 'pause' : 'play'"
+      @click="handleTogglePlay"
     >
-      <PauseIcon v-if="playing" class="w-5 h-5 text-white" />
-      <PlayIcon v-else class="w-5 h-5 text-white" />
+      <PauseIcon
+        v-if="playing"
+        class="w-5 h-5 text-white"
+      />
+      <PlayIcon
+        v-else
+        class="w-5 h-5 text-white"
+      />
     </button>
 
     <!--audio waveform-->
     <div class="w-full mr-4 relative flex items-center">
-      <div :id="'waveform-' + props.recording.id" class="w-37.5"></div>
       <div
-        class="absolute border animate-pulse w-37.5 border-gray-300"
+        :id="'waveform-' + props.recording.id"
+        class="w-37.5"
+      />
+      <div
         v-show="loading"
-      ></div>
+        class="absolute border animate-pulse w-37.5 border-gray-300"
+      />
     </div>
 
     <p

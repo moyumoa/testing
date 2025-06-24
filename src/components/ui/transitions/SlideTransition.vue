@@ -1,12 +1,18 @@
-<script setup lang="ts">
-const props = defineProps<{
-  animation: string;
-}>();
+<script setup>
+const props = defineProps({
+  animation: {
+    type: String,
+    default: "", // 默认动画效果
+  },
+});
 </script>
 
 <template>
-  <Transition :name="props.animation" mode="out-in">
-    <slot></slot>
+  <Transition
+    :name="props.animation"
+    mode="out-in"
+  >
+    <slot />
   </Transition>
 </template>
 

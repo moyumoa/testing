@@ -36,16 +36,14 @@ const routes = [
   },
 ];
 
-// create the router
+// 创建路由实例
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 
-// (router gaurd) when navigating in mobile screen from chat to chatlist,
-// don't navigate to the previous chat navigate to the chatlist.
+// 路由守卫：在移动端从聊天跳转到列表时，始终转到聊天列表页面
 router.beforeEach((to, from, next) => {
-  //console.log(window.innerWidth);
   if (from.name === "Chat" && to.name === "Chat" && window.innerWidth <= 967)
     next({ name: "No-Chat" });
   else next();

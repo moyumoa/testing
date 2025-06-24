@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import {
   XMarkIcon,
   MagnifyingGlassPlusIcon,
@@ -7,20 +7,20 @@ import {
 } from "@heroicons/vue/24/outline";
 import IconButton from "@src/components/ui/inputs/IconButton.vue";
 
-const props = defineProps<{
-  handleCloseCarousel: () => void;
-  handleIncreaseZoom: () => void;
-  handleDecreaseZoom: () => void;
-  isImage: boolean;
-}>();
+const props = defineProps({
+  handleCloseCarousel: Function,
+  handleIncreaseZoom: Function,
+  handleDecreaseZoom: Function,
+  isImage: Boolean,
+});
 </script>
 
 <template>
   <div class="w-full flex justify-end mb-5">
     <!--decrease zoom-->
     <IconButton
-      title="decrease zoom"
       v-show="props.isImage"
+      title="decrease zoom"
       aria-label="decrease zoom"
       class="mr-5"
       @click="props.handleDecreaseZoom()"
@@ -32,8 +32,8 @@ const props = defineProps<{
 
     <!--increase zoom-->
     <IconButton
-      title="increase zoom"
       v-show="props.isImage"
+      title="increase zoom"
       aria-label="increase zoom"
       class="mr-5"
       @click="props.handleIncreaseZoom()"

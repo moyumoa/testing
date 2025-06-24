@@ -1,66 +1,61 @@
-<script setup lang="ts">
-import type { IConversation, IMessage } from "@src/types";
-import type { Ref } from "vue";
-
+<script setup>
+// 引入类型和依赖
 import { inject, onMounted, ref } from "vue";
 
 import useStore from "@src/store/store";
 
+// 引入组件
 import Message from "@src/components/views/HomeView/Chat/ChatMiddle/Message/Message.vue";
 import TimelineDivider from "@src/components/views/HomeView/Chat/ChatMiddle/TimelineDivider.vue";
 
-const props = defineProps<{
-  handleSelectMessage: (messageId: number) => void;
-  handleDeselectMessage: (messageId: number) => void;
-  selectedMessages: number[];
-}>();
+// 接收 props 参数
+const props = defineProps({
+  handleSelectMessage: Function,
+  handleDeselectMessage: Function,
+  selectedMessages: Array
+});
 
 const store = useStore();
 
-const container: Ref<HTMLElement | null> = ref(null);
+// 容器元素引用
+const container = ref(null);
 
-const activeConversation = <IConversation>inject("activeConversation");
+// 注入当前会话对象
+const activeConversation = inject("activeConversation");
 
-// checks whether the previous message was sent by the same user.
-const isFollowUp = (index: number, previousIndex: number): boolean => {
-  if (previousIndex < 0) {
-    return false;
-  } else {
-    let previousSender = activeConversation.messages[previousIndex].sender.id;
-    let currentSender = activeConversation.messages[index].sender.id;
-    return previousSender === currentSender;
-  }
+// ✅ 判断是否是同一个用户连续发言
+const isFollowUp = (index, previousIndex) => {
+  if (previousIndex < 0) return false;
+  const previousSender = activeConversation.messages[previousIndex].sender.id;
+  const currentSender = activeConversation.messages[index].sender.id;
+  return previousSender === currentSender;
 };
 
-// checks whether the message is sent by the authenticated user.
-const isSelf = (message: IMessage): boolean => {
-  return Boolean(store.user && message.sender.id === store.user.id);
+// ✅ 判断当前消息是否为自己发出的
+const isSelf = (message) => {
+  return store.user && message.sender.id === store.user.id;
 };
 
-// checks wether the new message has been sent in a new day or not.
-const renderDivider = (index: number, previousIndex: number): boolean => {
-  if (index === 3) {
-    return true;
-  } else {
-    return false;
-  }
+// ✅ 判断是否显示时间分割线（这里是写死 index === 3，后续可改为日期判断）
+const renderDivider = (index, previousIndex) => {
+  return index === 3;
 };
 
-// scroll messages to bottom.
+// ✅ 组件挂载后自动滚动到底部
 onMounted(() => {
-  (container.value as HTMLElement).scrollTop = (
-    container.value as HTMLElement
-  ).scrollHeight;
+  if (container.value) {
+    container.value.scrollTop = container.value.scrollHeight;
+  }
 });
 </script>
 
 <template>
   <div
+    v-if="store.status !== 'loading'"
     ref="container"
     class="grow px-5 py-5 flex flex-col overflow-y-scroll scrollbar-hidden"
   >
     <div
-      v-if="store.status !== 'loading'"
       v-for="(message, index) in activeConversation.messages"
       :key="index"
     >

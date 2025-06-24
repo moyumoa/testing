@@ -1,7 +1,4 @@
-<script setup lang="ts">
-import type { IContact } from "@src/types";
-import type { Ref } from "vue";
-
+<script setup>
 import { ref } from "vue";
 
 import useStore from "@src/store/store";
@@ -14,43 +11,44 @@ import ContactItem from "@src/components/shared/blocks/ContactItem.vue";
 import ScrollBox from "@src/components/ui/utils/ScrollBox.vue";
 import Circle2Lines from "@src/components/states/loading-states/Circle2Lines.vue";
 
-const props = defineProps<{
-  closeModal: () => void;
-  open: boolean;
-}>();
+const props = defineProps({
+  closeModal: Function,
+  open: Boolean,
+});
 
 const store = useStore();
 
-// a list of contacts selected to make a call
-const selectedContacts: Ref<IContact[]> = ref([]);
+// 已选中的联系人列表
+const selectedContacts = ref([]);
 
-// checks whether a contact is selected or not
-const isContactSelected = (contact: IContact) => {
+// 判断某个联系人是否已被选中
+const isContactSelected = (contact) => {
   if (contact) {
-    return Boolean(
-      selectedContacts.value.find((item) => item.id === contact.id),
-    );
-  } else {
-    return false;
+    return !!selectedContacts.value.find((item) => item.id === contact.id);
   }
+  return false;
 };
 
-// (event) change the value of selected contacts
-const handleSelectedContactsChange = (contact: IContact) => {
-  let contactIndex = selectedContacts.value.findIndex(
-    (item) => item.id === contact.id,
+// 切换联系人选中状态
+const handleSelectedContactsChange = (contact) => {
+  const index = selectedContacts.value.findIndex(
+    (item) => item.id === contact.id
   );
-  if (contactIndex !== -1) {
-    selectedContacts.value.splice(contactIndex, 1);
+  if (index !== -1) {
+    selectedContacts.value.splice(index, 1);
   } else {
     selectedContacts.value.push(contact);
   }
 };
 </script>
 
+
 <template>
-  <Modal :open="props.open" :closeModal="props.closeModal">
-    <template v-slot:content>
+  <Modal
+    :open="props.open"
+    :close-modal="props.closeModal"
+  >
+    <template #content>
       <div class="w-75 py-6 bg-white dark:bg-gray-800 rounded">
         <!--modal header-->
         <div class="flex justify-between items-center mb-6 px-5">
@@ -64,9 +62,9 @@ const handleSelectedContactsChange = (contact: IContact) => {
 
           <!--close button-->
           <Button
-            @click="props.closeModal"
             class="outlined-danger ghost-text py-2 px-4"
             typography="body-4"
+            @click="props.closeModal"
           >
             esc
           </Button>
@@ -82,20 +80,22 @@ const handleSelectedContactsChange = (contact: IContact) => {
           ref="contactContainer"
           class="max-h-54 mb-5 overflow-y-scroll"
         >
-          <Circle2Lines
-            v-if="store.status === 'loading' || store.delayLoading"
-            v-for="item in 3"
-          />
+          <template v-if="store.status === 'loading' || store.delayLoading">
+            <Circle2Lines
+              v-for="index in 3"
+              :key="index"
+            />
+          </template>
 
           <ContactItem
-            v-else-if="store.user"
             v-for="(contact, index) in store.user.contacts"
-            :contact="contact"
-            @click="handleSelectedContactsChange(contact)"
-            :active="isContactSelected(contact)"
+            v-else-if="store.user"
             :key="index"
+            :contact="contact"
+            :active="isContactSelected(contact)"
+            @click="handleSelectedContactsChange(contact)"
           >
-            <template v-slot:checkbox>
+            <template #checkbox>
               <Checkbox :value="isContactSelected(contact)" />
             </template>
           </ContactItem>

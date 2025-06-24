@@ -1,11 +1,12 @@
-<script setup lang="ts">
+<script setup>
 import { XMarkIcon } from "@heroicons/vue/24/solid";
 
-const props = defineProps<{
-  open: boolean;
-  imageUrl?: string;
-  closeImage: () => void;
-}>();
+// JS 版 props 定义
+const props = defineProps({
+  open: Boolean,
+  imageUrl: String,
+  closeImage: Function,
+});
 </script>
 
 <template>
@@ -20,18 +21,21 @@ const props = defineProps<{
       <div
         v-show="props.open"
         class="fixed inset-0 bg-black/60 transition-opacity"
-      ></div>
+      />
     </Transition>
 
     <Transition name="scale">
-      <div v-show="props.open" class="fixed inset-0 z-10 overflow-y-auto">
+      <div
+        v-show="props.open"
+        class="fixed inset-0 z-10 overflow-y-auto"
+      >
         <div class="h-full flex flex-col p-5">
           <!--close viewer button-->
           <div class="w-full flex justify-end">
             <button
-              @click="closeImage"
               class="rounded-full p-2 hover:bg-white/10 active:bg-white/20 transition-all duration-200"
               aria-label="previous item"
+              @click="props.closeImage"
             >
               <XMarkIcon class="w-7 h-7 text-white stroke-1" />
             </button>
@@ -42,7 +46,10 @@ const props = defineProps<{
             <div
               class="w-full h-full px-5 flex items-center justify-center basis[90%]"
             >
-              <img :src="(props.imageUrl as string)" alt="avatar" />
+              <img
+                :src="props.imageUrl"
+                alt="avatar"
+              >
             </div>
           </div>
         </div>

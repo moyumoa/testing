@@ -1,12 +1,11 @@
-<script setup lang="ts">
-import type { IMessage } from "@src/types";
-
+<script setup>
 import { getFullName } from "@src/utils";
 
-const props = defineProps<{
-  message: IMessage;
-}>();
+const props = defineProps({
+  message: Object,
+});
 </script>
+
 
 <template>
   <button
@@ -17,7 +16,7 @@ const props = defineProps<{
       <div
         :style="{ backgroundImage: `url(${props.message.sender.avatar})` }"
         class="w-7 h-7 rounded-full bg-cover bg-center"
-      ></div>
+      />
     </div>
 
     <!--name and message-->
@@ -27,13 +26,17 @@ const props = defineProps<{
           {{ getFullName(props.message.sender) }}
         </p>
 
-        <p class="body-2 text-black/70 dark:text-white/70">Wow really cool</p>
+        <p class="body-2 text-black/70 dark:text-white/70">
+          Wow really cool
+        </p>
       </div>
     </div>
 
     <!--message date-->
     <div>
-      <p class="body-4 text-black/70 dark:text-white/70">1/5/2019</p>
+      <p class="body-4 text-black/70 dark:text-white/70">
+        1/5/2019
+      </p>
     </div>
   </button>
 </template>

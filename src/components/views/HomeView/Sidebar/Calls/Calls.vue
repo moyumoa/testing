@@ -1,6 +1,5 @@
-<script setup lang="ts">
-import type { ICall } from "@src/types";
-import { Ref, ref } from "vue";
+<script setup>
+import { ref } from "vue";
 
 import useStore from "@src/store/store";
 
@@ -18,11 +17,11 @@ import SidebarHeader from "@src/components/views/HomeView/Sidebar/SidebarHeader.
 const store = useStore();
 
 const openDialModal = ref(false);
-
-const selectedCall: Ref<ICall | null> = ref(null);
+const selectedCall = ref(null);
 const openInfoModal = ref(false);
-// (event) opens the voice call info modal
-const handleOpenInfoModal = (call: ICall) => {
+
+// 打开语音通话详情弹窗
+const handleOpenInfoModal = (call) => {
   openInfoModal.value = true;
   selectedCall.value = call;
 };
@@ -31,74 +30,74 @@ const handleOpenInfoModal = (call: ICall) => {
 <template>
   <div>
     <SidebarHeader>
-      <!--title-->
-      <template v-slot:title>Voice Calls</template>
+      <template #title>
+        Voice Calls
+      </template>
 
-      <!--side actions-->
-      <template v-slot:actions>
+      <template #actions>
         <IconButton
-          @click="openDialModal = true"
           class="ic-btn-ghost-primary w-7 h-7"
           title="initiate call"
           aria-label="initiate call"
+          @click="openDialModal = true"
         >
           <PlusCircleIcon class="w-[1.25rem] h-[1.25rem]" />
         </IconButton>
       </template>
     </SidebarHeader>
 
-    <!--content-->
+    <!-- 通话内容区 -->
     <div
       ref="contactContainer"
       class="w-full h-full scroll-smooth scrollbar-hidden"
       style="overflow-x: visible; overflow-y: scroll"
     >
-      <Circle2Lines
-        v-if="store.status === 'loading' || store.delayLoading"
-        v-for="item in 6"
-      />
+      <div v-if="store.status === 'loading' || store.delayLoading">
+        <Circle2Lines
+          v-for="n in 6"
+          :key="n"
+        />
+      </div>
 
       <div v-else>
         <ExpandTransition>
           <div
-            class="max-h-50"
             v-if="store.callMinimized && store.activeCall"
+            class="max-h-50"
           >
             <Call
               v-if="store.activeCall"
               :call="store.activeCall"
               :open-voice-call-modal="() => (store.openVoiceCall = true)"
-              :end-call="
-                () => {
-                  store.activeCall = undefined;
-                  store.callMinimized = false;
-                }
-              "
+              :end-call="() => {
+                store.activeCall = undefined;
+                store.callMinimized = false;
+              }"
               active
             />
           </div>
         </ExpandTransition>
 
         <CallList
-          v-if="(store.calls as ICall[])?.length > 0"
+          v-if="store.calls?.length > 0"
           delay-loading="chat.delayLoading"
           :chat-status="store.status"
           :open-info-modal="handleOpenInfoModal"
-          :calls="<ICall[]>store.calls"
+          :calls="store.calls"
         />
 
         <NoCalls v-else />
       </div>
     </div>
 
-    <!--call info modal-->
+    <!-- 通话信息弹窗 -->
     <CallInfoModal
       :open="openInfoModal"
       :close-modal="() => (openInfoModal = false)"
-      :call="<ICall>selectedCall"
+      :call="selectedCall"
     />
 
-    <!--start call modal-->
+    <!-- 拨号弹窗 -->
     <DialModal
       :open="openDialModal"
       :close-modal="() => (openDialModal = false)"

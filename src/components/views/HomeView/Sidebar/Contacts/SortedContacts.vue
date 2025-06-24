@@ -1,8 +1,6 @@
-<script setup lang="ts">
-import type { IContactGroup } from "@src/types";
-import type { Ref } from "vue";
-
+<script setup>
 import { ref } from "vue";
+import useStore from "@src/store/store";
 
 import { getFullName } from "@src/utils";
 
@@ -15,69 +13,52 @@ import IconButton from "@src/components/ui/inputs/IconButton.vue";
 import Dropdown from "@src/components/ui/navigation/Dropdown/Dropdown.vue";
 import DropdownLink from "@src/components/ui/navigation/Dropdown/DropdownLink.vue";
 
-const props = defineProps<{
-  contactGroups?: IContactGroup[];
-  bottomEdge?: number;
-}>();
+// 接收父组件传入的属性
+const props = defineProps({
+  contactGroups: Array,
+  bottomEdge: Number,
+});
 
-// the position of the dropdown menu.
+// 控制 Dropdown 菜单的位置（上方或下方）
 const dropdownMenuPosition = ref(["top-6", "right-0"]);
 
-// controls the states of contact dropdown menus
-const dropdownMenuStates: Ref<boolean[][] | undefined> = ref(
+// 控制每个联系人下拉菜单的开关状态
+const dropdownMenuStates = ref(
   props.contactGroups?.map((contactGroup) => {
-    let group = contactGroup.contacts.map(() => false);
-    return group;
-  }),
+    return contactGroup.contacts.map(() => false);
+  })
 );
 
-// close all contact dropdown menus
+// 关闭所有下拉菜单
 const handleCloseAllMenus = () => {
   dropdownMenuStates.value = props.contactGroups?.map((contactGroup) => {
-    let group = contactGroup.contacts.map(() => false);
-    return group;
+    return contactGroup.contacts.map(() => false);
   });
 };
 
-// (event) open/close the selected dropdown menu.
-const handleToggleDropdown = (
-  event: Event,
-  groupIndex: number,
-  index: number,
-) => {
+// 点击展开或关闭某一个联系人菜单
+const handleToggleDropdown = (event, groupIndex, index) => {
   if (props.bottomEdge) {
-    let buttonBottom = (
-      event.currentTarget as HTMLElement
-    ).getBoundingClientRect().bottom;
-
-    if (buttonBottom >= props.bottomEdge - 75) {
-      dropdownMenuPosition.value = ["bottom-6", "right-0"];
-    } else {
-      dropdownMenuPosition.value = ["top-6", "right-0"];
-    }
+    let buttonBottom = event.currentTarget.getBoundingClientRect().bottom;
+    dropdownMenuPosition.value =
+      buttonBottom >= props.bottomEdge - 75
+        ? ["bottom-6", "right-0"]
+        : ["top-6", "right-0"];
   }
 
-  dropdownMenuStates.value = (dropdownMenuStates.value as boolean[][]).map(
-    (group) => {
-      return group.map((value, idx) => {
-        if (idx === index) return value;
-        else return false;
-      });
-    },
-  );
-
-  dropdownMenuStates.value[groupIndex][index] = !(
-    dropdownMenuStates.value as boolean[][]
-  )[groupIndex][index];
+  dropdownMenuStates.value = dropdownMenuStates.value.map((group, gIndex) => {
+    return group.map((value, idx) => {
+      return gIndex === groupIndex && idx === index ? !value : false;
+    });
+  });
 };
 
-// (event) close dropdown menu when clicking outside
-const handleClickOutside = (event: Event) => {
-  let target = event.target as HTMLElement;
-  let parentElement = target.parentElement as HTMLElement;
+// 点击页面空白处时关闭菜单
+const handleClickOutside = (event) => {
+  const target = event.target;
+  const parentElement = target.parentElement;
 
   if (
-    target &&
     !target.classList.contains("open-menu") &&
     !(parentElement && parentElement.classList.contains("open-menu"))
   ) {
@@ -87,42 +68,47 @@ const handleClickOutside = (event: Event) => {
 </script>
 
 <template>
-  <div v-for="(group, groupIndex) in props.contactGroups" :key="groupIndex">
-    <!--group title-->
+  <div
+    v-for="(group, groupIndex) in props.contactGroups"
+    :key="groupIndex"
+  >
+    <!-- 组标题 -->
     <p class="heading-3 text-black/70 dark:text-white/70 w-full px-5 pb-3 pt-5">
       {{ group.letter }}
     </p>
 
-    <!--contacts-->
-    <div v-for="(contact, index) in group.contacts" :key="index">
+    <!-- 每组联系人 -->
+    <div
+      v-for="(contact, index) in group.contacts"
+      :key="index"
+    >
       <div class="w-full p-5 flex justify-between items-center">
         <button
           class="transition-all duration-200 ease-out"
           :aria-label="getFullName(contact)"
         >
           <div class="flex-row">
-            <!--contact name-->
             <p class="heading-2 text-black/70 dark:text-white/70">
               {{ getFullName(contact) }}
             </p>
           </div>
         </button>
 
-        <!--dropdown menu-->
+        <!-- 下拉菜单区域 -->
         <div class="relative">
-          <!--dropdown menu button-->
           <IconButton
             :id="'open-contact-menu-' + index"
             class="open-menu w-6 h-6"
-            @click="(event) => handleToggleDropdown(event, groupIndex, index)"
-            :aria-expanded="
-              (dropdownMenuStates as boolean[][])[groupIndex][index]
-            "
+            :aria-expanded="dropdownMenuStates[groupIndex][index]"
             :aria-controls="'contact-menu-' + index"
             title="toggle contact menu"
             aria-label="toggle contact menu"
+            @click="(event) => handleToggleDropdown(event, groupIndex, index)"
           >
-            <EllipsisVerticalIcon class="open-menu h-5 w-5" tabindex="0" />
+            <EllipsisVerticalIcon
+              class="open-menu h-5 w-5"
+              tabindex="0"
+            />
           </IconButton>
 
           <Dropdown
@@ -130,7 +116,7 @@ const handleClickOutside = (event: Event) => {
             :close-dropdown="handleCloseAllMenus"
             :handle-click-outside="handleClickOutside"
             :aria-labelledby="'open-contact-menu-' + index"
-            :show="(dropdownMenuStates as boolean[][])[groupIndex][index]"
+            :show="dropdownMenuStates[groupIndex][index]"
             :position="dropdownMenuPosition"
           >
             <button

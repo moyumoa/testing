@@ -1,19 +1,25 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from "vue";
 import { twMerge } from "tailwind-merge";
 
-const props = defineProps<{
-  handleClick?: () => void;
-  label?: string;
-}>();
+const props = defineProps({
+  label: {
+    type: String,
+    required: true,
+  },
+  handleClick: {
+    type: Function,
+    required: true,
+  },
+});
 </script>
 
 <template>
   <button
     :aria-label="props.label"
-    @click.prevent="props.handleClick"
     role="menuitem"
+    @click.prevent="props.handleClick"
   >
-    <slot></slot>
+    <slot />
   </button>
 </template>

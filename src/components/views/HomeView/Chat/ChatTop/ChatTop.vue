@@ -1,10 +1,11 @@
-<script setup lang="ts">
-import type { IConversation } from "@src/types";
-
+<script setup>
+// 引入 Vue 工具
 import { inject, ref } from "vue";
 
+// 引入全局状态
 import useStore from "@src/store/store";
 
+// 引入组件
 import ConversationInfoModal from "@src/components/shared/modals/ConversationInfoModal/ConversationInfoModal.vue";
 import SearchModal from "@src/components/shared/modals/SearchModal/SearchModal.vue";
 import VoiceCallModal from "@src/components/shared/modals/VoiceCallModal/VoiceCallModal.vue";
@@ -12,34 +13,36 @@ import PinnedMessage from "@src/components/views/HomeView/Chat/ChatTop/PinnedMes
 import ConversationInfoSection from "./ConversationInfoSection.vue";
 import SelectSection from "./SelectSection.vue";
 
-const props = defineProps<{
-  selectMode: boolean;
-  selectAll: boolean;
-  handleSelectAll: () => void;
-  handleDeselectAll: () => void;
-  handleCloseSelect: () => void;
-}>();
+// 接收 props 参数
+const props = defineProps({
+  selectMode: Boolean,
+  selectAll: Boolean,
+  handleSelectAll: Function,
+  handleDeselectAll: Function,
+  handleCloseSelect: Function
+});
 
 const store = useStore();
 
-const activeConversation = <IConversation>inject("activeConversation");
+// 注入当前会话对象
+const activeConversation = inject("activeConversation");
 
+// 控制搜索和信息弹窗显隐
 const openSearch = ref(false);
-
 const openInfo = ref(false);
 
-// (event) open search modal
+// 👉 打开搜索弹窗
 const handleOpenSearch = () => {
   openSearch.value = true;
 };
 
-// (event) open info modal
+// 👉 打开会话信息弹窗
 const handleOpenInfo = () => {
   openInfo.value = true;
 };
 
-// (event) close the voice call modal and minimize the call
-const handleCloseVoiceCallModal = (endCall: boolean) => {
+// 👉 关闭语音通话弹窗并控制通话状态
+const handleCloseVoiceCallModal = (endCall) => {
   if (endCall) {
     store.activeCall = undefined;
     store.callMinimized = false;
@@ -93,7 +96,7 @@ const handleCloseVoiceCallModal = (endCall: boolean) => {
     <!--Contact info modal-->
     <ConversationInfoModal
       :open="openInfo"
-      :closeModal="() => (openInfo = false)"
+      :close-modal="() => (openInfo = false)"
       :conversation="activeConversation"
     />
 

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import cloudPatternPath from "@src/assets/images/clouds.png";
 import blurPath from "@src/assets/images/blur.png";
 </script>
@@ -28,7 +28,6 @@ import blurPath from "@src/assets/images/blur.png";
   </div>
 </template>
 
-<!-- Add this custom CSS to your project -->
 <style scoped>
 .text-gradient {
   background: -webkit-linear-gradient(left top, #de6dce, #e7ddee);

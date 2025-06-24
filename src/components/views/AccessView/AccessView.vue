@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { useRoute } from "vue-router";
 import { computed } from "vue";
 
@@ -9,12 +9,13 @@ import FadeTransition from "@src/components/ui/transitions/FadeTransition.vue";
 
 const route = useRoute();
 
-const ActiveMethod = computed((): any => {
+const ActiveMethod = computed(() => {
   if (route.params.method === "sign-up") {
     return RegisterForm;
   } else if (route.params.method === "sign-in") {
     return LoginForm;
   }
+  return null;
 });
 </script>
 

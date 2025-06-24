@@ -1,9 +1,12 @@
-<script setup lang="ts">
+<script setup>
 import { UserGroupIcon } from "@heroicons/vue/24/outline";
 
-const props = defineProps<{
-  vertical?: boolean;
-}>();
+const props = defineProps({
+  vertical: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>
 
 <template>
@@ -26,7 +29,9 @@ const props = defineProps<{
 
     <!--content-->
     <div :class="props.vertical ? [] : ['flex', 'flex-col', 'items-start']">
-      <p class="heading-2 text-black/70 dark:text-white/70 mb-3">No contacts</p>
+      <p class="heading-2 text-black/70 dark:text-white/70 mb-3">
+        No contacts
+      </p>
 
       <p class="body-2 text-black/70 dark:text-white/70 flex">
         click the plus icon to add one.

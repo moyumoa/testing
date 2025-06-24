@@ -1,8 +1,14 @@
-<script setup lang="ts">
-const props = defineProps<{
-  active: boolean;
-  name: string;
-}>();
+<script setup>
+const props = defineProps({
+  name: {
+    type: String,
+    required: true,
+  },
+  active: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>
 
 <template>
@@ -14,6 +20,8 @@ const props = defineProps<{
         : ['text-black', 'opacity-60', 'dark:text-white', 'dark:opacity-70']
     "
   >
-    <p class="body-5">{{ props.name }}</p>
+    <p class="body-5">
+      {{ props.name }}
+    </p>
   </button>
 </template>

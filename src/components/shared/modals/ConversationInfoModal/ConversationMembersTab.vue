@@ -1,7 +1,4 @@
-<script setup lang="ts">
-import type { IConversation } from "@src/types";
-import type { Ref } from "vue";
-
+<script setup>
 import { ref } from "vue";
 
 import useStore from "@src/store/store";
@@ -15,38 +12,37 @@ import Dropdown from "@src/components/ui/navigation/Dropdown/Dropdown.vue";
 import DropdownLink from "@src/components/ui/navigation/Dropdown/DropdownLink.vue";
 import ScrollBox from "@src/components/ui/utils/ScrollBox.vue";
 
-const props = defineProps<{
-  closeModal: () => void;
-  conversation: IConversation;
-}>();
+const props = defineProps({
+  closeModal: Function,
+  conversation: Object,
+});
+
+const emit = defineEmits(["active-page-change"]);
 
 const store = useStore();
 
-// html container of the contacts list
-const contactContainer: Ref<HTMLElement | undefined> = ref();
+// 联系人列表容器元素
+const contactContainer = ref();
 
-// controls the states of contact dropdown menus
-const dropdownMenuStates: Ref<boolean[] | undefined> = ref(
-  props.conversation.contacts?.map(() => false),
+// 每个联系人下拉菜单开关状态
+const dropdownMenuStates = ref(
+  props.conversation.contacts?.map(() => false)
 );
 
-// the position of the dropdown menu
+// 下拉菜单定位方向
 const dropdownMenuPosition = ref(["top-6", "right-0"]);
 
-// (event) close all dropdowns
+// 关闭所有下拉菜单
 const closeDropdowns = () => {
   dropdownMenuStates.value = props.conversation.contacts?.map(() => false);
 };
 
-// (event) open/close the dropdown menu
-const handleToggleDropdown = (event: Event, contactIndex: number) => {
-  if (contactContainer) {
-    let buttonBottom = (
-      event.currentTarget as HTMLElement
-    ).getBoundingClientRect().bottom;
-    let containerBottom = (
-      contactContainer.value as HTMLElement
-    ).getBoundingClientRect().bottom;
+// 切换某个联系人的菜单显示状态
+const handleToggleDropdown = (event, contactIndex) => {
+  if (contactContainer.value) {
+    const buttonBottom = event.currentTarget.getBoundingClientRect().bottom;
+    const containerBottom =
+      contactContainer.value.getBoundingClientRect().bottom;
 
     if (buttonBottom >= containerBottom - 50) {
       dropdownMenuPosition.value = ["bottom-6", "right-0"];
@@ -55,41 +51,40 @@ const handleToggleDropdown = (event: Event, contactIndex: number) => {
     }
   }
 
-  dropdownMenuStates.value = props.conversation.contacts?.map(
-    (value, index) => {
-      if (contactIndex === index) {
-        return true;
-      } else {
-        return false;
-      }
-    },
+  dropdownMenuStates.value = props.conversation.contacts?.map((_, index) =>
+    index === contactIndex
   );
 };
 
-// (event) close doprdown menu when clicking outside
-const handleClickOutside = (event: Event) => {
-  let target = event.target as HTMLElement;
+// 点击下拉外部时关闭菜单
+const handleClickOutside = (event) => {
+  const target = event.target;
 
   if (
     target.parentElement &&
     !target.classList.contains("open-menu") &&
-    !(target.parentElement as HTMLElement).classList.contains("open-menu")
+    !target.parentElement.classList.contains("open-menu")
   ) {
     closeDropdowns();
   }
 };
 </script>
 
+
 <template>
   <div>
     <!--header-->
     <div class="flex justify-between items-center mb-6 px-5">
-      <p id="modal-title" class="heading-1 text-black/70 dark:text-white/70">
+      <p
+        id="modal-title"
+        class="heading-1 text-black/70 dark:text-white/70"
+      >
         Members
       </p>
 
       <!--return button-->
       <IconButton
+        class="ic-btn-outlined-danger p-2"
         @click="
           $emit('active-page-change', {
             tabName: 'conversation-info',
@@ -97,7 +92,6 @@ const handleClickOutside = (event: Event) => {
             removeContact: true,
           })
         "
-        class="ic-btn-outlined-danger p-2"
       >
         <ArrowUturnLeftIcon class="w-5 h-5" />
       </IconButton>
@@ -112,7 +106,10 @@ const handleClickOutside = (event: Event) => {
     <div ref="contactContainer">
       <ScrollBox class="max-h-58 overflow-y-scroll">
         <ContactItem
+          v-for="(contact, index) in props.conversation.contacts"
+          :key="index"
           variant="card"
+          :contact="contact"
           @contact-selected="
             (contact) =>
               $emit('active-page-change', {
@@ -121,42 +118,45 @@ const handleClickOutside = (event: Event) => {
                 contact: contact,
               })
           "
-          v-for="(contact, index) in props.conversation.contacts"
-          :contact="contact"
-          :key="index"
         >
           <template
-            v-slot:tag
-            v-if="(props.conversation.admins as number[]).includes(contact.id)"
+            v-if="Array.isArray(props.conversation.admins) && props.conversation.admins.includes(contact.id)"
+            #tag
           >
             <div class="ml-3">
-              <p class="body-4 text-indigo-400">admin</p>
+              <p class="body-4 text-indigo-400">
+                admin
+              </p>
             </div>
           </template>
 
           <template
-            v-slot:menu
             v-if="
               store.user &&
-              (props.conversation.admins as number[]).includes(store.user.id) &&
-              contact.id !== store.user.id
+                Array.isArray(props.conversation.admins) &&
+                props.conversation.admins.includes(store.user.id) &&
+                contact.id !== store.user.id
             "
+            #menu
           >
             <div>
               <!--dropdown menu button-->
               <IconButton
                 title="menu"
-                @click="(event) => handleToggleDropdown(event, index)"
                 class="open-menu w-6 h-6"
+                @click="(event) => handleToggleDropdown(event, index)"
               >
-                <EllipsisVerticalIcon class="open-menu h-5 w-5" tabindex="0" />
+                <EllipsisVerticalIcon
+                  class="open-menu h-5 w-5"
+                  tabindex="0"
+                />
               </IconButton>
 
               <!--dropdown menu-->
               <Dropdown
                 :close-dropdown="closeDropdowns"
                 :handle-click-outside="handleClickOutside"
-                :show="(dropdownMenuStates as boolean[])[index]"
+                :show="dropdownMenuStates[index]"
                 :position="dropdownMenuPosition"
               >
                 <button

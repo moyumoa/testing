@@ -1,17 +1,26 @@
-<script setup lang="ts">
+<script setup>
 import Button from "@src/components/ui/inputs/Button.vue";
 import LabeledTextInput from "@src/components/ui/inputs/LabeledTextInput.vue";
 import Modal from "@src/components/ui/utils/Modal.vue";
 
-const props = defineProps<{
-  openModal: boolean;
-  closeModal: () => void;
-}>();
+const props = defineProps({
+  openModal: {
+    type: Boolean,
+    required: true,
+  },
+  closeModal: {
+    type: Function,
+    required: true,
+  },
+});
 </script>
 
 <template>
-  <Modal :open="props.openModal" :closeModal="props.closeModal">
-    <template v-slot:content>
+  <Modal
+    :open="props.openModal"
+    :close-modal="props.closeModal"
+  >
+    <template #content>
       <div class="w-75 bg-white dark:bg-gray-800 rounded py-6">
         <!--modal header-->
         <div class="flex justify-between items-center px-5">
@@ -33,7 +42,10 @@ const props = defineProps<{
 
         <!--text input-->
         <div class="px-5 pb-5 pt-6">
-          <LabeledTextInput type="text" placeholder="Email" />
+          <LabeledTextInput
+            type="text"
+            placeholder="Email"
+          />
         </div>
 
         <!--submit button-->

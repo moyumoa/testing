@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ref } from "vue";
 
 import Button from "@src/components/ui/inputs/Button.vue";
@@ -20,7 +20,7 @@ const password = ref("");
           src="@src/assets/vectors/logo-gradient.svg"
           class="w-5.5 h-4.5 mb-4 opacity-70"
           alt="bird logo"
-        />
+        >
         <p class="heading-2 text-black/70 dark:text-white/70 mb-4">
           Welcome back
         </p>
@@ -37,14 +37,10 @@ const password = ref("");
           class="mb-5"
         />
         <PasswordInput
-          @value-changed="
-            (value) => {
-              password = value;
-            }
-          "
           :value="password"
           label="Password"
           placeholder="Enter your password"
+          @value-changed="(value) => { password = value }"
         />
       </div>
 
@@ -54,21 +50,22 @@ const password = ref("");
           class="contained-primary contained-text w-full mb-4"
           link
           to="/chat/no-chat/"
-          >Sign in</Button
         >
+          Sign in
+        </Button>
       </div>
 
       <!--divider-->
       <div class="mb-6 flex items-center">
         <span
           class="w-full border border-dashed border-gray-100 dark:border-gray-600 rounded-[.0625rem]"
-        ></span>
+        />
         <p class="body-3 text-black/75 dark:text-white/70 px-4 font-light">
           or
         </p>
         <span
           class="w-full border border-dashed border-gray-100 dark:border-gray-600 rounded-[.0625rem]"
-        ></span>
+        />
       </div>
 
       <!--oauth controls-->
@@ -78,7 +75,7 @@ const password = ref("");
             src="@src/assets/vectors/google-logo.svg"
             class="mr-3"
             alt="google logo"
-          />
+          >
           Sign in with google
         </Button>
 

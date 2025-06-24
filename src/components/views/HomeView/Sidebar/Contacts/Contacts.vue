@@ -1,7 +1,5 @@
-<script setup lang="ts">
+<script setup>
 import { UserPlusIcon } from "@heroicons/vue/24/outline";
-import type { IContactGroup } from "@src/types";
-import type { Ref } from "vue";
 import { ref, watch } from "vue";
 
 import useStore from "@src/store/store";
@@ -16,39 +14,27 @@ import SidebarHeader from "@src/components/views/HomeView/Sidebar/SidebarHeader.
 
 const store = useStore();
 
-const searchText: Ref<string> = ref("");
+const searchText = ref("");
 
 const openModal = ref(false);
 
 // html element containing the contact groups
-const contactContainer: Ref<HTMLElement | null> = ref(null);
+const contactContainer = ref(null);
 
 // contact groups filtered by search text
-const filteredContactGroups: Ref<IContactGroup[] | undefined> = ref(
-  store.contactGroups,
-);
+const filteredContactGroups = ref(store.contactGroups);
 
-// update the filtered contact groups based on the search text
+// 根据搜索内容实时过滤联系人分组
 watch(searchText, () => {
   filteredContactGroups.value = store.contactGroups
     ?.map((group) => {
-      let newGroup = { ...group };
-
+      const newGroup = { ...group };
       newGroup.contacts = newGroup.contacts.filter((contact) => {
-        if (
-          contact.firstName
-            .toLowerCase()
-            .includes(searchText.value.toLowerCase())
-        )
-          return true;
-        else if (
-          contact.lastName
-            .toLowerCase()
-            .includes(searchText.value.toLowerCase())
-        )
-          return true;
+        return (
+          contact.firstName.toLowerCase().includes(searchText.value.toLowerCase()) ||
+          contact.lastName.toLowerCase().includes(searchText.value.toLowerCase())
+        );
       });
-
       return newGroup;
     })
     .filter((group) => group.contacts.length > 0);
@@ -58,55 +44,55 @@ watch(searchText, () => {
 <template>
   <div>
     <SidebarHeader>
-      <!--title-->
-      <template v-slot:title>Contacts</template>
+      <template #title>
+        Contacts
+      </template>
 
-      <!--side actions-->
-      <template v-slot:actions>
+      <template #actions>
         <IconButton
-          @click="openModal = true"
           class="ic-btn-ghost-primary w-7 h-7"
           title="add contacts"
           aria-label="add contacts"
+          @click="openModal = true"
         >
           <UserPlusIcon class="w-[1.25rem] h-[1.25rem]" />
         </IconButton>
       </template>
     </SidebarHeader>
 
-    <!--search-->
+    <!-- 搜索栏 -->
     <div class="px-5 xs:pb-6 md:pb-5">
       <SearchInput v-model="searchText" />
     </div>
 
-    <!--content-->
+    <!-- 联系人列表 -->
     <div
       ref="contactContainer"
       class="w-full h-full scroll-smooth scrollbar-hidden"
       style="overflow-x: visible; overflow-y: scroll"
     >
-      <MultipleLines
-        v-if="store.status === 'loading' || store.delayLoading"
-        v-for="item in 5"
-      />
+      <template v-if="store.status === 'loading' || store.delayLoading">
+        <MultipleLines
+          v-for="n in 5"
+          :key="n"
+        />
+      </template>
 
       <SortedContacts
         v-else-if="
           store.status === 'success' &&
-          !store.delayLoading &&
-          store.user &&
-          store.user.contacts.length > 0
+            !store.delayLoading &&
+            store.user &&
+            store.user.contacts.length > 0
         "
-        :contactGroups="filteredContactGroups"
-        :bottom-edge="
-          (contactContainer as HTMLElement)?.getBoundingClientRect().bottom
-        "
+        :contact-groups="filteredContactGroups"
+        :bottom-edge="contactContainer?.getBoundingClientRect().bottom"
       />
 
       <NoContacts v-else />
     </div>
 
-    <!--add contact modal-->
+    <!-- 添加联系人弹窗 -->
     <AddContactModal
       :open-modal="openModal"
       :close-modal="() => (openModal = false)"

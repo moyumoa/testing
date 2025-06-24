@@ -1,29 +1,28 @@
-<script setup lang="ts">
+<script setup>
 import { computed, ref } from "vue";
 
 import GroupInfo from "@src/components/shared/modals/ComposeModal/GroupTab/GroupInfo.vue";
 import GroupMembers from "@src/components/shared/modals/ComposeModal/GroupTab/GroupMembers.vue";
 import SlideTransition from "@src/components/ui/transitions/SlideTransition.vue";
 
+// 声明事件
 defineEmits(["activePageChange"]);
 
-// used to determine whether to slide left or right
+// 当前动画方向
 const animation = ref("slide-left");
 
-// name of the active modal page
+// 当前页面名称
 const activePageName = ref("group-info");
 
-// the active page component
-const ActivePage = computed((): any => {
+// 当前激活组件
+const ActivePage = computed(() => {
   if (activePageName.value === "group-info") return GroupInfo;
-  else if (activePageName.value === "group-members") return GroupMembers;
+  if (activePageName.value === "group-members") return GroupMembers;
+  return null;
 });
 
-// (event) to move between modal pages
-const handleChangeActiveTab = (event: {
-  tabName: string;
-  animationName: string;
-}) => {
+// 处理页面切换
+const handleChangeActiveTab = (event) => {
   animation.value = event.animationName;
   activePageName.value = event.tabName;
 };
@@ -35,9 +34,9 @@ const handleChangeActiveTab = (event: {
     <div class="overflow-x-hidden">
       <SlideTransition :animation="animation">
         <component
-          @active-page-change="handleChangeActiveTab"
           :is="ActivePage"
           :key="activePageName"
+          @active-page-change="handleChangeActiveTab"
         />
       </SlideTransition>
     </div>

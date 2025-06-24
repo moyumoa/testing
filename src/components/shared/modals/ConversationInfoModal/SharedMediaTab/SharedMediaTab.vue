@@ -1,5 +1,4 @@
-<script setup lang="ts">
-import type { IContact, IConversation, IMessage } from "@src/types";
+<script setup>
 import { computed } from "vue";
 
 import { hasAttachments } from "@src/utils";
@@ -11,15 +10,19 @@ import NoMedia from "@src/components/states/empty-states/NoMedia.vue";
 import ScrollBox from "@src/components/ui/utils/ScrollBox.vue";
 import IconButton from "@src/components/ui/inputs/IconButton.vue";
 
-const props = defineProps<{
-  closeModal: () => void;
-  conversation: IConversation;
-  contact?: IContact;
-}>();
+// 定义 props
+const props = defineProps({
+  closeModal: Function,
+  conversation: Object,
+  contact: Object,
+});
 
-// extract messages that contain attachments.
+// 声明 emits
+const emit = defineEmits(['active-page-change']);
+
+// 提取包含附件的消息
 const attachmentMessages = computed(() => {
-  let media: IMessage[] = [];
+  let media = [];
   for (let message of props.conversation.messages) {
     if (hasAttachments(message)) {
       if (props.contact) {
@@ -49,13 +52,13 @@ const attachmentMessages = computed(() => {
 
       <!--return button-->
       <IconButton
+        class="ic-btn-outlined-danger p-2"
         @click="
           $emit('active-page-change', {
             tabName: 'conversation-info',
             animationName: 'slide-right',
           })
         "
-        class="ic-btn-outlined-danger p-2"
       >
         <ArrowUturnLeftIcon class="w-5 h-5" />
       </IconButton>
@@ -67,21 +70,25 @@ const attachmentMessages = computed(() => {
     </div>
 
     <!--media messages-->
-    <ScrollBox class="overflow-y-scroll max-h-55.5">
+    <ScrollBox
+      v-if="attachmentMessages.length > 0"
+      class="overflow-y-scroll max-h-55.5"
+    >
       <div
-        v-if="attachmentMessages.length > 0"
         v-for="(message, index) in attachmentMessages"
         :key="index"
       >
         <MediaItem
-          v-for="(attachment, index) in message.attachments"
+          v-for="(attachment, attIndex) in message.attachments"
+          :key="attIndex"
           :attachment="attachment"
           :date="message.date"
-          :key="index"
         />
       </div>
-
-      <NoMedia v-else vertical />
     </ScrollBox>
+    <NoMedia
+      v-else
+      vertical
+    />
   </div>
 </template>

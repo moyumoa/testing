@@ -1,44 +1,50 @@
-<script setup lang="ts">
+// 📌 已转换为 JavaScript，去除类型标注并添加中文注释
+<script setup>
 import { ArchiveBoxIcon, XMarkIcon } from "@heroicons/vue/24/outline";
 import useStore from "@src/store/store";
 
-const props = defineProps<{
-  open: boolean;
-}>();
+// 接收 props
+const props = defineProps({
+  open: Boolean,
+});
 
 const store = useStore();
 </script>
 
 <template>
   <div>
+    <!-- 切换归档按钮 -->
     <button
       :aria-label="'toggle archived conversations'"
       class="group w-full h-23 px-5 py-6 mb-3 flex rounded focus:outline-none transition duration-300 ease-out"
       :class="
         props.open
           ? [
-              'bg-red-300',
-              'hover:bg-red-400',
-              'focus:bg-red-400',
-              'active:bg-red-400',
-              'dark:bg-red-400',
-              'dark:hover:bg-red-300',
-              'dark:focus:bg-red-300',
-              'dark:active:bg-red-300',
-            ]
+            'bg-red-300',
+            'hover:bg-red-400',
+            'focus:bg-red-400',
+            'active:bg-red-400',
+            'dark:bg-red-400',
+            'dark:hover:bg-red-300',
+            'dark:focus:bg-red-300',
+            'dark:active:bg-red-300',
+          ]
           : [
-              'focus:bg-indigo-50',
-              'dark:active:bg-gray-600',
-              'dark:focus:bg-gray-600',
-              'dark:hover:bg-gray-600',
-              ' hover:bg-indigo-50',
-              'active:bg-indigo-100',
-            ]
+            'focus:bg-indigo-50',
+            'dark:active:bg-gray-600',
+            'dark:focus:bg-gray-600',
+            'dark:hover:bg-gray-600',
+            ' hover:bg-indigo-50',
+            'active:bg-indigo-100',
+          ]
       "
       tabindex="0"
     >
-      <!--archived icon-->
-      <div class="mr-4" :class="{ hidden: props.open }">
+      <!-- 未展开时显示图标 -->
+      <div
+        class="mr-4"
+        :class="{ hidden: props.open }"
+      >
         <div
           class="w-7 h-7 flex justify-center items-center rounded-full bg-gray-50 dark:bg-gray-500 transition duration-500"
         >
@@ -48,7 +54,7 @@ const store = useStore();
         </div>
       </div>
 
-      <!--close archive button-->
+      <!-- 展开时显示关闭图标 -->
       <div
         class="w-full h-full flex justify-center items-center"
         :class="{ hidden: !props.open }"
@@ -58,11 +64,11 @@ const store = useStore();
           :class="
             props.open
               ? [
-                  'text-white',
-                  'dark:text-white',
-                  'group-hover:text-white',
-                  'group-focus:text-white',
-                ]
+                'text-white',
+                'dark:text-white',
+                'group-hover:text-white',
+                'group-focus:text-white',
+              ]
               : []
           "
         />
@@ -74,9 +80,13 @@ const store = useStore();
         </p>
       </div>
 
-      <div class="w-full flex flex-col" :class="{ hidden: props.open }">
+      <!-- 未展开时显示归档会话信息 -->
+      <div
+        class="w-full flex flex-col"
+        :class="{ hidden: props.open }"
+      >
         <div class="w-full">
-          <!--title-->
+          <!--标题-->
           <div class="flex items-start">
             <div class="grow mb-4 text-start">
               <p class="heading-2 text-black/70 dark:text-white/70">
@@ -87,7 +97,7 @@ const store = useStore();
         </div>
 
         <div>
-          <!--number of conversations -->
+          <!--归档会话数量 -->
           <p
             class="body-2 text-black/70 dark:text-white/70 flex justify-start items-center"
           >

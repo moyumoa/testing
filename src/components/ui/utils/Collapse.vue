@@ -1,20 +1,21 @@
-<script setup lang="ts">
+<script setup>
 import CollapseTransition from "@src/components/ui/transitions/CollapseTransition.vue";
 
-const props = defineProps<{
-  collapsed: boolean;
-}>();
+// 定义 props（无类型约束）
+const props = defineProps({
+  collapsed: Boolean,
+});
 </script>
 
 <template>
-  <!--collapsed region-->
+  <!--折叠区域-->
   <CollapseTransition>
     <div
       v-if="!props.collapsed"
       class="w-full flex flex-col px-5"
       :aria-hidden="props.collapsed"
     >
-      <slot></slot>
+      <slot />
     </div>
   </CollapseTransition>
 </template>

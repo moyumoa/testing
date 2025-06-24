@@ -1,21 +1,23 @@
-<script setup lang="ts">
+<script setup>
 import { RouterLink } from "vue-router";
 
-const props = defineProps<{
-  loading?: boolean;
-  link?: boolean;
-  typography?: string;
-}>();
+const emit = defineEmits(["button-clicked"]);
+
+const props = defineProps({
+  loading: Boolean,
+  link: Boolean,
+  typography: String,
+});
 </script>
 
 <template>
   <component
-    :is="link ? RouterLink : 'button'"
-    @click="$emit('button-clicked', $event)"
+    :is="props.link ? RouterLink : 'button'"
     tabindex="0"
     class="group btn"
+    @click="(e) => emit('button-clicked', e)"
   >
-    <!--loading icon-->
+    <!-- loading icon -->
     <svg
       v-if="props.loading"
       :class="{ 'animate-spin': props.loading }"
@@ -31,20 +33,22 @@ const props = defineProps<{
         r="10"
         stroke="currentColor"
         stroke-width="4"
-      ></circle>
+      />
       <path
         class="opacity-75"
         fill="currentColor"
         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 01412H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-      ></path>
+      />
     </svg>
 
-    <!--loading text-->
-    <template v-if="props.loading"> Processing </template>
+    <!-- loading text -->
+    <template v-if="props.loading">
+      Processing
+    </template>
 
-    <!--text-->
+    <!-- default slot -->
     <template v-else>
-      <slot></slot>
+      <slot />
     </template>
   </component>
 </template>

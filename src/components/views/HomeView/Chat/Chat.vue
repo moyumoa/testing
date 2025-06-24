@@ -1,10 +1,10 @@
-<script setup lang="ts">
-import type { Ref } from "vue";
+<script setup>
+import { ref, computed, provide } from "vue";
 
 import useStore from "@src/store/store";
-import { computed, provide, ref } from "vue";
-
 import { getActiveConversationId } from "@src/utils";
+import { useRoute } from 'vue-router'
+const route = useRoute()
 
 import NoChatSelected from "@src/components/states/empty-states/NoChatSelected.vue";
 import Spinner from "@src/components/states/loading-states/Spinner.vue";
@@ -14,35 +14,28 @@ import ChatTop from "@src/components/views/HomeView/Chat/ChatTop/ChatTop.vue";
 
 const store = useStore();
 
-// search the selected conversation using activeConversationId.
+// 🔍 当前活跃会话
 const activeConversation = computed(() => {
-  let activeConversation = store.conversations.find(
-    (conversation) => conversation.id === getActiveConversationId(),
-  );
+  const activeId = getActiveConversationId(route);
 
-  if (activeConversation) {
-    return activeConversation;
-  } else {
-    return store.archivedConversations.find(
-      (conversation) => conversation.id === getActiveConversationId(),
-    );
-  }
+  return (
+    store.conversations.find((c) => c.id === activeId) ||
+    store.archivedConversations.find((c) => c.id === activeId)
+  );
 });
 
-// provide the active conversation to all children.
+// 🌐 提供当前会话供子组件使用
 provide("activeConversation", activeConversation.value);
 
-// determines whether select mode is enabled.
+// 🛠️ 选择模式
 const selectMode = ref(false);
-
-// determines whether all the messages are selected or not.
+// ✅ 是否全选
 const selectAll = ref(false);
+// 📌 当前选中的消息 ID 列表
+const selectedMessages = ref([]);
 
-// holds the selected conversations.
-const selectedMessages: Ref<number[]> = ref([]);
-
-// (event) add message to select messages.
-const handleSelectMessage = (messageId: number) => {
+// ➕ 添加一条选中的消息
+const handleSelectMessage = (messageId) => {
   selectedMessages.value.push(messageId);
 
   if (
@@ -57,40 +50,35 @@ const handleSelectMessage = (messageId: number) => {
   }
 };
 
-// (event) remove message from select messages.
-const handleDeselectMessage = (messageId: number) => {
+// ➖ 取消选中一条消息
+const handleDeselectMessage = (messageId) => {
   selectAll.value = false;
-  selectedMessages.value = selectedMessages.value.filter(
-    (item) => item !== messageId,
-  );
+  selectedMessages.value = selectedMessages.value.filter((id) => id !== messageId);
 
   if (activeConversation.value && selectedMessages.value.length === 0) {
     selectMode.value = false;
   }
 };
 
-// (event) select all messages.
+// ✅ 全选所有消息
 const handleSelectAll = () => {
   if (activeConversation.value) {
-    const messages = activeConversation.value.messages.map(
-      (message) => message.id,
-    );
-    selectedMessages.value = messages;
+    selectedMessages.value = activeConversation.value.messages.map((m) => m.id);
     selectAll.value = true;
   }
 };
 
-// (event) remove the selected messages.
+// ❌ 取消全部选中
 const handleDeselectAll = () => {
-  selectAll.value = false;
   selectedMessages.value = [];
+  selectAll.value = false;
 };
 
-// (event handle close Select)
+// ❎ 退出选择模式
 const handleCloseSelect = () => {
-  selectMode.value = false;
-  selectAll.value = false;
   selectedMessages.value = [];
+  selectAll.value = false;
+  selectMode.value = false;
 };
 </script>
 
@@ -98,7 +86,7 @@ const handleCloseSelect = () => {
   <Spinner v-if="store.status === 'loading' || store.delayLoading" />
 
   <div
-    v-else-if="getActiveConversationId() && activeConversation"
+    v-else-if="getActiveConversationId(route) && activeConversation"
     class="h-full flex flex-col scrollbar-hidden"
   >
     <ChatTop
@@ -118,3 +106,4 @@ const handleCloseSelect = () => {
 
   <NoChatSelected v-else />
 </template>
+

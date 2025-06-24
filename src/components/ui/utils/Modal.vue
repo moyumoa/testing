@@ -1,58 +1,51 @@
-<script setup lang="ts">
-import type { Ref } from "vue";
-
+<script setup>
 import { useFocusTrap } from "@vueuse/integrations/useFocusTrap";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 
 import SlideTransition from "@src/components/ui/transitions/SlideTransition.vue";
 
-const props = defineProps<{
-  open: boolean;
-  closeModal: () => void;
-}>();
+// 组件 props
+const props = defineProps({
+  open: Boolean,
+  closeModal: Function,
+});
 
-const modal: Ref<HTMLElement | undefined> = ref();
+const modal = ref();
 
 const { activate, deactivate } = useFocusTrap(modal);
 
-// (event) close modal when clicking outside
-const closeOnClick = (event: Event) => {
-  if ((event.target as HTMLDivElement).id === "close-modal") {
+// 点击遮罩关闭
+const closeOnClick = (event) => {
+  if (event.target.id === "close-modal") {
     props.closeModal();
   }
 };
 
-// (event) close modal when typing esc button
-const handleCloseOnEscape = (event: KeyboardEvent) => {
+// 按下 ESC 键关闭
+const handleCloseOnEscape = (event) => {
   if (["Escape", "Esc"].includes(event.key)) {
     props.closeModal();
   }
 };
 
-// set the handleCloseOnEscape when mounting the component
+// 添加 / 移除全局监听
 onMounted(() => {
   document.addEventListener("keydown", handleCloseOnEscape);
 });
-
 onUnmounted(() => {
   document.removeEventListener("keydown", handleCloseOnEscape);
-  // remove the event when un-mounting the component
 });
 
-// toggle focus when the modal opens
+// 弹窗 focus trap 控制
 watch(
   () => props.open,
   () => {
     if (props.open) {
-      setTimeout(() => {
-        activate();
-      }, 500);
+      setTimeout(() => activate(), 500);
     } else {
-      setTimeout(() => {
-        deactivate();
-      }, 200);
+      setTimeout(() => deactivate(), 200);
     }
-  },
+  }
 );
 </script>
 
@@ -64,28 +57,28 @@ watch(
     aria-labelledby="modal-title"
     aria-modal="true"
   >
-    <!--overlay-->
+    <!--遮罩层-->
     <Transition name="fade">
       <div
         v-show="props.open"
         class="fixed inset-0 bg-black/60 transition-opacity"
-      ></div>
+      />
     </Transition>
 
-    <!--modal-->
+    <!--模态框内容-->
     <SlideTransition animation="slide-down">
       <div
         v-show="props.open"
         class="fixed inset-0 z-10 h-full overflow-y-auto"
       >
         <div
-          ref="modal"
-          @click="closeOnClick"
           id="close-modal"
+          ref="modal"
           class="h-full flex items-center justify-center p-4 text-center sm:items-center sm:p-0"
+          @click="closeOnClick"
         >
-          <!--content-->
-          <slot name="content"></slot>
+          <!-- 插槽内容 -->
+          <slot name="content" />
         </div>
       </div>
     </SlideTransition>

@@ -1,9 +1,12 @@
-<script setup lang="ts">
+<script setup>
 import { InboxIcon } from "@heroicons/vue/24/outline";
 
-const props = defineProps<{
-  vertical?: boolean;
-}>();
+const props = defineProps({
+  vertical: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>
 
 <template>

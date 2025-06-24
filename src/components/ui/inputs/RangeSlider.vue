@@ -1,31 +1,34 @@
-<script setup lang="ts">
-import type { Ref } from "vue";
-import { ref } from "vue";
+<script setup>
+// 引入 vue 组合式 API
+import { ref } from 'vue'
 
-const emit = defineEmits(["valueChanged"]);
+// 声明事件发射器
+const emit = defineEmits(['valueChanged'])
 
-const props = defineProps<{
-  self?: boolean;
-  initialValue?: number;
-  percentage?: number;
-}>();
+// 定义 props（不带类型）
+const props = defineProps({
+  self: Boolean,
+  initialValue: Number,
+  percentage: Number,
+})
 
-const input: Ref<any> = ref(null);
+// ref 绑定输入框元素
+const input = ref(null)
 
-// (event) handle changing the value of the slider
-const handleValueChange = (event: any) => {
-  emit("valueChanged", event.target.value);
-};
+// 处理滑块值变化事件
+const handleValueChange = (event) => {
+  emit('valueChanged', event.target.value)
+}
 </script>
 
 <template>
   <input
+    ref="input"
     min="0"
     max="100"
-    ref="input"
     type="range"
     class="slider accent-indigo-500"
     :value="props.percentage"
     @input="handleValueChange"
-  />
+  >
 </template>

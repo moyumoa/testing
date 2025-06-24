@@ -1,7 +1,4 @@
-<script setup lang="ts">
-import type { Ref } from "vue";
-import type { IEmoji } from "@src/types";
-
+<script setup>
 import { watch, ref, onMounted } from "vue";
 import useStore from "@src/store/store";
 import { unicodeToEmoji } from "@src/utils";
@@ -10,79 +7,59 @@ import emojis from "@src/components/ui/inputs/EmojiPicker/emojis.json";
 import ScrollBox from "@src/components/ui/utils/ScrollBox.vue";
 import IconButton from "@src/components/ui/inputs/IconButton.vue";
 
-interface IEmojiGroups {
-  people: IEmoji[];
-  nature: IEmoji[];
-  food: IEmoji[];
-  activity: IEmoji[];
-  travel: IEmoji[];
-  objects: IEmoji[];
-  symbols: IEmoji[];
-  flags: IEmoji[];
-}
-
-type EmojiGroupNames =
-  | "people"
-  | "nature"
-  | "food"
-  | "activity"
-  | "objects"
-  | "travel"
-  | "flags";
-
-const props = defineProps<{
-  keyword: string;
-  activeTab: string;
-}>();
+const props = defineProps({
+  keyword: String,
+  activeTab: String,
+});
 
 const store = useStore();
 
-// emojis filtered by skin tone and keyword
-const filteredEmojis: Ref<IEmojiGroups> = ref(emojis);
+// 按关键字和肤色过滤后的 emoji 数据
+const filteredEmojis = ref(emojis);
 
-// Search for the emojis.
+// 搜索匹配 emoji
 const filterEmojis = () => {
-  const _emojiGroups = {} as IEmojiGroups;
+  const _emojiGroups = {};
 
-  // search emojis
   Object.keys(emojis).forEach((key) => {
-    const _emojis: IEmoji[] = [];
+    const _emojis = [];
+
     if (key === props.activeTab) {
-      (emojis as IEmojiGroups)[key as EmojiGroupNames].forEach((emoji) => {
-        // if search key match
-        if (emoji["n"][0].includes(props.keyword.toLocaleLowerCase())) {
+      emojis[key].forEach((emoji) => {
+        if (emoji.n[0].includes(props.keyword.toLowerCase())) {
           let result = emoji.u;
-          // check skin tone
+
           if (store.emojiSkinTone !== "neutral" && Array.isArray(emoji.v)) {
-            const v_index =
-              emoji.v?.findIndex((v) => v.includes(store.emojiSkinTone)) || -1;
-            if (v_index !== -1 && emoji.v) {
-              // @ts-ignore
-              result = emoji.v[v_index];
+            const index = emoji.v.findIndex((v) =>
+              v.includes(store.emojiSkinTone)
+            );
+            if (index !== -1) {
+              result = emoji.v[index];
             }
           }
-          return _emojis.push({ ...emoji, r: result });
+
+          _emojis.push({ ...emoji, r: result });
         }
       });
 
-      // save filtered group to _emojiGroups
       if (_emojis.length) {
-        _emojiGroups[key as EmojiGroupNames] = _emojis;
+        _emojiGroups[key] = _emojis;
       }
     }
   });
+
   return _emojiGroups;
 };
 
-// (watcher) change the filtered emojis when the search keyword change
+// 监听搜索关键字、Tab 和肤色变化
 watch(
   () => [props.keyword, props.activeTab, store.emojiSkinTone],
-  async () => {
+  () => {
     filteredEmojis.value = filterEmojis();
-  },
+  }
 );
 
-// when mounting the component filter the emojis
+// 初始化时执行一次过滤
 onMounted(() => {
   filteredEmojis.value = filterEmojis();
 });
@@ -90,16 +67,19 @@ onMounted(() => {
 
 <template>
   <ScrollBox class="w-full max-h-68.5 overflow-y-scroll">
-    <div v-for="[name, group] in Object.entries(filteredEmojis)" class="mb-6">
-      <!--Group title-->
-      <p
-        class="heading-2 text-black/70 dark:text-white/70 mb-4 dark:text-white"
-      >
+    <div
+      v-for="[name, group] in Object.entries(filteredEmojis)"
+      :key="name"
+      class="mb-6"
+    >
+      <p class="heading-2 text-black/70 dark:text-white/70 mb-4">
         {{ name }}
       </p>
       <div class="flex flex-wrap justify-start">
-        <!--Emojis-->
-        <div v-for="emoji in group">
+        <div
+          v-for="emoji in group"
+          :key="emoji.r"
+        >
           <IconButton
             v-if="emoji && emoji.r"
             class="ic-btn-ghost-gray w-7.5 h-7.5 mr-1"

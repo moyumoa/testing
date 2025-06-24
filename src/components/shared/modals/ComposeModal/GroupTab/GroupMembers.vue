@@ -1,10 +1,8 @@
-<script setup lang="ts">
-import type { Ref } from "vue";
-import type { IContact } from "@src/types";
-
+<script setup>
 import { ref } from "vue";
-
 import useStore from "@src/store/store";
+
+const emit = defineEmits(["active-page-change"]);
 
 import Circle2Lines from "@src/components/states/loading-states/Circle2Lines.vue";
 import SearchInput from "@src/components/ui/inputs/SearchInput.vue";
@@ -13,29 +11,25 @@ import Button from "@src/components/ui/inputs/Button.vue";
 import Checkbox from "@src/components/ui/inputs/Checkbox.vue";
 import ScrollBox from "@src/components/ui/utils/ScrollBox.vue";
 
+// 使用全局状态
 const store = useStore();
 
-// a list of contacts selected to make a call
-const selectedContacts: Ref<IContact[]> = ref([]);
+// 已选联系人列表
+const selectedContacts = ref([]);
 
-// checks whether a contact is selected or not
-const isContactSelected = (contact: IContact) => {
+// 检查是否已选中某联系人
+const isContactSelected = (contact) => {
   if (contact) {
-    return Boolean(
-      selectedContacts.value.find((item) => item.id === contact.id),
-    );
-  } else {
-    return false;
+    return selectedContacts.value.some((item) => item.id === contact.id);
   }
+  return false;
 };
 
-// (event) change the value of selected contacts
-const handleSelectedContactsChange = (contact: IContact) => {
-  let contactIndex = selectedContacts.value.findIndex(
-    (item) => item.id === contact.id,
-  );
-  if (contactIndex !== -1) {
-    selectedContacts.value.splice(contactIndex, 1);
+// 切换联系人选中状态
+const handleSelectedContactsChange = (contact) => {
+  const index = selectedContacts.value.findIndex((item) => item.id === contact.id);
+  if (index !== -1) {
+    selectedContacts.value.splice(index, 1);
   } else {
     selectedContacts.value.push(contact);
   }
@@ -44,49 +38,68 @@ const handleSelectedContactsChange = (contact: IContact) => {
 
 <template>
   <div>
-    <!--search-->
+    <!--搜索框-->
     <div class="mx-5 mt-3 mb-5">
       <SearchInput />
     </div>
 
-    <!--contacts-->
-    <ScrollBox class="overflow-y-scroll max-h-50 mb-5">
-      <ContactItem
-        v-if="store.status === 'success' && !store.delayLoading && store.user"
+    <!--联系人列表-->
+    <ScrollBox
+      v-if="store.status === 'success' && !store.delayLoading && store.user"
+      class="overflow-y-scroll max-h-50 mb-5"
+    >
+      <div
         v-for="(contact, index) in store.user.contacts"
-        @click="handleSelectedContactsChange(contact)"
-        :contact="contact"
-        :active="isContactSelected(contact)"
         :key="index"
       >
-        <template v-slot:checkbox>
-          <Checkbox :value="isContactSelected(contact)" />
-        </template>
-      </ContactItem>
-
+        <ContactItem
+          :contact="contact"
+          :active="isContactSelected(contact)"
+          @click="handleSelectedContactsChange(contact)"
+        >
+          <template #checkbox>
+            <Checkbox :value="isContactSelected(contact)" />
+          </template>
+        </ContactItem>
+      </div>
+    </ScrollBox>
+    <ScrollBox
+      v-else-if="store.status === 'loading' || store.delayLoading"
+      class="overflow-y-scroll max-h-50 mb-5"
+    >
       <Circle2Lines
-        v-if="store.status === 'loading' || store.delayLoading"
         v-for="item in 3"
+        :key="'loading-' + item"
       />
     </ScrollBox>
+    <ScrollBox
+      v-else
+      class="overflow-y-scroll max-h-50 mb-5"
+    />
 
+    <!--底部操作按钮-->
     <div class="flex px-5 mt-5 pb-6">
-      <div class="grow"></div>
-      <!--previous button-->
+      <div class="grow" />
+
+      <!--返回按钮-->
       <Button
+        class="ghost-primary ghost-text mr-4"
         @click="
           $emit('active-page-change', {
             tabName: 'group-info',
             animationName: 'slide-right',
           })
         "
-        class="ghost-primary ghost-text mr-4"
       >
-        <p class="body-5">Previous</p>
+        <p class="body-5">
+          Previous
+        </p>
       </Button>
 
-      <!--next button-->
-      <Button class="contained-primary contained-text"> Finish </Button>
+      <!--完成按钮-->
+      <Button class="contained-primary contained-text">
+        Finish
+      </Button>
     </div>
   </div>
 </template>

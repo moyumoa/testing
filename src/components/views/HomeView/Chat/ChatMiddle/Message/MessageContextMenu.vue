@@ -1,10 +1,11 @@
-<script setup lang="ts">
-import type { IConversation, IMessage } from "@src/types";
+<script setup>
+// 导入类型相关内容已移除（JS不需要）
 import { inject } from "vue";
 
 import useStore from "@src/store/store";
 import { getConversationIndex } from "@src/utils";
 
+// 图标组件
 import {
   ArrowUturnLeftIcon,
   BookmarkSquareIcon,
@@ -13,77 +14,66 @@ import {
   XCircleIcon,
   ClipboardDocumentIcon,
 } from "@heroicons/vue/24/outline";
+
+// 自定义组件
 import Dropdown from "@src/components/ui/navigation/Dropdown/Dropdown.vue";
-import DropdownLink from "@src/components/ui/navigation/Dropdown/DropdownLink.vue";
 
-const props = defineProps<{
-  message: IMessage;
-  show: boolean;
-  left: number;
-  top: number;
-  selected: boolean;
-  handleCloseContextMenu: () => void;
-  handleSelectMessage: (messageId: number) => void;
-  handleDeselectMessage: (messageId: number) => void;
-}>();
+// 接收 props 参数
+const props = defineProps({
+  message: Object,
+  show: Boolean,
+  left: Number,
+  top: Number,
+  selected: Boolean,
+  handleCloseContextMenu: Function,
+  handleSelectMessage: Function,
+  handleDeselectMessage: Function,
+});
 
+// 获取全局 store
 const store = useStore();
 
-const activeConversation = <IConversation>inject("activeConversation");
+// 注入当前激活的会话
+const activeConversation = inject("activeConversation");
 
-// (event) pin message to conversation
+// 🧷 设为置顶消息
 const handlePinMessage = () => {
   props.handleCloseContextMenu();
 
   if (activeConversation) {
-    // get the active conversation index in the state store
-    let activeConversationIndex = getConversationIndex(activeConversation.id);
+    const index = getConversationIndex(activeConversation.id);
 
-    if (
-      store.conversations &&
-      activeConversationIndex !== undefined &&
-      activeConversationIndex !== null
-    ) {
-      // update the conversation in the state store
-      store.conversations[activeConversationIndex].pinnedMessage =
-        props.message;
-      store.conversations[activeConversationIndex].pinnedMessageHidden = false;
+    if (store.conversations && index !== undefined && index !== null) {
+      store.conversations[index].pinnedMessage = props.message;
+      store.conversations[index].pinnedMessageHidden = false;
     }
   }
 };
 
-// (event) select the reply message.
+// 💬 设置回复消息
 const handleReplyToMessage = () => {
   props.handleCloseContextMenu();
 
   if (activeConversation) {
-    // get the active conversation index in the state store
-    let activeConversationIndex = getConversationIndex(activeConversation.id);
+    const index = getConversationIndex(activeConversation.id);
 
-    if (
-      store.conversations &&
-      activeConversationIndex !== undefined &&
-      activeConversationIndex !== null
-    ) {
-      // update the conversation in the state store
-      store.conversations[activeConversationIndex].replyMessage = props.message;
+    if (store.conversations && index !== undefined && index !== null) {
+      store.conversations[index].replyMessage = props.message;
     }
   }
 };
 </script>
 
 <template>
-  <!--custom context menu-->
+  <!-- 自定义右键菜单 -->
   <Dropdown
     :close-dropdown="handleCloseContextMenu"
     :handle-click-outside="handleCloseContextMenu"
     :show="show"
-    :coordinates="{
-      left: props.left + 'px',
-      top: props.top + 'px',
-    }"
+    :coordinates="{ left: props.left + 'px', top: props.top + 'px' }"
     :position="['top-0']"
   >
+    <!-- 回复消息 -->
     <button
       class="dropdown-link dropdown-link-primary"
       role="menuitem"
@@ -94,6 +84,7 @@ const handleReplyToMessage = () => {
       Reply
     </button>
 
+    <!-- 复制消息 -->
     <button
       class="dropdown-link dropdown-link-primary"
       role="menuitem"
@@ -104,6 +95,7 @@ const handleReplyToMessage = () => {
       Copy
     </button>
 
+    <!-- 置顶消息 -->
     <button
       class="dropdown-link dropdown-link-primary"
       role="menuitem"
@@ -114,6 +106,7 @@ const handleReplyToMessage = () => {
       Pin
     </button>
 
+    <!-- 选择 / 取消选择 -->
     <button
       v-if="props.selected"
       class="dropdown-link dropdown-link-primary"
@@ -146,6 +139,7 @@ const handleReplyToMessage = () => {
       Select
     </button>
 
+    <!-- 删除消息 -->
     <button
       class="dropdown-link dropdown-link-danger"
       role="menuitem"

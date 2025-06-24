@@ -1,18 +1,22 @@
-<script setup lang="ts">
+<script setup>
 import { ChevronRightIcon } from "@heroicons/vue/24/outline";
 
-const props = defineProps<{
-  collapsed: boolean;
-  chevron?: boolean;
-}>();
+const props = defineProps({
+  collapsed: Boolean,
+  chevron: Boolean,
+});
 </script>
+
 
 <template>
   <!--accordion toggle button-->
-  <button role="listitem" :aria-expanded="!props.collapsed">
+  <button
+    role="listitem"
+    :aria-expanded="!props.collapsed"
+  >
     <!--title-->
     <div class="grow text-start">
-      <slot></slot>
+      <slot />
     </div>
     <!--dropdown button icon-->
     <ChevronRightIcon

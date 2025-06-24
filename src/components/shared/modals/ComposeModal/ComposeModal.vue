@@ -1,6 +1,4 @@
-<script setup lang="ts">
-import type { Ref } from "vue";
-
+<script setup>
 import { computed, ref } from "vue";
 
 import ContactsTab from "@src/components/shared/modals/ComposeModal/ContactsTab.vue";
@@ -11,50 +9,50 @@ import Modal from "@src/components/ui/utils/Modal.vue";
 import Tabs from "@src/components/ui/navigation/Tabs/Tabs.vue";
 import Tab from "@src/components/ui/navigation/Tabs/Tab.vue";
 
-const props = defineProps<{
-  open: boolean;
-  closeModal: () => void;
-}>();
+// props 定义（无类型）
+const props = defineProps({
+  open: Boolean,
+  closeModal: Function,
+});
 
-// the p element containing the modal title
-const modalTitle: Ref<HTMLElement | null> = ref(null);
+// modal 标题引用
+const modalTitle = ref(null);
 
-// the name of the selected tab
+// 当前激活的 Tab 名称
 const activeTabName = ref("contacts");
 
-// (event) switch between the contacts and group tabs
-const handleSwitchTab = (tabName: string) => {
+// 切换 Tab
+const handleSwitchTab = (tabName) => {
   activeTabName.value = tabName;
 };
 
-// the active tab contacts or group.
+// 当前激活的组件
 const activeTab = computed(() => {
-  if (activeTabName.value === "contacts") {
-    return ContactsTab;
-  } else {
-    return GroupTab;
-  }
+  return activeTabName.value === "contacts" ? ContactsTab : GroupTab;
 });
 </script>
 
 <template>
-  <Modal :open="props.open" :close-modal="props.closeModal">
-    <template v-slot:content>
+  <Modal
+    :open="props.open"
+    :close-modal="props.closeModal"
+  >
+    <template #content>
       <div class="w-75 bg-white dark:bg-gray-800 rounded pt-6">
         <!--header-->
         <div class="flex justify-between items-center mb-6 px-5">
           <p
             id="modal-title"
-            class="heading-1 text-black/70 dark:text-white/70"
             ref="modalTitle"
+            class="heading-1 text-black/70 dark:text-white/70"
             tabindex="0"
           >
             Compose
           </p>
 
           <Button
-            @click="props.closeModal"
             class="outlined-danger ghost-text py-2 px-4"
+            @click="props.closeModal"
           >
             esc
           </Button>
@@ -64,14 +62,14 @@ const activeTab = computed(() => {
         <div class="px-5 pb-5">
           <Tabs>
             <Tab
-              @click="handleSwitchTab('contacts')"
               name="Contact"
               :active="activeTabName === 'contacts'"
+              @click="handleSwitchTab('contacts')"
             />
             <Tab
-              @click="handleSwitchTab('group')"
               name="Group"
               :active="activeTabName === 'group'"
+              @click="handleSwitchTab('group')"
             />
           </Tabs>
         </div>

@@ -1,6 +1,4 @@
-<script setup lang="ts">
-import type { IContact, IConversation } from "@src/types";
-
+<script setup>
 import { computed, ref } from "vue";
 
 import { getAvatar, getName, getOddContact } from "@src/utils";
@@ -16,19 +14,24 @@ import {
   UserIcon,
 } from "@heroicons/vue/24/outline";
 import { ArrowUturnLeftIcon } from "@heroicons/vue/24/solid";
+
 import IconAndText from "@src/components/shared/blocks/IconAndText.vue";
 import ImageViewer from "@src/components/shared/modals/ConversationInfoModal/ConversationInfoTab/ImageViewer.vue";
 import Button from "@src/components/ui/inputs/Button.vue";
 import IconButton from "@src/components/ui/inputs/IconButton.vue";
 
-const props = defineProps<{
-  conversation: IConversation;
-  contact?: IContact;
-  closeModal: () => void;
-}>();
+// JS 版 props 定义
+const props = defineProps({
+  conversation: Object,
+  contact: Object,
+  closeModal: Function,
+});
+
+const emit = defineEmits(["active-page-change"]);
 
 const openImageViewer = ref(false);
 
+// 头像计算逻辑
 const imageUrl = computed(() => {
   if (props.contact) {
     return props.contact.avatar;
@@ -43,13 +46,11 @@ const imageUrl = computed(() => {
     <div class="mb-6 px-5 flex justify-between items-center">
       <!--title-->
       <p
-        class="heading-1 text-black/70 dark:text-white/70"
         id="modal-title"
+        class="heading-1 text-black/70 dark:text-white/70"
         tabindex="0"
       >
-        <span v-if="conversation.type === 'couple' || props.contact"
-          >Contact</span
-        >
+        <span v-if="conversation.type === 'couple' || props.contact">Contact</span>
         <span v-else-if="conversation.type === 'group'">Group</span>
         <span v-else-if="conversation.type === 'broadcast'">Broadcast</span>
         Info
@@ -58,8 +59,8 @@ const imageUrl = computed(() => {
       <!--close button-->
       <Button
         v-if="!props.contact"
-        @click="props.closeModal"
         class="outlined-danger ghost-text py-2 px-4"
+        @click="props.closeModal"
       >
         esc
       </Button>
@@ -67,13 +68,13 @@ const imageUrl = computed(() => {
       <!--return button-->
       <IconButton
         v-else
+        class="ic-btn-outlined-danger p-2"
         @click="
           $emit('active-page-change', {
             tabName: 'members',
             animationName: 'slide-right',
           })
         "
-        class="ic-btn-outlined-danger p-2"
       >
         <ArrowUturnLeftIcon
           class="w-5 h-5 text-black opacity-50 dark:text-white dark:opacity-70 group-focus:text-red-500 dark:group-focus:text-white group-hover:text-red-500 group-hover:opacity-100 dark:group-hover:text-white"
@@ -87,16 +88,16 @@ const imageUrl = computed(() => {
         <!--avatar-->
         <div class="mr-5">
           <button
-            @click="openImageViewer = true"
             class="outline-none"
             aria-label="view avatar"
+            @click="openImageViewer = true"
           >
             <div
               :style="{
                 backgroundImage: `url(${getAvatar(props.conversation)})`,
               }"
               class="w-9.5 h-9.5 rounded-full bg-cover bg-center"
-            ></div>
+            />
           </button>
         </div>
 
@@ -125,8 +126,8 @@ const imageUrl = computed(() => {
           </div>
 
           <IconButton
-            title="edit group"
             v-if="['group', 'broadcast'].includes(conversation.type)"
+            title="edit group"
             class="ic-btn-ghost-primary w-7 h-7"
             @click="
               $emit('active-page-change', {
@@ -177,7 +178,11 @@ const imageUrl = computed(() => {
 
       <!--(both) notifications-->
       <div class="px-5 flex items-center">
-        <IconAndText :icon="BellIcon" title="notifications" switch />
+        <IconAndText
+          :icon="BellIcon"
+          title="notifications"
+          switch
+        />
       </div>
 
       <!--(both) shared media-->
@@ -204,7 +209,11 @@ const imageUrl = computed(() => {
         v-if="conversation.type === 'couple' || props.contact"
         class="px-5 pt-5 group"
       >
-        <IconAndText :icon="NoSymbolIcon" title="block contact" link />
+        <IconAndText
+          :icon="NoSymbolIcon"
+          title="block contact"
+          link
+        />
       </div>
 
       <!--(contact) delete contact-->
@@ -212,7 +221,11 @@ const imageUrl = computed(() => {
         v-if="conversation.type === 'couple' || props.contact"
         class="px-5 pt-5 group"
       >
-        <IconAndText :icon="TrashIcon" title="delete contact" link />
+        <IconAndText
+          :icon="TrashIcon"
+          title="delete contact"
+          link
+        />
       </div>
 
       <!--(group) exit group-->
@@ -222,7 +235,11 @@ const imageUrl = computed(() => {
         "
         class="px-5 pt-5 flex items-center group"
       >
-        <IconAndText :icon="ArrowLeftOnRectangleIcon" title="exit group" link />
+        <IconAndText
+          :icon="ArrowLeftOnRectangleIcon"
+          title="exit group"
+          link
+        />
       </div>
     </div>
 

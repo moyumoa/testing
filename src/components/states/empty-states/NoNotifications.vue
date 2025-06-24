@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { BellSlashIcon } from "@heroicons/vue/24/outline";
 </script>
 

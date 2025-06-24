@@ -1027,7 +1027,7 @@ export const activeCall = {
   adminIds: [1],
 };
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const fetchData = async () => {
   await delay(2000);
@@ -1098,4 +1098,4 @@ export default {
   calls,
   activeCall,
   user,
-} as const;
+};

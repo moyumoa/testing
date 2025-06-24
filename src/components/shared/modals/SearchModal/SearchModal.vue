@@ -1,6 +1,4 @@
-<script setup lang="ts">
-import type { IConversation } from "@src/types";
-
+<script setup>
 import NoMessage from "@src/components/states/empty-states/NoMessage.vue";
 import Button from "@src/components/ui/inputs/Button.vue";
 import SearchInput from "@src/components/ui/inputs/SearchInput.vue";
@@ -8,16 +6,20 @@ import Modal from "@src/components/ui/utils/Modal.vue";
 import MessageItem from "@src/components/shared/modals/SearchModal/MessageItem.vue";
 import ScrollBox from "@src/components/ui/utils/ScrollBox.vue";
 
-const props = defineProps<{
-  open: boolean;
-  closeModal: () => void;
-  conversation: IConversation;
-}>();
+const props = defineProps({
+  open: Boolean,
+  closeModal: Function,
+  conversation: Object,
+});
 </script>
 
+
 <template>
-  <Modal :open="props.open" :close-modal="props.closeModal">
-    <template v-slot:content>
+  <Modal
+    :open="props.open"
+    :close-modal="props.closeModal"
+  >
+    <template #content>
       <div class="w-75 py-6 bg-white dark:bg-gray-800 rounded">
         <!--header-->
         <div class="mb-6 px-5 flex justify-between items-center">
@@ -30,9 +32,9 @@ const props = defineProps<{
           </p>
 
           <Button
-            @click="props.closeModal"
             class="outlined-danger ghost-text py-2 px-4"
             typography="body-4"
+            @click="props.closeModal"
           >
             esc
           </Button>
@@ -45,14 +47,17 @@ const props = defineProps<{
 
         <!--message-->
         <ScrollBox class="max-h-57.5 overflow-y-scroll">
-          <MessageItem
-            v-if="props.conversation.messages.length > 0"
-            v-for="(message, index) in props.conversation.messages"
-            :message="message"
-            :key="index"
+          <template v-if="props.conversation.messages.length > 0">
+            <MessageItem
+              v-for="(message, index) in props.conversation.messages"
+              :key="index"
+              :message="message"
+            />
+          </template>
+          <NoMessage
+            v-else
+            vertical
           />
-
-          <NoMessage vertical v-else />
         </ScrollBox>
       </div>
     </template>

@@ -1,22 +1,21 @@
-<script setup lang="ts">
-import type { Ref } from "vue";
+<script setup>
 import { ref } from "vue";
 
 const emit = defineEmits(["update:modelValue"]);
 
-const props = defineProps<{
-  id?: string;
-  type?: string;
-  value?: string;
-  name?: string;
-  placeholder?: string;
-  bordered?: boolean;
-  autoResize?: boolean;
-}>();
+const props = defineProps({
+  id: String,
+  type: String,
+  value: String,
+  name: String,
+  placeholder: String,
+  bordered: Boolean,
+  autoResize: Boolean,
+});
 
-const textarea: Ref<HTMLTextAreaElement | null> = ref(null);
+const textarea = ref(null);
 
-// change the size of the textarea
+// 自动调整文本域高度
 const autoResize = () => {
   if (props.autoResize && textarea.value) {
     textarea.value.style.height = "auto";
@@ -24,24 +23,22 @@ const autoResize = () => {
   }
 };
 
-// (event) change the input value and the size of the textarea
-const handleInput = (event: any) => {
-  emit("update:modelValue", (event.target as HTMLInputElement).value);
+// 监听输入事件，更新 modelValue 和调整高度
+const handleInput = (event) => {
+  emit("update:modelValue", event.target.value);
   autoResize();
 };
 </script>
 
 <template>
   <textarea
-    name="props.name"
     :id="props.id"
+    ref="textarea"
+    :name="props.name"
     class="text-input"
     :class="[props.bordered ? 'bordered-input' : 'ringed-input']"
-    @input="handleInput"
-    :value="props.value"
     :placeholder="props.placeholder"
-    ref="textarea"
-  >
-  {{ props.value }}
-  </textarea>
+    :value="props.value"
+    @input="handleInput"
+  />
 </template>

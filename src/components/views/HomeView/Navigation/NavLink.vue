@@ -1,13 +1,12 @@
-<script setup lang="ts">
-import type { Component } from "vue";
-
-const props = defineProps<{
-  icon: Component;
-  title: string;
-  notifications?: number;
-  active?: boolean;
-}>();
+<script setup>
+const props = defineProps({
+  type: [Object, Function], // Component 类型用 Object 代替
+  title: String,
+  notifications: Number,
+  active: Boolean,
+});
 </script>
+
 
 <template>
   <div class="xs:mb-0 md:mb-6">
@@ -25,7 +24,7 @@ const props = defineProps<{
         :is="props.icon"
         class="w-7 h-6 group-focus:text-indigo-300 hover:text-indigo-400 active:text-indigo-300 active:scale-110 dark:text-gray-500 transition ease-out duration-200"
         :class="
-          (props.active as boolean)
+          props.active
             ? ['text-indigo-300', 'dark:text-indigo-400']
             : [' text-gray-300']
         "
