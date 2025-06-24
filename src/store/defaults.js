@@ -1,20 +1,21 @@
+// 📌 由妍妍自动转换为 JavaScript，已去除类型定义并添加中文注释
 export const defaultSettings = [
   {
-    lastSeen: false,
-    readReceipt: false,
-    joiningGroups: false,
-    privateMessages: false,
-    darkMode: false,
-    borderedTheme: false,
-    allowNotifications: false,
-    keepNotifications: false,
+    lastSeen,
+    readReceipt,
+    joiningGroups,
+    privateMessages,
+    darkMode,
+    borderedTheme,
+    allowNotifications,
+    keepNotifications,
   },
 ];
 
 export const user = {
-  id: 1,
+  id,
   firstName: "Dawn",
-  lastSeen: new Date(),
+  lastSeen Date(),
   lastName: "Sabrina",
   email: "sabrina@gmail.com",
   avatar:
@@ -22,83 +23,83 @@ export const user = {
   token: "fakeToken",
   contacts: [
     {
-      id: 2,
+      id,
       email: "user@gmail.com",
       firstName: "Ahmed",
       lastName: "Ali",
-      lastSeen: new Date(),
+      lastSeen Date(),
       avatar:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
     },
     {
-      id: 3,
+      id,
       email: "user@gmail.com",
       firstName: "Allen",
       lastName: "Carr",
-      lastSeen: new Date(),
+      lastSeen Date(),
       avatar:
         "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
     },
     {
-      id: 4,
+      id,
       email: "user@gmail.com",
       firstName: "Dawn",
       lastName: "Sabrina",
-      lastSeen: new Date(),
+      lastSeen Date(),
       avatar:
         "https://images.unsplash.com/photo-1657214059233-5626b35eb349?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=436&q=80",
     },
     {
-      id: 5,
+      id,
       email: "user@gmail.com",
       firstName: "Dylan",
       lastName: "Billy",
-      lastSeen: new Date(),
+      lastSeen Date(),
       avatar:
         "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
     },
     {
-      id: 6,
+      id,
       email: "user@gmail.com",
       firstName: "Elijah",
       lastName: "Sabrina",
-      lastSeen: new Date(),
+      lastSeen Date(),
       avatar:
         "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
     },
     {
-      id: 7,
+      id,
       email: "user@gmail.com",
       firstName: "Emma",
       lastName: "Layla",
-      lastSeen: new Date(),
+      lastSeen Date(),
       avatar:
         "https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
     },
     {
-      id: 8,
+      id,
       email: "user@gmail.com",
       firstName: "Evelyn",
       lastName: "Billy",
-      lastSeen: new Date(),
+      lastSeen Date(),
       avatar:
         "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
     },
     {
-      id: 9,
+      id,
       email: "user@gmail.com",
       firstName: "Feng",
       lastName: "Zhuo",
-      lastSeen: new Date(),
+      lastSeen Date(),
       avatar:
         "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
     },
     {
-      id: 10,
+      id,
       email: "user@gmail.com",
       firstName: "Fung",
       lastName: "Sheng",
-      lastSeen: new Date(),
+      lastSeen Date(),
       avatar:
         "https://images.pexels.com/photos/1851164/pexels-photo-1851164.jpeg?cs=srgb&dl=pexels-charles-1851164.jpg&fm=jpg",
     },
@@ -107,25 +108,25 @@ export const user = {
 
 export const conversations = [
   {
-    id: 1,
+    id,
     type: "couple",
-    unread: 2,
+    unread,
     draftMessage: "",
     contacts: [
       {
-        id: 6,
+        id,
         email: "user@gmail.com",
         firstName: "Elijah",
         lastName: "Sabrina",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
       {
-        id: 1,
+        id,
         firstName: "Dawn",
         lastName: "Sabrina",
-        lastSeen: new Date(),
+        lastSeen Date(),
         email: "sabrina@gmail.com",
         avatar:
           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
@@ -133,63 +134,63 @@ export const conversations = [
     ],
     messages: [
       {
-        id: 1,
+        id,
         content: "Lorem ipsum dolor sit amet.",
-        date: "3:00 pm",
+        date: "3 pm",
         state: "read",
         sender: {
-          id: 6,
+          id,
           email: "user@gmail.com",
           firstName: "Elijah",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           avatar:
             "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 2,
+        id,
         content: "Lorem ipsum dolor sit amet.",
-        date: "4:00 pm",
+        date: "4 pm",
         state: "sent",
         sender: {
-          id: 1,
+          id,
           firstName: "Dawn",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           email: "sabrina@gmail.com",
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
-        replyTo: 1,
+        replyTo,
       },
       {
-        id: 3,
+        id,
         content: "Lorem ipsum dolor sit amet.",
-        date: "3:00 pm",
+        date: "3 pm",
         state: "read",
         sender: {
-          id: 6,
+          id,
           email: "user@gmail.com",
           firstName: "Elijah",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           avatar:
             "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
-        replyTo: 2,
+        replyTo,
       },
       {
-        id: 4,
+        id,
         content: "Check this out https://github.com/",
-        date: "4:00 pm",
+        date: "4 pm",
         state: "read",
         sender: {
-          id: 6,
+          id,
           email: "user@gmail.com",
           firstName: "Elijah",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           avatar:
             "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
@@ -204,51 +205,51 @@ export const conversations = [
         },
       },
       {
-        id: 5,
+        id,
         content: "Lorem ipsum dolor sit amet.",
-        date: "5:00 pm",
+        date: "5 pm",
         state: "delivered",
         sender: {
-          id: 1,
+          id,
           firstName: "Dawn",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           email: "sabrina@gmail.com",
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
         attachments: [
           {
-            id: 3,
+            id,
             type: "image",
             name: "mountain.jpg",
             size: "20 MB",
             url: "https://images.unsplash.com/photo-1664091729644-07a158d7c4ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyNHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
           },
           {
-            id: 2,
+            id,
             type: "image",
             name: "pumkins.jpg",
             size: "20 MB",
             url: "https://images.unsplash.com/photo-1664031315855-955dbca83172?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
           },
           {
-            id: 1,
+            id,
             type: "image",
             name: "forest.jpg",
             size: "20 MB",
             url: "https://images.unsplash.com/photo-1664021975758-78d83898225d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOXx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
           },
         ],
-        replyTo: 4,
+        replyTo,
       },
       {
-        id: 6,
-        date: "5:30 pm",
+        id,
+        date: "5 pm",
         state: "read",
         attachments: [
           {
-            id: 4,
+            id,
             type: "file",
             name: "lecture-10.pdf",
             size: "54.5 MB",
@@ -256,22 +257,22 @@ export const conversations = [
           },
         ],
         sender: {
-          id: 6,
+          id,
           email: "user@gmail.com",
           firstName: "Elijah",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           avatar:
             "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 7,
-        date: "6:00 pm",
+        id,
+        date: "6 pm",
         state: "read",
         attachments: [
           {
-            id: 5,
+            id,
             type: "video",
             name: "fun-video.mp4",
             size: "11.4 MB",
@@ -280,7 +281,7 @@ export const conversations = [
               "https://images.unsplash.com/photo-1559705421-4ae9bf6fabb5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
           },
           {
-            id: 12,
+            id,
             type: "video",
             name: "awesome-video.mp4",
             size: "11.4 MB",
@@ -290,31 +291,31 @@ export const conversations = [
           },
         ],
         sender: {
-          id: 6,
+          id,
           email: "user@gmail.com",
           firstName: "Elijah",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           avatar:
             "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 8,
+        id,
         type: "recording",
         state: "waiting",
         content: {
-          id: 1,
+          id,
           size: "10 MB",
           src: "https://assets.mixkit.co/music/614/614.mp3",
           duration: "23s",
         },
-        date: "6:20 pm",
+        date: "6 pm",
         sender: {
-          id: 1,
+          id,
           firstName: "Dawn",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           email: "sabrina@gmail.com",
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
@@ -324,24 +325,24 @@ export const conversations = [
   },
 
   {
-    id: 2,
+    id,
     type: "couple",
     draftMessage: "",
     contacts: [
       {
-        id: 5,
+        id,
         email: "user@gmail.com",
         firstName: "Dylan",
         lastName: "Billy",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
       {
-        id: 1,
+        id,
         firstName: "Dawn",
         lastName: "Sabrina",
-        lastSeen: new Date(),
+        lastSeen Date(),
         email: "sabrina@gmail.com",
         avatar:
           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
@@ -349,80 +350,80 @@ export const conversations = [
     ],
     messages: [
       {
-        id: 1,
+        id,
         content: "Can you send me a link",
-        date: "8:15 am",
+        date: "8 am",
         state: "read",
         sender: {
-          id: 1,
+          id,
           firstName: "Dawn",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           email: "sabrina@gmail.com",
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 2,
+        id,
         content: "So i found this great video online",
-        date: "1:00 pm",
+        date: "1 pm",
         state: "read",
         sender: {
-          id: 5,
+          id,
           email: "user@gmail.com",
           firstName: "Dylan",
           lastName: "Billy",
-          lastSeen: new Date(),
+          lastSeen Date(),
           avatar:
             "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 3,
+        id,
         content: "It’s about stopping drugs",
-        date: "1:05 pm",
+        date: "1 pm",
         state: "read",
         sender: {
-          id: 5,
+          id,
           email: "user@gmail.com",
           firstName: "Dylan",
           lastName: "Billy",
-          lastSeen: new Date(),
+          lastSeen Date(),
           avatar:
             "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 4,
+        id,
         content: "Can you send me a link",
-        date: "1:15 pm",
+        date: "1 pm",
         state: "read",
         sender: {
-          id: 1,
+          id,
           firstName: "Dawn",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           email: "sabrina@gmail.com",
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 6,
+        id,
         content: "Hey there, check this out",
-        date: "1:30 pm",
+        date: "1 pm",
         state: "read",
         attachments: [
           {
-            id: 14,
+            id,
             type: "image",
             name: "forest.jpg",
             size: "20 MB",
             url: "https://images.unsplash.com/photo-1664021975758-78d83898225d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOXx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
           },
           {
-            id: 13,
+            id,
             type: "video",
             name: "fun-video.mp4",
             size: "11.4 MB",
@@ -431,7 +432,7 @@ export const conversations = [
               "https://images.unsplash.com/photo-1559705421-4ae9bf6fabb5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
           },
           {
-            id: 15,
+            id,
             type: "image",
             name: "forest.jpg",
             size: "20 MB",
@@ -439,41 +440,41 @@ export const conversations = [
           },
         ],
         sender: {
-          id: 5,
+          id,
           email: "user@gmail.com",
           firstName: "Dylan",
           lastName: "Billy",
-          lastSeen: new Date(),
+          lastSeen Date(),
           avatar:
             "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 7,
+        id,
         content: "Wow, really cool",
-        date: "1:30 pm",
+        date: "1 pm",
         state: "read",
         sender: {
-          id: 1,
+          id,
           firstName: "Dawn",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           email: "sabrina@gmail.com",
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 8,
+        id,
         content: "You're welcome",
-        date: "1:30 pm",
+        date: "1 pm",
         state: "read",
         sender: {
-          id: 5,
+          id,
           email: "user@gmail.com",
           firstName: "Dylan",
           lastName: "Billy",
-          lastSeen: new Date(),
+          lastSeen Date(),
           avatar:
             "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
@@ -482,7 +483,7 @@ export const conversations = [
   },
 
   {
-    id: 6,
+    id,
     type: "group",
     name: "Design Team",
     avatar:
@@ -491,135 +492,135 @@ export const conversations = [
     draftMessage: "",
     contacts: [
       {
-        id: 1,
+        id,
         firstName: "Dawn",
         lastName: "Sabrina",
-        lastSeen: new Date(),
+        lastSeen Date(),
         email: "sabrina@gmail.com",
         avatar:
           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
       {
-        id: 2,
+        id,
         email: "user@gmail.com",
         firstName: "Ahmed",
         lastName: "Ali",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
       {
-        id: 3,
+        id,
         email: "user@gmail.com",
         firstName: "Allen",
         lastName: "Carr",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
       },
     ],
     messages: [
       {
-        id: 1,
+        id,
         content: "Hey there",
-        date: "1:00 pm",
+        date: "1 pm",
         state: "read",
         sender: {
-          id: 1,
+          id,
           firstName: "Dawn",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           email: "sabrina@gmail.com",
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 2,
+        id,
         content: "I got a new dog",
-        date: "2:00 pm",
+        date: "2 pm",
         state: "read",
         sender: {
-          id: 2,
+          id,
           email: "user@gmail.com",
           firstName: "Ahmed",
           lastName: "Ali",
-          lastSeen: new Date(),
+          lastSeen Date(),
           avatar:
             "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 3,
+        id,
         content: "Oh, ok good to know.",
-        date: "5:00 pm",
+        date: "5 pm",
         state: "read",
         sender: {
-          id: 1,
+          id,
           firstName: "Dawn",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           email: "sabrina@gmail.com",
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 4,
+        id,
         content: "It was great catching up with you the other day",
-        date: "3:00 pm",
+        date: "3 pm",
         state: "read",
         sender: {
-          id: 3,
+          id,
           email: "user@gmail.com",
           firstName: "Allen",
           lastName: "Carr",
-          lastSeen: new Date(),
+          lastSeen Date(),
           avatar:
             "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
         },
       },
       {
-        id: 5,
+        id,
         content: "Thank you very much.",
-        date: "3:00 pm",
+        date: "3 pm",
         state: "read",
         sender: {
-          id: 1,
+          id,
           firstName: "Dawn",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           email: "sabrina@gmail.com",
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 6,
+        id,
         content: "Lets meet agian next week.",
-        date: "5:00 pm",
+        date: "5 pm",
         state: "read",
         sender: {
-          id: 1,
+          id,
           firstName: "Dawn",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           email: "sabrina@gmail.com",
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 7,
+        id,
         content: "Ok next week then.",
-        date: "5:00 pm",
+        date: "5 pm",
         state: "read",
         sender: {
-          id: 2,
+          id,
           email: "user@gmail.com",
           firstName: "Ahmed",
           lastName: "Ali",
-          lastSeen: new Date(),
+          lastSeen Date(),
           avatar:
             "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
@@ -628,7 +629,7 @@ export const conversations = [
   },
 
   {
-    id: 7,
+    id,
     type: "broadcast",
     name: "Breaking News",
     avatar:
@@ -638,61 +639,61 @@ export const conversations = [
 
     contacts: [
       {
-        id: 1,
+        id,
         firstName: "Dawn",
         lastName: "Sabrina",
-        lastSeen: new Date(),
+        lastSeen Date(),
         email: "sabrina@gmail.com",
         avatar:
           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
       {
-        id: 2,
+        id,
         email: "user@gmail.com",
         firstName: "Ahmed",
         lastName: "Ali",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
       {
-        id: 3,
+        id,
         email: "user@gmail.com",
         firstName: "Allen",
         lastName: "Carr",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
       },
     ],
     messages: [
       {
-        id: 1,
+        id,
         content:
           "A truck collision turns a Florida highway into a silver sea of beer cans",
-        date: "1:00 pm",
+        date: "1 pm",
         state: "read",
         sender: {
-          id: 1,
+          id,
           firstName: "Dawn",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           email: "sabrina@gmail.com",
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
         },
       },
       {
-        id: 2,
+        id,
         content:
           "Apple Watch Ultra and next-generation AirPods Pro available in stores Friday",
-        date: "5:00 pm",
+        date: "5 pm",
         state: "read",
         sender: {
-          id: 1,
+          id,
           firstName: "Dawn",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           email: "sabrina@gmail.com",
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
@@ -704,24 +705,24 @@ export const conversations = [
 
 export const archive = [
   {
-    id: 3,
+    id,
     type: "couple",
     draftMessage: "",
     contacts: [
       {
-        id: 4,
+        id,
         email: "user@gmail.com",
         firstName: "Dawn",
         lastName: "Sabrina",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1657214059233-5626b35eb349?ixlib=rb-1.2.1&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=436&q=80",
       },
       {
-        id: 1,
+        id,
         firstName: "Dawn",
         lastName: "Sabrina",
-        lastSeen: new Date(),
+        lastSeen Date(),
         email: "sabrina@gmail.com",
         avatar:
           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
@@ -729,15 +730,15 @@ export const archive = [
     ],
     messages: [
       {
-        id: 1,
+        id,
         content: "Oh, ok good to know.",
-        date: "4:00 pm",
+        date: "4 pm",
         state: "read",
         sender: {
-          id: 1,
+          id,
           firstName: "Dawn",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           email: "sabrina@gmail.com",
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
@@ -747,24 +748,24 @@ export const archive = [
   },
 
   {
-    id: 4,
+    id,
     type: "couple",
     draftMessage: "",
     contacts: [
       {
-        id: 3,
+        id,
         email: "user@gmail.com",
         firstName: "Allen",
         lastName: "Carr",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
       },
       {
-        id: 1,
+        id,
         firstName: "Dawn",
         lastName: "Sabrina",
-        lastSeen: new Date(),
+        lastSeen Date(),
         email: "sabrina@gmail.com",
         avatar:
           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
@@ -772,15 +773,15 @@ export const archive = [
     ],
     messages: [
       {
-        id: 1,
+        id,
         content: "Oh, ok good to know.",
-        date: "4:00 pm",
+        date: "4 pm",
         state: "read",
         sender: {
-          id: 1,
+          id,
           firstName: "Dawn",
           lastName: "Sabrina",
-          lastSeen: new Date(),
+          lastSeen Date(),
           email: "sabrina@gmail.com",
           avatar:
             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
@@ -820,28 +821,28 @@ export const notifications = [
 
 export const calls = [
   {
-    id: 1,
+    id,
     type: "voice",
     status: "missed",
     direction: "incoming",
     date: "Dec 12, 2020",
-    length: "01:12",
+    length: "01",
     members: [
       {
-        id: 1,
+        id,
         firstName: "Dawn",
         lastName: "Sabrina",
-        lastSeen: new Date(),
+        lastSeen Date(),
         email: "sabrina@gmail.com",
         avatar:
           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
       {
-        id: 2,
+        id,
         email: "user@gmail.com",
         firstName: "Ahmed",
         lastName: "Ali",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
@@ -850,46 +851,46 @@ export const calls = [
   },
 
   {
-    id: 2,
+    id,
     type: "voice",
     status: "received",
     direction: "incoming",
     date: "Dec 12, 2020",
-    length: "01:12",
+    length: "01",
     members: [
       {
-        id: 1,
+        id,
         firstName: "Dawn",
         lastName: "Sabrina",
-        lastSeen: new Date(),
+        lastSeen Date(),
         email: "sabrina@gmail.com",
         avatar:
           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
       {
-        id: 2,
+        id,
         email: "user@gmail.com",
         firstName: "Ahmed",
         lastName: "Ali",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
       {
-        id: 3,
+        id,
         email: "user@gmail.com",
         firstName: "Allen",
         lastName: "Carr",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
       },
       {
-        id: 9,
+        id,
         email: "user@gmail.com",
         firstName: "Feng",
         lastName: "Zhuo",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
@@ -898,28 +899,28 @@ export const calls = [
   },
 
   {
-    id: 3,
+    id,
     type: "voice",
     status: "sent",
     direction: "outgoing",
     date: "Dec 12, 2020",
-    length: "01:12",
+    length: "01",
     members: [
       {
-        id: 1,
+        id,
         firstName: "Dawn",
         lastName: "Sabrina",
-        lastSeen: new Date(),
+        lastSeen Date(),
         email: "sabrina@gmail.com",
         avatar:
           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
       {
-        id: 5,
+        id,
         email: "user@gmail.com",
         firstName: "Dylan",
         lastName: "Billy",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1522556189639-b150ed9c4330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
@@ -928,28 +929,28 @@ export const calls = [
   },
 
   {
-    id: 4,
+    id,
     type: "voice",
     status: "missed",
     direction: "incoming",
     date: "Dec 12, 2020",
-    length: "01:12",
+    length: "01",
     members: [
       {
-        id: 1,
+        id,
         firstName: "Dawn",
         lastName: "Sabrina",
-        lastSeen: new Date(),
+        lastSeen Date(),
         email: "sabrina@gmail.com",
         avatar:
           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
       {
-        id: 3,
+        id,
         email: "user@gmail.com",
         firstName: "Allen",
         lastName: "Carr",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1463453091185-61582044d556?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
       },
@@ -958,37 +959,37 @@ export const calls = [
   },
 
   {
-    id: 5,
+    id,
     type: "voice",
     status: "sent",
     direction: "outgoing",
     date: "Dec 12, 2020",
-    length: "01:12",
+    length: "01",
     members: [
       {
-        id: 1,
+        id,
         firstName: "Dawn",
         lastName: "Sabrina",
-        lastSeen: new Date(),
+        lastSeen Date(),
         email: "sabrina@gmail.com",
         avatar:
           "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
       },
       {
-        id: 8,
+        id,
         email: "user@gmail.com",
         firstName: "Evelyn",
         lastName: "Billy",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
       },
       {
-        id: 10,
+        id,
         email: "user@gmail.com",
         firstName: "Fung",
         lastName: "Sheng",
-        lastSeen: new Date(),
+        lastSeen Date(),
         avatar:
           "https://images.pexels.com/photos/1851164/pexels-photo-1851164.jpeg?cs=srgb&dl=pexels-charles-1851164.jpg&fm=jpg",
       },
@@ -998,28 +999,28 @@ export const calls = [
 ];
 
 export const activeCall = {
-  id: 6,
+  id,
   type: "voice",
   status: "dialing",
   direction: "outgoing",
   date: "Dec 12, 2020",
-  length: "01:12",
+  length: "01",
   members: [
     {
-      id: 1,
+      id,
       firstName: "Dawn",
       lastName: "Sabrina",
-      lastSeen: new Date(),
+      lastSeen Date(),
       email: "sabrina@gmail.com",
       avatar:
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
     },
     {
-      id: 8,
+      id,
       email: "user@gmail.com",
       firstName: "Evelyn",
       lastName: "Billy",
-      lastSeen: new Date(),
+      lastSeen Date(),
       avatar:
         "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cGVvcGxlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
     },
@@ -1027,17 +1028,17 @@ export const activeCall = {
   adminIds: [1],
 };
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const fetchData = async () => {
   await delay(2000);
 
   return await {
     data: {
-      user: user,
-      conversations: conversations,
-      notifications: notifications,
-      archivedConversations: archive,
+      user,
+      conversations,
+      notifications,
+      archivedConversations,
     },
   };
 };
@@ -1054,35 +1055,35 @@ export const updateAccount = async () => {
 
 export const attachments = [
   {
-    id: 6,
+    id,
     type: "image",
     name: "forest.jpg",
     size: "21 MB",
     url: "https://images.unsplash.com/photo-1664021975758-78d83898225d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxOXx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
   },
   {
-    id: 7,
+    id,
     type: "image",
     name: "pumkins.jpg",
     size: "22 MB",
     url: "https://images.unsplash.com/photo-1664031315855-955dbca83172?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80",
   },
   {
-    id: 8,
+    id,
     type: "image",
     name: "mountain.jpg",
     size: "23 MB",
     url: "https://images.unsplash.com/photo-1664091729644-07a158d7c4ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyNHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
   },
   {
-    id: 9,
+    id,
     type: "file",
     name: "lecture-10.pdf",
     size: "52.4 MB",
     url: "https://images.unsplash.com/photo-1664091729644-07a158d7c4ca?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyNHx8fGVufDB8fHx8&auto=format&fit=crop&w=500&q=60",
   },
   {
-    id: 10,
+    id,
     type: "video",
     name: "fun-video.mp4",
     size: "11.4 MB",

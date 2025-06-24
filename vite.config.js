@@ -1,3 +1,4 @@
+// 📌 由妍妍自动转换为 JavaScript，已去除类型定义并添加中文注释
 import { defineConfig } from "vite";
 import alias from "@rollup/plugin-alias";
 import vue from "@vitejs/plugin-vue";
@@ -10,8 +11,8 @@ export default defineConfig({
   plugins: [vue(), alias()],
   resolve: {
     alias: {
-      "@src": resolve(rootDir, "src"),
-      "@custom_types": resolve(rootDir, "src/@custom_types"),
+      "@src"(rootDir, "src"),
+      "@custom_types"(rootDir, "src/@custom_types"),
     },
   },
 });

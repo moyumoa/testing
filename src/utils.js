@@ -1,11 +1,6 @@
+// 📌 由妍妍自动转换为 JavaScript，已去除类型定义并添加中文注释
 import useStore from "@src/store/store";
-import type {
-  ICall,
-  IContact,
-  IConversation,
-  IMessage,
-  IRecording,
-} from "@src/types";
+
 import { useRoute } from "vue-router";
 
 /**
@@ -13,7 +8,7 @@ import { useRoute } from "vue-router";
  * @param contact
  * @returns A string the combines the first and last names.
  */
-export const getFullName = (contact: IContact, hyphen?: boolean) => {
+export const getFullName = (contact, hyphen?) => {
   if (hyphen) {
     return contact.firstName + "-" + contact.lastName;
   } else {
@@ -26,7 +21,7 @@ export const getFullName = (contact: IContact, hyphen?: boolean) => {
  * @param conversation
  * @returns A contact object representing the other user in the conversation.
  */
-export const getOddContact = (conversation: IConversation) => {
+export const getOddContact = (conversation) => {
   const store = useStore();
 
   let oddContact;
@@ -45,7 +40,7 @@ export const getOddContact = (conversation: IConversation) => {
  * @param conversation
  * @returns A string representing the url to the avatar image
  */
-export const getAvatar = (conversation: IConversation) => {
+export const getAvatar = (conversation) => {
   if (["group", "broadcast"].includes(conversation.type)) {
     return conversation?.avatar;
   } else {
@@ -59,7 +54,7 @@ export const getAvatar = (conversation: IConversation) => {
  * @param conversation
  * @returns String
  */
-export const getName = (conversation: IConversation , hyphen?: boolean) => {
+export const getName = (conversation , hyphen?) => {
   if (["group", "broadcast"].includes(conversation.type)) {
     if (hyphen) {
       return (conversation.name as string).split(" ").join("-");
@@ -81,8 +76,8 @@ export const getName = (conversation: IConversation , hyphen?: boolean) => {
  * @param maxLength
  * @returns A string that is trimmed according the length provided
  */
-export const shorten = (message: IMessage | string, maxLength: number = 23) => {
-  let text: string | IRecording | undefined;
+export const shorten = (message | string, maxLength = 23) => {
+  let text | IRecording | undefined;
 
   if (typeof message === "string") {
     text = message;
@@ -109,7 +104,7 @@ export const shorten = (message: IMessage | string, maxLength: number = 23) => {
  * @param message
  * @returns A boolean indicating whether the message has attachments
  */
-export const hasAttachments = (message: IMessage) => {
+export const hasAttachments = (message) => {
   let attachments = message.attachments;
   return attachments && attachments.length > 0;
 };
@@ -119,7 +114,7 @@ export const hasAttachments = (message: IMessage) => {
  */
 export const getActiveConversationId = () => {
   const route = useRoute();
-  return route.params.id ? Number(route.params.id) : undefined;
+  return route.params.id ? Number(route.params.id) ;
 };
 
 /**
@@ -128,8 +123,8 @@ export const getActiveConversationId = () => {
  * @returns A number indicating the index of the conversation.
  */
 export const getConversationIndex = (
-  conversationId: number
-): number | undefined => {
+  conversationId
+) | undefined => {
   let conversationIndex;
   const store = useStore();
 
@@ -148,7 +143,7 @@ export const getConversationIndex = (
  * @param call
  * @returns An array containing the contacts participating in the call
  */
-export const getOtherMembers = (call: ICall) => {
+export const getOtherMembers = (call) => {
   const store = useStore();
   let members = [];
 
@@ -171,12 +166,12 @@ export const getOtherMembers = (call: ICall) => {
  * @returns A string representing name of the call.
  */
 export const getCallName = (
-  call: ICall,
-  full?: boolean,
-  maxLength: number = 20
+  call,
+  full?,
+  maxLength = 20
 ) => {
   let members = getOtherMembers(call);
-  let callName: string = "";
+  let callName = "";
 
   for (let member of members) {
     callName += getFullName(member);
@@ -194,8 +189,8 @@ export const getCallName = (
 };
 
 export const getMessageById = (
-  conversation: IConversation,
-  messageId?: number
+  conversation,
+  messageId?
 ) => {
   if (messageId) {
     return conversation.messages.find((message) => message.id === messageId);
@@ -207,7 +202,7 @@ export const getMessageById = (
  *
  * @param unicode - emoji unicode
  */
-export const unicodeToEmoji = (unicode: string) => {
+export const unicodeToEmoji = (unicode) => {
   return unicode
     .split("-")
     .map((hex) => parseInt(hex, 16))

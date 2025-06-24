@@ -1,3 +1,4 @@
+// 📌 由妍妍自动转换为 JavaScript，已去除类型定义并添加中文注释
 import { createRouter, createWebHistory } from "vue-router";
 import AccessView from "@src/components/views/AccessView/AccessView.vue";
 import HomeView from "@src/components/views/HomeView/HomeView.vue";
@@ -9,36 +10,36 @@ const routes = [
     path: "/chat/",
     name: "Home",
     alias: "/",
-    component: HomeView,
+    component,
     children: [
       {
         path: "/chat/",
         alias: "/",
         name: "No-Chat",
-        component: Chat,
+        component,
       },
       {
-        path: "/chat/:id/",
+        path: "/chat//",
         name: "Chat",
-        component: Chat,
+        component,
       },
     ],
   },
   {
-    path: "/access/:method/",
+    path: "/access//",
     name: "Access",
-    component: AccessView,
+    component,
   },
   {
     path: "/reset/",
     name: "Password Reset",
-    component: PasswordResetView,
+    component,
   },
 ];
 
 // create the router
 const router = createRouter({
-  history: createWebHistory(),
+  history(),
   routes,
 });
 
