@@ -13,15 +13,13 @@ defineEmits(["activePageChange"]);
 const props = defineProps({
   open: {
     type: Boolean,
-    required: true,
   },
   closeModal: {
     type: Function,
-    required: true,
   },
   call: {
     type: Object,
-    required: true,
+    default: null
   },
 });
 

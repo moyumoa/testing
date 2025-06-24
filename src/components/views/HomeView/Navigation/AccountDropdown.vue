@@ -97,7 +97,7 @@ const handleCloseOnClickOutside = (event) => {
         class="dropdown-link dropdown-link-danger"
         aria-label="logout"
         role="menuitem"
-        @click.prevent="props.handleCloseDropdown"
+        @click.prevent.stop="props.handleCloseDropdown"
       >
         <ArrowLeftOnRectangleIcon class="h-5 w-5 mr-3" />
         Logout

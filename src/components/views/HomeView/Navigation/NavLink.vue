@@ -1,6 +1,6 @@
 <script setup>
 const props = defineProps({
-  type: [Object, Function], // Component 类型用 Object 代替
+  icon: [Object, String, Function],
   title: String,
   notifications: Number,
   active: Boolean,

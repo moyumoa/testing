@@ -15,12 +15,10 @@ import Button from "@src/components/ui/inputs/Button.vue";
 const props = defineProps({
   call: {
     type: Object,
-    required: true,
+    required: false, // 可选
+    default: null,   // 默认值
   },
-  closeModal: {
-    type: Function,
-    required: true,
-  },
+  closeModal: Function,
 });
 
 const emit = defineEmits(["active-page-change"]);

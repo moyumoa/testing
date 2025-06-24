@@ -13,7 +13,7 @@ import { ChatBubbleOvalLeftIcon } from "@heroicons/vue/24/solid";
     </div>
 
     <p class="heading-2 text-black/70 dark:text-white/70 mb-3">
-      No chat selected
+      没有选择聊天
     </p>
 
     <p class="body-2 text-black/70 dark:text-white/70 flex">

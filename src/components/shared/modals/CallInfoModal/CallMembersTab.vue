@@ -10,7 +10,8 @@ import IconButton from "@src/components/ui/inputs/IconButton.vue";
 const props = defineProps({
   call: {
     type: Object,
-    required: true,
+    required: false, // 可选
+    default: null,   // 默认值
   },
 });
 
