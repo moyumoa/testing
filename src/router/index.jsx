@@ -38,6 +38,11 @@ export const createAppRouter = () => {
           handle: { title: "消息", isTab: true },
         },
         {
+          path: "chat/:id",
+          element: lazyLoad(() => import("@/pages/Message/Session")),
+          handle: { title: "会话" },
+        },
+        {
           path: "me",
           element: lazyLoad(() => import("@/pages/Me")),
           handle: { title: "我的", isTab: true },
