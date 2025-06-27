@@ -1,0 +1,14 @@
+// src/components/GlobalModalProvider.jsx
+import { useEffect } from 'react'
+import { App as AntApp } from 'antd'
+import { setGlobalModal } from '@/utils/globalModal'
+
+export default function GlobalModalProvider({ children }) {
+  const modal = AntApp.useApp().modal
+
+  useEffect(() => {
+    setGlobalModal(modal)
+  }, [modal])
+
+  return children
+}

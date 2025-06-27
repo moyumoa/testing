@@ -1,0 +1,72 @@
+.floating_label {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.floating_label input {
+  width: 100%;
+  padding: 25px 12px 6px;
+  font-size: 15px;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+  // height: 52px;
+  box-sizing: border-box;
+}
+
+.floating_label input:focus {
+  border-color: #28a745; /* 绿色边框 */
+}
+
+.floating_label input::placeholder {
+  opacity: 0; /* 隐藏占位符 */
+}
+
+.floating_label label {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 15px;
+  pointer-events: none;
+  background-color: white;
+  padding: 0 4px;
+  transition: 0.2s ease all;
+}
+
+.floating_label input:focus + label,
+.floating_label input:not(:placeholder-shown) + label {
+  top: 6px;
+  left: 8px;
+  font-size: 12px;
+  color: #28a745;
+  transform: none;
+}
+
+// ✅ 尺寸样式
+.small input {
+  height: 42px;
+  padding: 20px 8px 4px;
+  font-size: 14px;
+}
+
+.small input:focus + label,
+.small input:not(:placeholder-shown) + label {
+  top: 5px;
+  left: 6px;
+  font-size: 12px;
+  color: #28a745;
+  transform: none;
+}
+
+.default input {
+  height: 52px;
+}
+
+.large input {
+  height: 64px;
+  padding: 28px 14px 6px;
+  font-size: 17px;
+}

@@ -1,0 +1,277 @@
+import React, { useCallback, useEffect, useRef, useState } from "react"
+import { Spin, Empty, Button, Divider } from "antd"
+
+// === 常量定义 ===
+const GUTTER = 16 // 容器边距
+const VIEWPORT_BUFFER = 1000 // 预加载缓冲区（上/下各 1000px）
+const VERTICAL_GAP = 16 // 垂直间距
+const HORIZONTAL_GAP = 16 // 水平间距
+const MAX_REMOVED_ITEMS = 2000 // 移除上限，超过就执行彻底清理
+
+export default function VirtualWaterfall({
+  fetchPage, // 异步分页加载函数
+  getItemId, // 获取 item 唯一标识的函数
+  renderItem, // 渲染单个 item 的组件
+  pageSize = 20,
+  columnCount = 4,
+  defaultParams = {},
+  style = {},
+}) {
+  const containerRef = useRef(null) // 容器 DOM 引用
+  const [containerWidth, setContainerWidth] = useState(0)
+  const [scrollTop, setScrollTop] = useState(0) // 当前滚动位置
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight)
+  const [, forceRerender] = useState(0) // 强制刷新用
+
+  const heightMap = useRef({}) // item 高度映射
+  const itemsRef = useRef([]) // 所有已加载的数据项
+  const removedIds = useRef(new Set()) // 被“软删除”的 id 集合
+  const loadingRef = useRef(false) // 防止并发加载
+  const [isLoading, setIsLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
+  const [nextCursor, setNextCursor] = useState(null) // 游标分页用
+  const [isInitialLoading, setIsInitialLoading] = useState(true)
+
+  // === 计算列宽 ===
+  const columnWidth =
+    (containerWidth - (columnCount - 1) * HORIZONTAL_GAP) / columnCount
+
+  // === 软删除函数 ===
+  const removeItem = useCallback(
+    (id) => {
+      removedIds.current.add(id)
+      forceRerender((n) => n + 1)
+
+      if (removedIds.current.size > MAX_REMOVED_ITEMS) {
+        // 👉 超出上限，触发彻底清理
+        itemsRef.current = itemsRef.current.filter(
+          (i) => !removedIds.current.has(getItemId(i))
+        )
+        console.log("🧹 执行彻底清理", removedIds.current)
+
+        heightMap.current = Object.fromEntries(
+          Object.entries(heightMap.current).filter(
+            ([key]) => !removedIds.current.has(key)
+          )
+        )
+        console.log("🧹 执行缓存清理", removedIds.current)
+        removedIds.current.clear()
+      }
+    },
+    [getItemId]
+  )
+
+  // === 加载更多数据 ===
+  const loadMore = useCallback(async () => {
+    if (!hasMore || loadingRef.current) return
+
+    loadingRef.current = true
+    setIsLoading(true)
+
+    try {
+      const lastItem = nextCursor || itemsRef.current.at(-1)
+      const res = await fetchPage({
+        limit: pageSize,
+        ...defaultParams,
+        ...(lastItem && {
+          clt: lastItem.create_time,
+          cli: lastItem._id,
+        }),
+      })
+
+      const list = res?.data?.rows || res?.data?.list || res?.data || []
+      if (list.length < pageSize) setHasMore(false)
+
+      itemsRef.current.push(...list)
+      forceRerender((n) => n + 1)
+
+      if (res?.next_cursor) {
+        setNextCursor(res.next_cursor)
+      }
+    } finally {
+      loadingRef.current = false
+      setIsLoading(false)
+      setIsInitialLoading(false)
+    }
+  }, [fetchPage, pageSize, defaultParams, hasMore, nextCursor])
+
+  // === 参数变化时，清空数据重新加载 ===
+  const previousParams = useRef(JSON.stringify(defaultParams))
+  useEffect(() => {
+    const newParams = JSON.stringify(defaultParams)
+    if (previousParams.current !== newParams) {
+      previousParams.current = newParams
+      itemsRef.current = []
+      heightMap.current = {}
+      removedIds.current.clear()
+      loadingRef.current = false
+      setHasMore(true)
+      setNextCursor(null)
+      forceRerender((n) => n + 1)
+      loadMore()
+    }
+  }, [defaultParams, loadMore])
+
+  // === 容器尺寸变化监听 ===
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      setContainerWidth(entry.contentRect.width)
+    })
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current)
+    }
+    return () => resizeObserver.disconnect()
+  }, [])
+
+  // === 移除已删除项，构建有效 item 列表 ===
+  const allItems = itemsRef.current.filter(
+    (i) => !removedIds.current.has(getItemId(i))
+  )
+
+  // === 构建 item 的绝对定位信息 ===
+  const cols = Array.from({ length: columnCount }, () => 0)
+  const positionedItems = useRef([])
+  positionedItems.current = allItems.map((item) => {
+    const id = getItemId(item)
+    const height = heightMap.current[id] || item.height || 0 // 默认高度为 0，避免错位
+    const col = cols.indexOf(Math.min(...cols))
+    const top = cols[col]
+    const left = col * (columnWidth + HORIZONTAL_GAP)
+    cols[col] += height + VERTICAL_GAP
+    return {
+      ...item,
+      _id: id,
+      top,
+      left,
+      height,
+      originalHeight: item.height,
+      originalWidth: item.width,
+    }
+  })
+
+  const containerHeight = Math.max(...cols, 0)
+
+  // === 筛选当前可视区域的 item ===
+  const visibleItems = positionedItems.current.filter(
+    (i) =>
+      i.top + i.height >= scrollTop - VIEWPORT_BUFFER &&
+      i.top <= scrollTop + viewportHeight + VIEWPORT_BUFFER
+  )
+
+  // === 当前是否需要手动加载更多（内容不够填满） ===
+  const canManuallyLoadMore =
+    hasMore && !isLoading && containerHeight < viewportHeight
+
+  // === 监听滚动触发懒加载 ===
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    let ticking = false
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const y = el.scrollTop
+          setScrollTop(y)
+          setViewportHeight(el.clientHeight)
+
+          const lastItem = positionedItems.current.at(-1)
+          if (
+            hasMore &&
+            lastItem &&
+            lastItem.top < y + el.clientHeight + VIEWPORT_BUFFER
+          ) {
+            loadMore()
+          }
+
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+    el.addEventListener("scroll", onScroll)
+    return () => el.removeEventListener("scroll", onScroll)
+  }, [loadMore, hasMore])
+
+  // === 初始加载 ===
+  useEffect(() => {
+    if (containerWidth > 0 && allItems.length === 0) {
+      loadMore()
+    }
+  }, [containerWidth, loadMore, allItems.length])
+
+  // === 简化后的高度测量 ===
+  const measureItem = (id, node) => {
+    if (!node) return
+    requestAnimationFrame(() => {
+      const h = node.offsetHeight
+      if (heightMap.current[id] !== h) {
+        heightMap.current[id] = h
+        forceRerender((n) => n + 1)
+      }
+    })
+  }
+
+  // === 渲染 ===
+  return (
+    <section
+      ref={containerRef}
+      style={{
+        height: "100%",
+        overflowY: "auto",
+        boxSizing: "border-box",
+        ...style,
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          width: containerWidth,
+          maxWidth: columnCount * (columnWidth + GUTTER) - GUTTER,
+          margin: "0 auto",
+          height: containerHeight,
+        }}
+      >
+        {visibleItems.map((cell) => (
+          <div
+            key={cell._id}
+            ref={(el) => measureItem(cell._id, el)}
+            style={{
+              position: "absolute",
+              top: cell.top,
+              left: cell.left,
+              width: columnWidth,
+              borderRadius: "var(--distance)",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+            }}
+          >
+            {/* 传入 remove 方法给外部调用 */}
+            {renderItem(cell, {
+              columnWidth,
+              remove: () => removeItem(cell._id),
+            })}
+          </div>
+        ))}
+      </div>
+
+      {isLoading && isInitialLoading && (
+        <div style={{ textAlign: "center", padding: 48 }}>
+          <Spin />
+        </div>
+      )}
+
+      {!isLoading && allItems.length === 0 && !isInitialLoading && (
+        <Empty style={{ marginTop: "20%" }} />
+      )}
+
+      {/* {!isLoading && !hasMore && allItems.length !== 0 && (
+        <Divider plain>到底啦</Divider>
+      )} */}
+
+      {canManuallyLoadMore && (
+        <div style={{ textAlign: "center", padding: 24 }}>
+          <Button onClick={() => loadMore()}>加载更多</Button>
+        </div>
+      )}
+    </section>
+  )
+}

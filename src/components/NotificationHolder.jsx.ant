@@ -1,0 +1,22 @@
+import React, { useEffect } from 'react';
+import { message, notification } from 'antd';
+import { setNotificationApi, setMessageApi } from '@/utils/notify';
+
+const NotificationHolder = () => {
+  const [notificationApi, notificationContext] = notification.useNotification();
+  const [messageApi, messageContext] = message.useMessage();
+
+  useEffect(() => {
+    setNotificationApi(notificationApi);
+    setMessageApi(messageApi);
+  }, [notificationApi, messageApi]);
+
+  return (
+    <>
+      {notificationContext}
+      {messageContext}
+    </>
+  );
+};
+
+export default NotificationHolder;

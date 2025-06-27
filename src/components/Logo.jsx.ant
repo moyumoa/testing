@@ -1,0 +1,39 @@
+import React from "react"
+import { Space, Typography } from "antd"
+import ipLogo from "@/assets/logo.png"
+const Logo = () => {
+  return (
+    <div
+      onClick={() => {
+        window.open("https://sigohub.cc", "_blank", "noopener noreferrer")
+      }}
+      style={{
+        width: 152,
+        height: 32,
+        marginRight: 30,
+        display: "flex",
+        // justifyContent: "center",
+        alignItems: "center",
+        cursor: "pointer",
+      }}
+    >
+      <img
+        src={ipLogo}
+        style={{
+          width: 32,
+          height: 32,
+          objectFit: "contain",
+          marginRight: 8,
+          marginTop: -2,
+        }}
+      />
+      <Typography.Text
+        style={{ color: "#4fb2df", fontWeight: 800, lineHeight: "1.2em" }}
+      >
+        SigoHub
+      </Typography.Text>
+    </div>
+  )
+}
+
+export default Logo

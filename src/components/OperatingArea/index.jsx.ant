@@ -1,0 +1,78 @@
+// import React, { useRef, useLayoutEffect, useState } from "react"
+// import { Space, Typography } from "antd"
+// import styles from "./index.module.scss"
+// const OperatingArea = ({ children }) => {
+//   const areaRef = useRef(null)
+//   const [areaHeight, setAreaHeight] = useState(0)
+
+//   useLayoutEffect(() => {
+//     if (areaRef.current) {
+//       const height = areaRef.current.offsetHeight
+//       setAreaHeight(height)
+//       console.log("🚀 operating_area 高度是：", height)
+//     }
+//   }, [children]) // 如果 children 可能动态变化就监听它
+//   return (
+//     <Space
+//       direction="vertical"
+//       style={{
+//         display: "flex",
+//         height: 96 + (areaHeight / 2),
+//         marginBottom: 16 + (areaHeight / 2),
+//       }}
+//       className={styles.operating_box}
+//     >
+//       <Typography.Title level={4}>标题标题标题</Typography.Title>
+//       <Typography.Text type="secondary">
+//         描述描述描述描述描述描述描述
+//       </Typography.Text>
+//       <div
+//         ref={areaRef}
+//         className={styles.operating_area}
+//         style={{ bottom: -(areaHeight / 2) }}
+//       >
+//         {children}
+//       </div>
+//     </Space>
+//   )
+// }
+
+// export default OperatingArea
+
+import React, { useRef, useLayoutEffect } from "react"
+import { Space, Typography } from "antd"
+import styles from "./index.module.scss"
+const OperatingArea = ({ title, desc, children, onHeightChange }) => {
+  const ref = useRef(null)
+  const lastHeightRef = useRef(0)
+  useLayoutEffect(() => {
+    const height = ref.current?.offsetHeight || 0
+    if (
+      height !== lastHeightRef.current &&
+      typeof onHeightChange === "function"
+    ) {
+      lastHeightRef.current = height
+      onHeightChange(height)
+    }
+  }, [children, title, desc, onHeightChange])
+
+  return (
+    <Space
+      ref={ref}
+      direction="vertical"
+      style={{ display: "flex" }}
+      className={styles.operating_box}
+    >
+      {title && (
+        <Typography.Title level={4} style={{ margin: "0.2em 0" }}>
+          {title}
+        </Typography.Title>
+      )}
+      {desc && <Typography.Text type="secondary">{desc}</Typography.Text>}
+
+      <div className={styles.operating_area}>{children}</div>
+    </Space>
+  )
+}
+
+export default OperatingArea

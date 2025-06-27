@@ -1,0 +1,155 @@
+$__distance: 12px;
+$__headerbar_height: 52px;
+$__breadcrumbs_height: 44px;
+// $__bg_color: #f2f2f6;
+$__bg_color: #181a1c;
+$__bg_opacity_color: #feffff;
+
+.headerbar {
+  height: $__headerbar_height;
+  line-height: $__headerbar_height;
+  display: flex;
+  align-items: center;
+  background-color: #1c1e20;
+  padding: 0 calc($__distance * 3);
+}
+
+.navbar {
+  height: auto; // 让菜单内容自适应
+  padding: 0; // 清除默认上下 padding
+  background-color: transparent;
+  border-bottom: none;
+
+  :global(.ant-menu-item) {
+    display: flex;
+    align-items: center;
+  }
+
+  // :global(.ant-menu) {
+  //   height: auto;
+  //   display: flex;
+  //   align-items: center;
+  // }
+  /* 如果导航是胶囊按钮 就把这个注释解开 */
+  // :global(.ant-menu-item) {
+  //   height: 38px;
+  //   line-height: 38px;
+  //   padding: 0 32px;
+  //   margin-inline: 8px;
+  //   border-radius: 12px !important;
+  //   overflow: hidden;
+  // }
+  /* ----------------------------- */
+
+  // :global(.ant-menu-item::after) {
+  //   border-radius: 12px !important;
+  //   overflow: hidden;
+  // }
+  // :global(.ant-menu-item-selected) {
+  //   border-radius: 12px !important;
+  // }
+}
+
+.breadcrumbs {
+  margin: $__distance $__distance 0;
+  height: $__breadcrumbs_height;
+  display: flex;
+  align-items: center;
+  background-color: rgba(245, 245, 255, 1);
+  padding: 0 $__distance;
+  // box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.1);
+  border-radius: $__distance $__distance 0 0;
+  position: relative;
+  // 底部阴影
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform: scaleY(0.5);
+    background: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.siderbar {
+  margin: $__distance 0 $__distance $__distance;
+  height: calc(100vh - $__headerbar_height - (2 * $__distance));
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.siderbarMenu {
+  // background-color: $__bg_opacity_color_black;
+}
+
+.layoutContainer {
+  // margin: $__distance;
+  // background-color: $__bg_color;
+  // background-color: transparent;
+  // background-color: $__bg_opacity_color;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.contentBox {
+  max-height: calc(
+    100vh - $__headerbar_height - $__breadcrumbs_height - (2 * $__distance)
+  );
+  // padding: $__distance;
+  box-sizing: border-box;
+  // background-color: $__bg_opacity_color;
+  // overflow: auto;
+  min-width: 0;
+  word-break: break-word;
+  // &::-webkit-scrollbar {
+  //   width: 0px;
+  //   // background: transparent; /* Optional: just make scrollbar invisible */
+  // }
+
+  position: relative;
+  // border-radius: 0 0 var(--distance) var(--distance);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  &::before {
+    content: "";
+    position: fixed;
+    top: calc($__headerbar_height + $__breadcrumbs_height + $__distance);
+    left: calc(200px + ($__distance * 2));
+    right: $__distance;
+    bottom: $__distance;
+    background-image: url("@/assets/images/pageback.svg");
+    background-size: cover;
+    // opacity: 0.92;
+    z-index: -1;
+    background-color: $__bg_opacity_color;
+    border-radius: 0 0 $__distance $__distance;
+  }
+
+  // /* 去除滚动条 */
+  // -webkit-overflow-scrolling: touch;
+  // /* 使滚动更平滑 */
+  // scrollbar-color: transparent transparent;
+  // scrollbar-width: none;
+  // -ms-overflow-style: none;
+}
+// .contentBox::-webkit-scrollbar {
+//   display: none;
+//   width: 0;
+//   height: 0;
+// }
+
+.contentBoxFull {
+  max-height: calc(100vh - $__headerbar_height - (2 * $__distance));
+  margin: $__distance;
+  box-sizing: border-box;
+  border-radius: $__distance;
+  background-color: $__bg_opacity_color;
+  overflow: auto;
+  min-width: 0;
+  word-break: break-word;
+  position: relative;
+}

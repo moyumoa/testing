@@ -1,0 +1,35 @@
+.operating_box {
+  padding: var(--distance) calc(var(--distance) * 2);
+  // background-color: rgba(245, 245, 255, 1);
+  // border-radius: 0 0 var(--distance) var(--distance);
+  background-image: url("@/assets/wavy-lines.svg");
+  // background-size: cover;
+  background-size: 100% 100%;
+  user-select: none;
+  position: relative;
+  // margin-bottom: var(--distance);
+
+  // 在底部加阴影
+  box-shadow: 0 -1px 12px rgba(0, 0, 0, 0.035);
+
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   bottom: 0;
+  //   left: 0;
+  //   right: 0;
+  //   height: 1px;
+  //   transform: scaleY(0.5);
+  //   background: rgba(0, 0, 0, 0.05);
+  // }
+}
+.operating_area {
+  padding: calc(var(--distance) * 1) 0;
+  // border-radius: 12px;
+  // background-color: #fff;
+  // position: absolute;
+  // left: calc(var(--distance) * 2);
+  // right: calc(var(--distance) * 2);
+  // z-index: 1;
+  // box-shadow: 0 1px 12px rgba(0, 0, 0, 0.035);
+}

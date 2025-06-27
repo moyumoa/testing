@@ -1,0 +1,19 @@
+.login_page{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+}
+h1{
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.login_form{
+  width: 400px;
+  padding: 32px;
+  background-color: rgba(245,245,245,.64);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}

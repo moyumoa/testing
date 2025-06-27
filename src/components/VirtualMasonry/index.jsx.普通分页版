@@ -1,0 +1,215 @@
+import React, { useCallback, useEffect, useRef, useState } from "react"
+import { Spin, Empty, Button } from "antd"
+
+const PAGE_BUFFER = 3
+const GUTTER = 16
+const VIEWPORT_BUFFER = 1000
+const VERTICAL_GAP = 16
+const HORIZONTAL_GAP = 16
+
+export default function VirtualWaterfall({
+  fetchPage,
+  getItemId,
+  renderItem,
+  pageSize = 20,
+  columnCount = 4,
+  defaultParams = {},
+  style = {},
+}) {
+  const containerRef = useRef(null)
+  const [containerWidth, setContainerWidth] = useState(0)
+  const [scrollTop, setScrollTop] = useState(0)
+  const [viewportHeight, setViewportHeight] = useState(window.innerHeight)
+  const [, forceRerender] = useState(0)
+
+  const heightMap = useRef({})
+  const pagesRef = useRef(new Map())
+  const loadingRef = useRef(new Set())
+  const [isLoading, setIsLoading] = useState(false)
+  const [maxLoadedPage, setMaxLoadedPage] = useState(0)
+  const [hasMore, setHasMore] = useState(true)
+
+  const columnWidth =
+    (containerWidth - (columnCount - 1) * HORIZONTAL_GAP) / columnCount
+
+  const loadPage = useCallback(
+    async (page) => {
+      if (!hasMore || pagesRef.current.has(page) || loadingRef.current.has(page)) return
+      loadingRef.current.add(page)
+      setIsLoading(true)
+      try {
+        const res = await fetchPage({ page, limit: pageSize, ...defaultParams })
+        const list = res?.data?.rows || res?.data?.list || res?.data || []
+        pagesRef.current.set(page, list)
+        setMaxLoadedPage((prev) => Math.max(prev, page))
+        if (list.length < pageSize) {
+          setHasMore(false)
+        }
+        forceRerender((n) => n + 1)
+      } finally {
+        loadingRef.current.delete(page)
+        setIsLoading(false)
+      }
+    },
+    [fetchPage, pageSize, defaultParams, hasMore]
+  )
+
+  const previousParams = useRef(JSON.stringify(defaultParams))
+
+  useEffect(() => {
+    const newParams = JSON.stringify(defaultParams)
+    if (previousParams.current !== newParams) {
+      previousParams.current = newParams
+      pagesRef.current.clear()
+      heightMap.current = {}
+      loadingRef.current.clear()
+      setHasMore(true)
+      setMaxLoadedPage(0)
+      forceRerender((n) => n + 1)
+      loadPage(1)
+    }
+  }, [defaultParams, loadPage])
+
+  useEffect(() => {
+    const resizeObserver = new ResizeObserver(([entry]) => {
+      setContainerWidth(entry.contentRect.width)
+    })
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current)
+    }
+    return () => resizeObserver.disconnect()
+  }, [])
+
+  const allItems = Array.from(pagesRef.current.entries()).flatMap(
+    ([page, items]) => items.map((item) => ({ ...item, _page: page }))
+  )
+
+  const cols = Array.from({ length: columnCount }, () => 0)
+  const positionedItems = useRef([])
+
+  positionedItems.current = allItems.map((item) => {
+    const id = getItemId(item)
+    const height = heightMap.current[id] || 300
+    const col = cols.indexOf(Math.min(...cols))
+    const top = cols[col]
+    const left = col * (columnWidth + HORIZONTAL_GAP)
+    cols[col] += height + VERTICAL_GAP
+    return { ...item, _id: id, page: item._page, top, left, height }
+  })
+
+  const containerHeight = Math.max(...cols, 0)
+
+  const visibleItems = positionedItems.current.filter(
+    (i) =>
+      i.top + i.height >= scrollTop - VIEWPORT_BUFFER &&
+      i.top <= scrollTop + viewportHeight + VIEWPORT_BUFFER
+  )
+
+  const canManuallyLoadMore =
+    hasMore && !isLoading && containerHeight < viewportHeight
+
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+    let ticking = false
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const y = el.scrollTop
+          setScrollTop(y)
+          setViewportHeight(el.clientHeight)
+
+          const nextPage = maxLoadedPage + 1
+          const lastItem = positionedItems.current[positionedItems.current.length - 1]
+          if (
+            hasMore &&
+            lastItem &&
+            lastItem.top < y + el.clientHeight + VIEWPORT_BUFFER
+          ) {
+            loadPage(nextPage)
+          }
+
+          ticking = false
+        })
+        ticking = true
+      }
+    }
+    el.addEventListener("scroll", onScroll)
+    return () => el.removeEventListener("scroll", onScroll)
+  }, [loadPage, hasMore, maxLoadedPage])
+
+  useEffect(() => {
+    if (containerWidth > 0 && pagesRef.current.size === 0) {
+      loadPage(1)
+    }
+  }, [containerWidth, loadPage])
+
+  const measureItem = (id, node) => {
+    if (node) {
+      const h = node.offsetHeight
+      if (heightMap.current[id] !== h) {
+        heightMap.current[id] = h
+        forceRerender((n) => n + 1)
+      }
+    }
+  }
+
+  return (
+    <div
+      ref={containerRef}
+      style={{
+        height: "100%",
+        overflowY: "auto",
+        boxSizing: "border-box",
+        ...style,
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          width: containerWidth,
+          maxWidth: columnCount * (columnWidth + GUTTER) - GUTTER,
+          margin: "0 auto",
+          height: containerHeight,
+        }}
+      >
+        {visibleItems.map((item) => (
+          <div
+            key={item._id}
+            ref={(el) => measureItem(item._id, el)}
+            style={{
+              position: "absolute",
+              top: item.top,
+              left: item.left,
+              width: columnWidth,
+              background: "#fff",
+              borderRadius: 8,
+              overflow: "hidden",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
+            }}
+          >
+            {renderItem(item)}
+          </div>
+        ))}
+      </div>
+
+      {isLoading && allItems.length === 0 && (
+        <div style={{ textAlign: "center", padding: 48 }}>
+          <Spin size="large" />
+        </div>
+      )}
+
+      {!isLoading && allItems.length === 0 && (
+        <Empty style={{ marginTop: "20%" }} />
+      )}
+
+      {canManuallyLoadMore && (
+        <div style={{ textAlign: "center", padding: 24 }}>
+          <Button type="primary" onClick={() => loadPage(maxLoadedPage + 1)}>
+            加载更多
+          </Button>
+        </div>
+      )}
+    </div>
+  )
+}

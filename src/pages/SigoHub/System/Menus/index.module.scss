@@ -1,0 +1,44 @@
+.page {
+  height: 100%;
+  position: relative;
+}
+.content {
+  overflow: auto;
+  min-width: 0;
+  word-break: break-word;
+}
+.panel {
+  height: calc(var(--main-height) - 50px);
+  overflow: auto;
+  min-width: 0;
+  word-break: break-word;
+}
+.card {
+  width: 375px;
+  margin: 12px 0;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border-radius: 12px;
+  float: left;
+  margin-right: 12px;
+
+  &_item {
+    display: flex;
+    padding: 12px;
+    box-sizing: border-box;
+    background-color: #fff;
+    // border-radius: 8px;
+
+    &_btn {
+      margin-left: 32px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      button {
+        margin: 5px 0;
+      }
+    }
+  }
+}

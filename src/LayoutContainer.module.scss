@@ -1,0 +1,15 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.top {
+  flex-shrink: 0;
+}
+.body {
+  flex: 1;
+  overflow-y: auto;
+}
+.bottom {
+  flex-shrink: 0;
+}
