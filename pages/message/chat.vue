@@ -40,13 +40,13 @@ export default {
     MessageItem
   },
   data: () => ({
-    isFocused: false,
     inputValue: '', // 输入框内容
     scrollTop: undefined, // 滚动位置
     messageList: [], // 消息列表
     loadingStatus: 'more', // 加载状态
     inputBottomValue: '0', // 输入框底部位置
     inputHeight: 44, // 输入框高度
+    originWindowHeight: 0, // 初始窗口高度
     options: {}, // 页面参数
     start_message_seq: 0, // 开始消息序列号
     end_message_seq: 0, // 结束消息序列号
@@ -58,20 +58,18 @@ export default {
   onReady () {
     // 页面准备就绪时获取inputRef高度
     this.$nextTick(() => {
+      // 记录初始窗口高度
+      this.originWindowHeight = window.innerHeight
       // 计算 input 高度
       const query = uni.createSelectorQuery().in(this)
       query.select('#chat-input-wrap').boundingClientRect(data => {
         this.inputHeight = data?.height || 44;
       }).exec()
 
-      // ⚠️ 此处添加 blur 监听，确保元素已渲染
-      const input = document.getElementById('robotInput')
-      if (input) {
-        input.addEventListener('blur', () => {
-          // 延迟触发 resize，让 UI 重绘完毕
-          setTimeout(() => window.dispatchEvent(new Event('resize')), 50)
-        })
-      }
+      // ⚠️ 使用resize事件兼容H5键盘显示/隐藏
+      this.handleWindowResize()
+      window.addEventListener('resize', this.handleWindowResize)
+
     })
   },
   onLoad (options) {
@@ -83,12 +81,7 @@ export default {
   // 组件卸载取消监听
   onUnload () {
     this.$im.sdk.chatManager.removeMessageListener(this.handleNewMessage)
-  },
-  onShow () {
-    uni.onKeyboardHeightChange(this.keyboardChange);
-  },
-  onHide () {
-    uni.offKeyboardHeightChange(this.keyboardChange);
+    window.removeEventListener('resize', this.handleWindowResize)
   },
   methods: {
     handleNewMessage (message) {
@@ -153,10 +146,8 @@ export default {
     resetChat () {
       this.inputValue = '';
       this.scrollTop = 0;
-      this.isFocused = false;
       this.$nextTick(() => {
         this.scrollTop = undefined;
-        this.isFocused = true;  // 触发重新聚焦
       });
     },
 
@@ -172,8 +163,9 @@ export default {
       })
     },
 
-    keyboardChange (res) {
-      this.inputBottomValue = res.height ? res.height + 'px' : '0';
+    handleWindowResize () {
+      const diff = this.originWindowHeight - window.innerHeight
+      this.inputBottomValue = diff > 0 ? diff + 'px' : '0'
     },
 
     onClick (index) {
