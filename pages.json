@@ -1,0 +1,110 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "xxxxx"
+			}
+		},
+		{
+			"path": "pages/index/test",
+			"style": {
+				"navigationBarTitleText": "测试列表"
+			}
+		},
+		{
+			"path": "pages/message/index",
+			"style": {
+				"navigationBarTitleText": "最近消息"
+				// "navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/message/chat",
+			"style": {
+				"navigationBarTitleText": "会话"
+				// "navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/personal/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationStyle": "custom"
+			}
+		}
+	],
+	"subPackages": [
+		{
+			"root": "reward",
+			"pages": [
+				{
+					"path": "pages/invite/index",
+					"style": {
+						"navigationBarTitleText": "邀请有礼",
+						"navigationStyle": "custom"
+					}
+				}
+			]
+		},
+		{
+			"root": "member",
+			"pages": [
+				{
+					"path": "pages/center/index",
+					"style": {
+						"navigationStyle": "custom"
+					}
+				}
+			]
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "大家拍",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		// 不显示滚动条
+		"scrollIndicator": "none"
+	},
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#ff7300",
+		"backgroundColor": "#ffffff",
+		"borderStyle": "black",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页",
+				"iconPath": "static/tabbar/home.png",
+				"selectedIconPath": "static/tabbar/home-active.png"
+			},
+			{
+				"pagePath": "pages/index/test",
+				"text": "测试列表",
+				"iconPath": "static/tabbar/issue.png",
+				"selectedIconPath": "static/tabbar/issue-active.png"
+			},
+			{
+				"pagePath": "pages/message/index",
+				"text": "测试会话",
+				"iconPath": "static/tabbar/issue.png",
+				"selectedIconPath": "static/tabbar/issue-active.png"
+			},
+			{
+				"pagePath": "pages/personal/index",
+				"text": "我的",
+				"iconPath": "static/tabbar/personal.png",
+				"selectedIconPath": "static/tabbar/personal-active.png"
+			}
+		]
+	},
+	"uniIdRouter": {}
+}
