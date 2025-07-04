@@ -18,6 +18,7 @@ export default {
       { name: '临时', phone: '10000000007', channelID: 'f9d28ae952a4416c972fdb40b566158a' },
       { name: '10000000010', phone: '10000000010', channelID: 'b827cf287d0e46aca42f15346f0e6999' },
       { name: '10000000011', phone: '10000000011', channelID: '6b72f8260ddd48769de495bf9034a51f' },
+      { name: 'lubaoz', phone: 'lubaoz', channelID: '75d647c1904c49aab444e893c8003c05' },
     ]
   }),
 

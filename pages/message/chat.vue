@@ -1,6 +1,6 @@
 <template>
   <view>
-    <view class="chat-page" :style="{ height: `calc(var(--real-height) - ${inputHeight}px)` }">
+    <view class="chat-page" :style="{ height: `calc(100dvh - ${inputHeight}px)` }">
       <!-- <view class="page-bg" :style="{ backgroundImage: `url('/static/bgs/bg_chat.jpeg')` }" /> -->
       <view class="message-wrap">
         <scroll-view scroll-y enable-flex class="scroll-list" @scrolltolower="loadHistory" :scroll-top="scrollTop">
@@ -34,6 +34,7 @@ import {
   Channel,
   ChannelTypePerson,
   MessageText,
+  ConversationAction
 } from "wukongimjssdk"
 export default {
   components: {
@@ -63,13 +64,12 @@ export default {
       // 计算 input 高度
       const query = uni.createSelectorQuery().in(this)
       query.select('#chat-input-wrap').boundingClientRect(data => {
-        this.inputHeight = data?.height || 44;
+        this.inputHeight = data?.height + 44 || 44;
       }).exec()
 
       // ⚠️ 使用resize事件兼容H5键盘显示/隐藏
       this.handleWindowResize()
       window.addEventListener('resize', this.handleWindowResize)
-
     })
   },
   onLoad (options) {
@@ -77,6 +77,23 @@ export default {
     this.getMessages()
     // 注册消息监听
     this.$im.sdk.chatManager.addMessageListener(this.handleNewMessage)
+
+    const channel = new Channel(options.channel_id, options.channel_type);
+    uni.$api.clearUnread({
+      channel_id: options.channelID,
+      channel_type: Number(options.channelType),
+      unread: 0 // 清除未读消息
+    }).then(() => {
+      console.log('清除未读消息成功')
+      const conv = this.$im.sdk.conversationManager.findConversation(channel);
+      if (conv) {
+        conv.unread = 0;
+        this.$im.sdk.conversationManager.notifyConversationListeners(conv, ConversationAction.update);
+      }
+      this.$im.syncConversations();
+    }).catch(err => {
+      console.error('清除未读消息失败', err)
+    })
   },
   // 组件卸载取消监听
   onUnload () {

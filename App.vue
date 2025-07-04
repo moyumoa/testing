@@ -17,7 +17,8 @@ export default {
 		getUserInfo: {
 			handler (newVal) {
 				if (newVal?.uid && newVal?.token) {
-					this.$im.init(newVal)
+					// this.$im.init(newVal)
+					this.$im.init({ uid: newVal.uid, token: newVal.token });
 				}
 			},
 			immediate: true
@@ -89,7 +90,7 @@ export default {
 
 		const userInfo = this.getUserInfo
 		if (userInfo?.uid && userInfo?.token) {
-			this.$im.init(userInfo)
+			// this.$im.init(userInfo)
 		}
 
 		uni.$web = (url) => {

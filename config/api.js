@@ -10,6 +10,8 @@ const popTips = true
 export const login = params => server({ url: '/user/login', method: 'POST', params }) // 登录
 // 获取消息列表
 export const conversation = params => server({ url: '/conversation/sync', method: 'POST', params })
+// 清除未读消息
+export const clearUnread = params => server({ url: `/coversation/clearUnread`, method: 'PUT', params })
 // 获取指定频道消息
 export const getMessages = params => server({ url: '/message/channel/sync', method: 'POST', params })
 // 通过uid获取用户信息

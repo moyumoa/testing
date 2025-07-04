@@ -19,7 +19,7 @@ export function server ({ params, loading, popTips, ...args }) {
       data: params,
       dataType: "json",
       header: {
-        'content-type': args.method === 'POST' ? 'application/json;charset=UTF-8' : 'x-www-form-urlencoded; charset=UTF-8',
+        'content-type': args.method === 'POST' || args.method === 'PUT' ? 'application/json;charset=UTF-8' : 'x-www-form-urlencoded; charset=UTF-8',
         'Token': token,
       },
 
