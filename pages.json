@@ -3,7 +3,8 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "xxxxx"
+				"navigationBarTitleText": "瓢虫",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -38,6 +39,54 @@
 			"style": {
 				"navigationBarTitleText": "我的",
 				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/certification/individual",
+			"style": {
+				"navigationBarTitleText": "个人认证"
+			}
+		},
+		{
+			"path": "pages/certification/business",
+			"style": {
+				"navigationBarTitleText": "商户认证"
+			}
+		},
+		{
+			"path": "pages/wallet/index",
+			"style": {
+				"navigationBarTitleText": "钱包",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/member/center",
+			"style": {
+				"navigationBarTitleText": "会员中心",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/setting/index",
+			"style": {
+				"navigationBarTitleText": "设置"
+			}
+		},
+		{
+			"path": "pages/personal/invite",
+			"style": {
+				"navigationBarTitleText": "推广邀请"
+			}
+		},
+		{
+			"path": "pages/webview/webview",
+			"style": {
+				"navigationBarTitleText": "",
+				// "navigationStyle": "custom",
+				"enablePullDownRefresh": false,
+				"backgroundColorTop": "#F5F5F5",
+				"backgroundColorBottom": "#F5F5F5"
 			}
 		}
 	],
@@ -75,34 +124,34 @@
 		"scrollIndicator": "none"
 	},
 	"tabBar": {
-		"color": "#7A7E83",
-		"selectedColor": "#ff7300",
+		"color": "#D1D4DA",
+		"selectedColor": "#72A5FD",
 		"backgroundColor": "#ffffff",
-		"borderStyle": "black",
+		"borderStyle": "white",
 		"list": [
 			{
 				"pagePath": "pages/index/index",
 				"text": "首页",
-				"iconPath": "static/tabbar/home.png",
-				"selectedIconPath": "static/tabbar/home-active.png"
+				"iconPath": "static/tabbar/index.png",
+				"selectedIconPath": "static/tabbar/index_.png"
 			},
 			{
 				"pagePath": "pages/index/test",
-				"text": "测试列表",
-				"iconPath": "static/tabbar/issue.png",
-				"selectedIconPath": "static/tabbar/issue-active.png"
+				"text": "社区",
+				"iconPath": "static/tabbar/shequ.png",
+				"selectedIconPath": "static/tabbar/shequ_.png"
 			},
 			{
 				"pagePath": "pages/message/index",
-				"text": "测试会话",
-				"iconPath": "static/tabbar/issue.png",
-				"selectedIconPath": "static/tabbar/issue-active.png"
+				"text": "消息",
+				"iconPath": "static/tabbar/huihua.png",
+				"selectedIconPath": "static/tabbar/huihua_.png"
 			},
 			{
 				"pagePath": "pages/personal/index",
 				"text": "我的",
-				"iconPath": "static/tabbar/personal.png",
-				"selectedIconPath": "static/tabbar/personal-active.png"
+				"iconPath": "static/tabbar/wode.png",
+				"selectedIconPath": "static/tabbar/wode_.png"
 			}
 		]
 	},

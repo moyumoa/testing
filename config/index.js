@@ -12,7 +12,8 @@ if (process.env.NODE_ENV === "development") {
 	// baseUrl = 'https://h5.dajiapaipai.com/f'
 	// baseUrl = 'http://192.168.1.28:8201'
 	// baseUrl = 'http://192.168.1.28:8201' // 才
-	baseUrl = 'http://192.168.9.99:8090/v1' // 才
+	// baseUrl = 'http://192.168.9.99:7777' // 才
+	baseUrl = '/f' // 才
 	// baseUrl = 'http://192.168.2.2:8201' // 飞
 	// baseUrl = 'http://192.168.8.65:8201' // 飞
 	// 13616551001
@@ -27,7 +28,7 @@ if (process.env.NODE_ENV === "development") {
 } else if (process.env.NODE_ENV === "production") {
 	// 正式环境
 
-	baseUrl = 'https://h5.dajiapaipai.com/f'
+	baseUrl = 'http://192.168.9.99:7777/f'
 
 
 	publicUrl = 'https://h5.dajiapaipai.com/h5'
@@ -35,7 +36,7 @@ if (process.env.NODE_ENV === "development") {
 	appKey = '2NYALH4DWRTS80BVCGPMZ1I6U3EKQ795'
 	secretKey = 'L6GEVS98FTMYYX4S5X0ZPXDW36ZKETQKTUCXBORIOKN66W1W28IH8KSKXHHUUWA7'
 } else {
-	baseUrl = 'https://h5.dajiapaipai.com'
+	baseUrl = 'http://192.168.9.99:7777/f'
 
 	publicUrl = 'https://h5.dajiapaipai.com/h5'
 	webhUrl = 'https://h5.dajiapaipai.com/dist'

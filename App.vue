@@ -16,9 +16,9 @@ export default {
 	watch: {
 		getUserInfo: {
 			handler (newVal) {
-				if (newVal?.uid && newVal?.token) {
+				if (newVal?.imUid && newVal?.imToken && (newVal.imUid !== this.$im?.sdk?.config?.uid || newVal.imToken !== this.$im?.sdk?.config?.token)) {
 					// this.$im.init(newVal)
-					this.$im.init({ uid: newVal.uid, token: newVal.token });
+					this.$im.init({ imUid: newVal.imUid, imToken: newVal.imToken });
 				}
 			},
 			immediate: true
@@ -105,7 +105,13 @@ export default {
 					}
 				})
 			})
-		}
+		},
+
+			// 检查token是否过期
+			setInterval(() => {
+				console.log('定时检查token是否过期')
+				this.checkTokenExpiration()
+			}, 2000);
 	},
 	onShow: function () {
 		console.log('App Show')
@@ -130,7 +136,27 @@ export default {
 				}
 				this.globalData.realHeight = windowHeight - navHeight
 			})
+		},
+
+		// 计时器定时检查token是否过期
+		checkTokenExpiration () {
+			// 如果已经在登录页面，则不进行检查
+			if (getCurrentPages().length > 0 && getCurrentPages()[getCurrentPages().length - 1].route === 'pages/login') {
+				return
+			}
+			const token = uni.getStorageSync('mtttoken')
+			const imToken = uni.getStorageSync('imToken')
+			if (!token || !imToken) {
+				uni.navigateTo({
+					url: '/pages/login',
+					success: () => {
+						uni.hideLoading()
+					},
+				})
+				return
+			}
 		}
+
 	}
 }
 </script>
@@ -148,4 +174,40 @@ page::-webkit-scrollbar {
 <style lang="scss">
 /*每个页面公共css */
 @import "@/uni_modules/uview-ui/index.scss";
+
+.subbtns {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	background-color: #fff;
+	height: 44px;
+
+	padding: 8px 16px;
+	box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+
+	&-item {
+		flex: 1;
+		height: 44px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		// padding: 12px;
+		border-radius: 44px;
+		background-color: $btn-bc;
+		margin-right: 12px;
+
+		&:last-child {
+			margin-right: 0;
+		}
+
+		&-t {
+			font-size: 15px;
+			color: $btn-c;
+		}
+	}
+}
 </style>

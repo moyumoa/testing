@@ -9,6 +9,7 @@
 export default {
   data: () => ({
     list: [
+      { name: '测', phone: '7', channelID: '24077200f2a74556971a953a6149e74c' },
       { name: '测试1号', phone: '10000000001', channelID: '48539b449d664047981285b24a6002cf' },
       { name: '测试2号', phone: '10000000002', channelID: '40d41d828bc641dfa64afbf86f0d4855' },
       { name: 'zhangsan', phone: '10000000003', channelID: '6157f35f283c4e72b72e9ca91953e05d' },

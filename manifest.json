@@ -1,6 +1,6 @@
 {
     "name" : "wx_dajia",
-    "appid" : "__UNI__96CF1D9",
+    "appid" : "__UNI__388CD6D",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
@@ -75,10 +75,69 @@
     },
     "vueVersion" : "2",
     "h5" : {
+        "title" : "你的应用标题",
+        "pwa" : {
+            "serviceWorker" : true,
+            "manifest" : {
+                "name" : "你的应用名称",
+                "short_name" : "短名称",
+                "start_url" : "/?source=pwa",
+                "scope" : "/",
+                "display" : "standalone",
+                "orientation" : "portrait",
+                "background_color" : "#ffffff",
+                "theme_color" : "#007AFF",
+                "description" : "这是一个基于 uniapp 的PWA应用",
+                "lang" : "zh-CN",
+                "dir" : "ltr",
+                "icons" : [
+                    {
+                        "src" : "/static/icon-72.png",
+                        "sizes" : "72x72",
+                        "type" : "image/png"
+                    },
+                    {
+                        "src" : "/static/icon-192.png",
+                        "sizes" : "192x192",
+                        "type" : "image/png"
+                    },
+                    {
+                        "src" : "/static/icon-512.png",
+                        "sizes" : "512x512",
+                        "type" : "image/png"
+                    }
+                ]
+            }
+        },
         "router" : {
             "mode" : "history",
             "base" : "/"
         },
-        "template" : "template.h5.html"
+        "devServer" : {
+            // "port" : 80,
+            // "disableHostCheck" : true,
+            "host" : "0.0.0.0",
+            "disableHostCheck" : true,
+            "proxy" : {
+                "/f" : {
+                    "target" : "http://192.168.9.99:7777",
+                    "changeOrigin" : true,
+                    "secure" : false,
+                    "pathRewrite" : {
+                        "^/f" : ""
+                    }
+                }
+            }
+        },
+        "template" : "template.h5.html",
+        "sdkConfigs" : {
+            "maps" : {
+                "amap" : {
+                    "key" : "5f3dd6353305059fe284f4dc06e6239a",
+                    "securityJsCode" : "abfbb137eab7f0733f499d4d4abaa05c",
+                    "serviceHost" : ""
+                }
+            }
+        }
     }
 }

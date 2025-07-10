@@ -34,6 +34,7 @@ import {
   Channel,
   ChannelTypePerson,
   MessageText,
+  ImageContent,
   ConversationAction
 } from "wukongimjssdk"
 export default {
@@ -114,7 +115,7 @@ export default {
           status: message.status,
           payload: {
             ...message.content.contentObj || { content: message.content.text } || {},
-            opposite: this.getUserInfo.uid !== message.fromUID, // 是否是对方消息
+            opposite: this.getUserInfo.imUid !== message.fromUID, // 是否是对方消息
           },
           timestamp: message.timestamp
         })
@@ -124,7 +125,7 @@ export default {
     // 拉取消息
     async getMessages (callback) {
       const params = {
-        "login_uid": this.getUserInfo.uid, // 当前登录用户uid
+        "login_uid": this.getUserInfo.imUid, // 当前登录用户uid
         "channel_id": this.options.channelID, //  频道ID
         "channel_type": Number(this.options.channelType), // 频道类型
         "start_message_seq": this.start_message_seq, // 开始消息列号（结果包含start_message_seq的消息）
@@ -144,7 +145,7 @@ export default {
           message_idstr: item.message_idstr,
           payload: {
             ...item.payload,
-            opposite: this.getUserInfo.uid !== item.from_uid,
+            opposite: this.getUserInfo.imUid !== item.from_uid,
           },
           timestamp: item.timestamp
         }
@@ -157,6 +158,19 @@ export default {
       if (!this.inputValue) return;
       const channel = new Channel(this.options.channelID, ChannelTypePerson)
       const content = new MessageText(this.inputValue)
+      console.log('发送消息', content, channel);
+      this.$im.sdk.chatManager.send(content, channel)
+    },
+
+    // 测试发送图片
+    testSendImage () {
+      const channel = new Channel(this.options.channelID, ChannelTypePerson)
+      const content = new ImageContent({
+        url: 'https://example.com/image.jpg', // 替换为实际图片URL
+        width: 100, // 图片宽度
+        height: 100 // 图片高度
+      })
+      console.log('发送图片消息', content, channel);
       this.$im.sdk.chatManager.send(content, channel)
     },
 

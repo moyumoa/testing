@@ -1,20 +1,77 @@
 <template>
   <view>
-    <image class="page-bg" src="/static/images/poster.jpg" v-if="disable" />
+    <image class="page-bg" src="/static/images/poster.png" />
     <view class="login">
-      <view class="login-topbox" v-if="!disable">
-        <image class="login-topbox-icon" src="/static/logo.png"></image>
+      <view class="login-topbox">
+        <image class="login-topbox-icon" src="/static/images/rejister-t.png" v-if="isRejister" />
+        <image class="login-topbox-icon" src="/static/images/login-t.png" v-else />
         <text class="login-topbox-t"></text>
       </view>
       <view class="info" :class="{ 'info-active': disable }">
         <view class="verify-ipt-box">
-          <view class="verify-ipt">
-            <input type="number" inputmode="tel" placeholder="请输入手机号" v-model="phone" clearable @blur="blur_phone"
-              style="font-size: 14px; margin-bottom: 14px" />
-            <view class="line"></view>
-          </view>
+          <template v-if="!isRejister">
+            <view class="verify-ipt">
+              <input type="text" inputmode="tel" placeholder="请输入用户名" v-model="loginName" clearable
+                style="font-size: 14px;" />
+              <!-- <view class="line"></view> -->
+            </view>
 
-          <view class="code">
+            <view class="verify-ipt">
+              <input type="text" placeholder="请输入密码" v-model="password" clearable style="font-size: 14px;"
+                v-if="showPassword" />
+              <input type="password" placeholder="请输入密码" v-model="password" clearable style="font-size: 14px;" v-else />
+              <!-- <view class="line"></view> -->
+              <u-icon :name="showPassword ? 'eye-off' : 'eye'" size="20" color="#a5acbb" class="passicon"
+                @tap="showPassword = !showPassword"></u-icon>
+            </view>
+
+            <view class="others">
+              <view class="others-l">
+                <u-checkbox-group>
+                  <u-checkbox labelColor="#fff" size="15" label="记住我" class="checkbox-item" :checked="remember"
+                    @change="remember = !remember"></u-checkbox>
+                </u-checkbox-group>
+
+              </view>
+              <view class="others-r">
+                <text class="others-r-gery">还没账号?</text>
+                <text class="others-r-white" @tap="isRejister = true">立即注册</text>
+              </view>
+            </view>
+
+            <view class="info-btns">
+              <view class="info-btns-item" @click="submit('login')">登录</view>
+            </view>
+          </template>
+
+          <template v-if="isRejister">
+            <view class="verify-ipt">
+              <input type="text" inputmode="tel" placeholder="请输入用户名" v-model="loginName" clearable
+                style="font-size: 14px;" />
+            </view>
+            <view class="verify-ipt">
+              <input type="text" placeholder="请输入密码" v-model="password" clearable style="font-size: 14px;" />
+            </view>
+            <view class="verify-ipt">
+              <input type="text" placeholder="请再次输入密码" v-model="password2" clearable style="font-size: 14px;" />
+            </view>
+
+            <view class="others" style="justify-content: center;">
+              <text class="others-r-gery">请妥善保管账号密码, 密码忘记则无法找回</text>
+            </view>
+
+            <view class="info-btns">
+              <view class="info-btns-item" @click="submit('register')">立即注册</view>
+              <view class="others">
+                <view class="others-r">
+                  <text class="others-r-gery">已有账号?</text>
+                  <text class="others-r-white" @tap="isRejister = false">立即登录</text>
+                </view>
+              </view>
+            </view>
+          </template>
+
+          <view class="code" v-if="false">
             <view class="code-left">
               <input type="text" placeholder="请输入验证码" v-model="code" clearable
                 style="font-size: 14px; margin-bottom: 14px" />
@@ -33,28 +90,28 @@
           </view>
         </view>
 
-        <view class="info-btns">
-          <view class="info-btns-item" @click="submit">登录</view>
-        </view>
 
-        <view class="links" v-if="disable">
+
+        <!-- <view class="links" v-if="disable">
           登录后即代表您已同意
           <text class="links-item" style="margin-right: 0;"
             @tap="to_web('https://cos.dajiapaipai.com/yszc/yszc.html')">隐私政策</text>及
           <text class="links-item" @tap="to_web('https://cos.dajiapaipai.com/yszc/yhxy.html')">用户协议</text>
-        </view>
+        </view> -->
       </view>
     </view>
     <view class="links" v-if="!disable">
-      <text class="links-item" @tap="to_web('https://cos.dajiapaipai.com/yszc/yszc.html')">隐私政策</text>
-      <text class="links-item" @tap="to_web('https://cos.dajiapaipai.com/yszc/yhxy.html')">用户协议</text>
+      登录即代表您已同意
+      <text class="links-item" @tap="to_web('https://cos.dajiapaipai.com/yszc/yszc.html')">《瓢虫用户协议》</text>
+      和
+      <text class="links-item" @tap="to_web('https://cos.dajiapaipai.com/yszc/yhxy.html')">《瓢虫隐私政策》</text>
     </view>
   </view>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-
+import { getLocationAndAddress } from '@/utils/getLocation.js';
 export default {
   data () {
     return {
@@ -69,11 +126,57 @@ export default {
       isNew: true,
       redirect: '',
       disable: false,
-      forbidden: false
+      forbidden: false,
+      showPassword: false, // 是否显示密码
+      remember: true, // 记住我
+      isRejister: false, // 是否注册
+      loginName: '', // 登录名
+      password: '', // 密码
+      password2: '', // 确认密码
+      nickName: '', // 昵称
+      avatar: '', // 头像
+      lng: '', // 经度
+      lat: '', // 纬度
+      city: '', // 城市
+      address: '', // 城市地址
+      regeocode: {}, // 地址组件
     }
   },
   onShow () {
     console.log('onShow')
+    const remember = uni.getStorageSync('remember') ? true : false
+    if (remember) {
+      const { loginName, password } = JSON.parse(uni.getStorageSync('remember') || '{}')
+      this.loginName = loginName
+      this.password = password
+      this.remember = true
+    } else {
+      this.loginName = ''
+      this.password = ''
+      this.remember = false
+    }
+
+    // uni.getLocation({
+    //   type: 'wgs84',
+    //   success: function (res) {
+    //     console.log('当前位置的经度：' + res.longitude);
+    //     console.log('当前位置的纬度：' + res.latitude);
+    //   }
+    // });
+
+    getLocationAndAddress()
+      .then(({ lng, lat, address, regeocode }) => {
+        this.lng = lng
+        this.lat = lat
+        this.address = address
+        this.regeocode = regeocode
+        console.log('经纬度:', lng, lat);
+        console.log('地址:', address);
+        console.log('地址组件:', regeocode);
+      })
+      .catch(err => {
+        console.error('获取定位失败:', err.message);
+      });
   },
 
   onLoad (options) {
@@ -120,11 +223,106 @@ export default {
       }
     },
 
-    async submit () {
+    submit (type) {
+
+      return {
+        // 注册
+        'register': async () => {
+          if (this.loginName.length === 0) return uni.$toast('请输入用户名')
+          if (this.password.length === 0) return uni.$toast('请输入密码')
+          if (this.password2.length === 0) return uni.$toast('请再次输入密码')
+          if (this.password !== this.password2) return uni.$toast('两次输入的密码不一致')
+
+          const getAvatar = await uni.$api.generateAvatar()
+          this.avatar = getAvatar.data.avatarUrl
+          console.log('获取头像', getAvatar)
+
+          const getUsername = await uni.$api.generateUsername()
+          this.nickName = getUsername.data.nickname
+          console.log('获取用户名', getUsername)
+
+          const result = await uni.$api.register({
+            loginName: this.loginName,
+            password: this.password,
+            nickName: this.nickName,
+            avatar: this.avatar
+          })
+          console.log('注册结果', result)
+          this.submit('login')
+        },
+
+        'login': async () => {
+          if (this.loginName.length === 0) return uni.$toast('请输入用户名')
+          if (this.password.length === 0) return uni.$toast('请输入密码')
+
+          if (this.remember) {
+            uni.setStorageSync('remember', JSON.stringify({
+              loginName: this.loginName,
+              password: this.password
+            }))
+          } else {
+            uni.removeStorageSync('remember')
+          }
+
+          const info = await uni.$api.login({
+            userName: this.loginName,
+            password: this.password,
+            lng: this.lng,
+            lat: this.lat,
+            city: this.regeocode.city || '',
+            address: this.address || '',
+          })
+          const userInfo = {
+            ...info.data.user,
+            token: info.data.token,
+          }
+          console.log(userInfo, '-----res')
+          this.updateUserInfo(userInfo)
+          this.$im.init(userInfo)
+
+          uni.hideLoading();
+          uni.$toast('登录成功', 500)
+          uni.setStorageSync('imToken', userInfo.imToken)
+          uni.setStorageSync('mtttoken', userInfo.token)
+          uni.setStorageSync('userInfo', JSON.stringify(userInfo))
+          uni.setStorageSync('isLogin', true)
+
+          // 判断是否有上一个页面 如果有则返回上一个页面 如果没有则跳转到首页
+          const pages = getCurrentPages()
+          if (pages.length > 1) return uni.navigateBack()
+
+          uni.switchTab({
+            url: '/pages/index/index'
+          })
+        }
+      }[type]?.()
+
+      return
+
       if (this.phone.length === 0) return uni.$toast('请输入手机号')
       if (this.code.length === 0) return uni.$toast('请输入验证码')
-      const spreadCode = !this.isNew ? this.invitationCode : ''
-      const userInfo = await uni.$api.login({ username: `0086${this.phone}`, password: this.code, flag: 1 })
+      // const spreadCode = !this.isNew ? this.invitationCode : ''
+      if (this.isRejister) {
+        // 注册
+        if (this.code.length < 6) return uni.$toast('密码长度不能少于6位')
+        if (this.code.length > 20) return uni.$toast('密码长度不能超过20位')
+
+      } else {
+        // 登录
+        // if (this.code.length < 4) return uni.$toast('验证码长度不能少于4位')
+        // if (this.code.length > 6) return uni.$toast('验证码长度不能超过6位')
+      }
+
+      if (this.remember) {
+        uni.setStorageSync('remember', JSON.stringify({
+          phone: this.phone,
+          password: this.code
+        }))
+      } else {
+        uni.removeStorageSync('remember')
+      }
+
+      const userInfo = uni.$api.login({ username: `0086${this.phone}`, password: this.code, flag: 1 })
       console.log(userInfo, '-----res')
       this.updateUserInfo(userInfo)
       this.$im.init(userInfo)
@@ -185,7 +383,7 @@ page {
 }
 
 .links {
-  height: calc(env(safe-area-inset-bottom) + 40px);
+  height: calc(env(safe-area-inset-bottom) + 88px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -195,12 +393,12 @@ page {
   right: 0;
 
   font-size: 12px;
-  color: #aeaeae;
+  color: rgba(255, 255, 255, 0.6);
 
   &-item {
-    margin-right: 10px;
+    // margin-right: 10px;
     font-size: 12px;
-    color: #7790db;
+    color: #fff;
 
     &:last-child {
       margin-right: 0;
@@ -229,10 +427,8 @@ page {
     align-items: center;
 
     &-icon {
-      width: 80px;
-      height: 80px;
-      border-radius: 10px;
-      background-color: #eee;
+      width: 246px;
+      height: 60px;
     }
 
     &-t {
@@ -282,6 +478,7 @@ page {
     // bottom: calc(16px + env(safe-area-inset-bottom));
     margin: 30% 10% 0;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 
@@ -292,7 +489,7 @@ page {
       display: flex;
       justify-content: center;
       align-items: center;
-      border-radius: 8px;
+      border-radius: 44px;
       box-sizing: border-box;
       font-size: 16px;
       background-color: $btn-bc;
@@ -323,8 +520,59 @@ page {
 }
 
 .verify-ipt {
-  /* padding: 20px; */
+  padding: 0 20px;
   margin: 12px 0;
+  background-color: #f3f3f3;
+  height: 44px;
+  border-radius: 44px;
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .passicon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #999;
+    cursor: pointer;
+  }
+}
+
+.others {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+
+  &-l {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #333;
+
+    &-t {
+      color: #fff;
+    }
+  }
+
+  &-r {
+    display: flex;
+    align-items: center;
+
+    &-gery {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 14px;
+      margin-right: 8px;
+    }
+
+    &-white {
+      color: rgba(255, 255, 255, 0.99);
+      font-size: 14px;
+      cursor: pointer;
+    }
+  }
 }
 
 .invitation-code {

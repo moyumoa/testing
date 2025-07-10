@@ -10,6 +10,17 @@ export function server ({ params, loading, popTips, ...args }) {
   let promise = new Promise((resolve, reject) => {
     // 这里是获取 token
     const token = uni.getStorageSync('mtttoken') || ''
+    const imToken = uni.getStorageSync('imToken') || ''
+    // if ((!token || !imToken) && (args.url.search('/app-api/app/login') || args.url.search('/user/add'))) {
+    //   // 如果没有token就跳转到登录页面
+    //   return uni.navigateTo({
+    //     url: '/pages/login',
+    //     success: () => {
+    //       uni.hideLoading()
+    //     },
+    //   })
+    // }
+
     args.url = envs.baseUrl + args.url
 
     loading && uni.showLoading({ mask: true })
@@ -20,20 +31,33 @@ export function server ({ params, loading, popTips, ...args }) {
       dataType: "json",
       header: {
         'content-type': args.method === 'POST' || args.method === 'PUT' ? 'application/json;charset=UTF-8' : 'x-www-form-urlencoded; charset=UTF-8',
-        'Token': token,
+        'Token': imToken,
+        'Authorization': token || '',
       },
 
       // 当请求成功时调用的函数。这个函数会得到一个参数：从服务器返回的数据。当请求成功时调用函数，即status==200。
       success: function (res) {
-        if (res.statusCode !== 200) {
+        // console.log(res)
+        if (args.url.search('/im-api') !== -1) {
+          if (res.statusCode !== 200) {
+            uni.showToast({ title: res?.data?.msg || '服务器异常', duration: 2000, icon: 'none', position: 'top' })
+            setTimeout(() => {
+              uni.hideLoading()
+              uni.stopPullDownRefresh() // 收回下拉
+            }, 3000)
+            popTips && uni.$emit('popTipsFail', true)
+            return reject(res)
+          }
+          return resolve(res.data)
+        }
+
+        if (res?.data?.code !== 200) {
           uni.showToast({ title: res?.data?.msg || '服务器异常', duration: 2000, icon: 'none', position: 'top' })
           setTimeout(() => {
             uni.hideLoading()
             uni.stopPullDownRefresh() // 收回下拉
           }, 3000)
-          reject(res)
-          popTips && uni.$emit('popTipsFail', true)
-          return
+          return reject(res.data)
         }
         resolve(res.data)
 

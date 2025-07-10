@@ -1,37 +1,36 @@
+import store from '@/store';
 import {
 	userInfo as getUserInfo,
-	userRelation,
-	getShopStatus,
-	shopStatus as shopStatusApi
 } from '../config/api.js'
 
 // 刷新用户信息
 export const userInfo = async () => {
 	return new Promise(async (resolve, reject) => {
 		try {
-
-			const res = await getUserInfo()
-			const getUserRelation = await userRelation()
-			uni.setStorage({
-				key: 'userInfo',
-				data: JSON.stringify({
-					...res.data,
-					other: getUserRelation.data
-				}),
-				success: () => {
-					// console.log('用户信息缓存成功', res.data)
-				}
-			});
-			resolve({
+			const res = await getUserInfo();
+			const userData = {
 				...res.data,
-				other: getUserRelation.data
-			})
+			};
+
+			// 写入本地缓存
+			uni.setStorageSync('userInfo', JSON.stringify(userData));
+
+			// 同时更新 Vuex
+			store.commit('setUserInfo', userData);
+
+			resolve(userData);
 		} catch (error) {
-			const storage = JSON.parse(uni.getStorageSync('userInfo') || '{}')
-			reject(storage)
+			try {
+				const storage = JSON.parse(uni.getStorageSync('userInfo') || '{}');
+				// 即使走缓存也更新 Vuex，确保一致
+				store.commit('setUserInfo', storage);
+				resolve(storage);
+			} catch (e) {
+				reject({});
+			}
 		}
-	})
-}
+	});
+};
 
 // 退出登录
 export const logout = () => {

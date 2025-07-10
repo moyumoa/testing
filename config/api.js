@@ -6,16 +6,31 @@ const popTips = true
 // 示例: POST(json) export const xxx = params => server('/xxx/xxx','POST',params)
 // 示例: 需要携带token请在末尾加true api.xxx = server => server('/xxx/xxx','POST',params,true)
 
+// 注册
+export const register = params => server({ url: '/app-api/app/user/add', method: 'POST', params })
+// 生成头像
+export const generateAvatar = params => server({ url: '/app-api/app/user/api/avatar', method: 'GET', params })
+// 生成用户名
+export const generateUsername = params => server({ url: '/app-api/app/user/api/nickname', method: 'GET', params })
 // 登录
-export const login = params => server({ url: '/user/login', method: 'POST', params }) // 登录
+export const login = params => server({ url: '/app-api/app/login', method: 'POST', params })
+// 退出登录
+export const logout = params => server({ url: '/app-api/app/logout', method: 'GET', params, loading })
+// 获取个人信息
+export const userInfo = params => server({ url: '/app-api/app/user/getUserInfo', method: 'GET', params })
+// 认证专区列表
+export const authList = params => server({ url: '/app-api/app/user/authPage', method: 'POST', params })
+// 商户认证类型
+export const authType = params => server({ url: '/app-api/app/authType/list', method: 'GET', params })
+// export const login = params => server({ url: '/user/login', method: 'POST', params }) // 登录
 // 获取消息列表
-export const conversation = params => server({ url: '/conversation/sync', method: 'POST', params })
+export const conversation = params => server({ url: '/im-api/api/v1/conversation/sync', method: 'POST', params })
 // 清除未读消息
-export const clearUnread = params => server({ url: `/coversation/clearUnread`, method: 'PUT', params })
+export const clearUnread = params => server({ url: `/im-api/api/v1/coversation/clearUnread`, method: 'PUT', params })
 // 获取指定频道消息
-export const getMessages = params => server({ url: '/message/channel/sync', method: 'POST', params })
+export const getMessages = params => server({ url: '/im-api/api/v1/message/channel/sync', method: 'POST', params })
 // 通过uid获取用户信息
-export const getImUser = params => server({ url: `/users/${params}?group_no=`, method: 'GET' })
+export const getImUser = params => server({ url: `/im-api/api/v1/users/${params}?group_no=`, method: 'GET' })
 
 // 商品分类(商城1 拍卖2)
 export const category = params => server({ url: '/category', method: 'GET', params })
@@ -89,10 +104,9 @@ export const sendCode = params => server({ url: '/sendCode', method: 'GET', para
 export const phoneLogin = params => server({ url: '/login/mobile', method: 'POST', params, loading })
 // 获取临时token信息
 export const getTempToken = params => server({ url: '/getTempToken', method: 'POST', params })
-// 退出登录
-export const logout = params => server({ url: '/logout', method: 'GET', params, loading })
+
 // 获取用户信息
-export const userInfo = params => server({ url: '/user', method: 'GET', params })
+// export const userInfo = params => server({ url: '/user', method: 'GET', params })
 // 获取个人主页关联信息
 export const userRelation = params => server({ url: '/userProfile/get', method: 'GET', params })
 // 获取关注粉丝列表
