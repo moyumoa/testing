@@ -75,6 +75,7 @@
     },
     "vueVersion" : "2",
     "h5" : {
+        "title" : "你的应用标题",
         "router" : {
             "mode" : "history",
             "base" : "/"
