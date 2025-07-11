@@ -109,7 +109,7 @@ export default {
 
     // 获取商户认证类型
     async getAuthType () {
-      const res = await uni.$api.authType();
+      const res = await uni.$api.authType({authTypeValue: 2});
       console.log('商户认证类型', res);
       this.rowData = res.rows || [];
       this.selectType(this.rowData[0], 0);

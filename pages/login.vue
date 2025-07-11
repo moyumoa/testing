@@ -233,7 +233,9 @@ export default {
           if (this.password2.length === 0) return uni.$toast('请再次输入密码')
           if (this.password !== this.password2) return uni.$toast('两次输入的密码不一致')
 
-          const getAvatar = await uni.$api.generateAvatar()
+          const getAvatar = await uni.$api.generateAvatar({
+            username: this.loginName,
+          })
           this.avatar = getAvatar.data.avatarUrl
           console.log('获取头像', getAvatar)
 
@@ -245,6 +247,7 @@ export default {
             loginName: this.loginName,
             password: this.password,
             nickName: this.nickName,
+            username: this.loginName,
             avatar: this.avatar
           })
           console.log('注册结果', result)

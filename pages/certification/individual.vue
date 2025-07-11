@@ -104,29 +104,6 @@ export default {
       }[type])?.()
     },
 
-    onClickGrid ({ value }) {
-      ({
-        1: () => uni.$toast('待付款'),
-      }[value])?.()
-    },
-
-    onClickFnGrid ({ title }) {
-      ({
-        '我的推广': () => {
-          uni.navigateTo({
-            // url: '/reward/pages/invite/index'
-            url: '/pages/personal/invite'
-
-          })
-        },
-        '会员中心': () => {
-          // 跳转到分包member
-          uni.navigateTo({
-            url: '/member/pages/center/index'
-          })
-        },
-      }[title])?.()
-    }
   }
 }
 </script>

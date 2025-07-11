@@ -5,10 +5,11 @@
         <u-icon name="arrow-left" color="#fff" size="21" />
       </view>
       <view class="navbar-center">
-        <text class="navbar-center-t">钱包</text>
+        <text class="navbar-center-t">会员中心</text>
       </view>
     </view>
-    <view class="pinfo" :style="{ 'padding-top': `${66}px` }">
+    <view class="pinfo" :style="{ 'padding-top': `${78}px` }">
+
       <view class="pinfo-top">
         <view class="pinfo-top-l">
           <image class="pinfo-top-l-pic" :src="getUserInfo.avatar" />
@@ -16,14 +17,14 @@
         <view class="pinfo-top-r">
           <text class="pinfo-top-r-t">{{ getUserInfo.nickName }}</text>
           <view class="pinfo-top-r-t2">
-            <u-icon :label="getUserInfo.isVip ? '会员' : '普通用户'" size="16" labelColor="#ccc" labelSize="12"
+            <u-icon :label="getUserInfo.isVip ? '会员' : '普通用户'" size="16" labelColor="#9C7E58" labelSize="12"
               name="/static/per/hy-icon.png" />
           </view>
         </view>
 
         <view class="pinfo-top-position">
           <text class="pinfo-top-position-t">
-            {{ getUserInfo.isCertification ? '已认证' : '未认证' }}
+            0000-00-00 00:00 到期
           </text>
         </view>
       </view>
@@ -68,10 +69,12 @@
     </view>
 
     <view class="subbtns">
-      <view class="subbtns-item">
+      <view class="subbtns-item" @tap="show = true">
         <text class="subbtns-item-t">立即开通</text>
       </view>
     </view>
+
+     <t-pay-way :info="payInfo" :orderNoId="payInfo.orderId" :show="show" @close="show = false"/>
   </view>
 </template>
 
@@ -83,6 +86,14 @@ export default {
   data: () => ({
     rowData: [],
     current: {},
+    show: true,
+    payInfo: {
+      orderId: '',
+      payAccount: 0,
+      payType: 1, // 1-微信 2-支付宝
+      payName: '微信支付',
+      payDesc: '扫码支付',
+    },
   }),
   computed: {
     ...mapGetters(['getUserInfo']),
@@ -214,7 +225,22 @@ export default {
 
 .pinfo {
   position: relative;
-  padding: 32px 24px 16px;
+  padding: 32px 24px 0;
+  height: 174px;
+  background-color: #252635;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    height: 174px;
+    bottom: 12px;
+    background-image: url('/static/bgs/vip-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 
   &-top {
     position: relative;
@@ -229,7 +255,6 @@ export default {
       margin-right: 10px;
       border: 1px solid #fff;
       box-sizing: border-box;
-      box-shadow: 0 2px 8px 12px rgba(0, 0, 0, 0.05);
 
       &-pic {
         width: 100%;
@@ -244,7 +269,7 @@ export default {
 
       &-t {
         font-size: 14px;
-        color: #1a1a1a;
+        color: #9B7D57;
       }
 
       &-t2 {
@@ -257,10 +282,9 @@ export default {
 
     &-position {
       position: absolute;
-      top: 0;
+      top: -12px;
       right: 0;
-      background-color: #efeeee;
-      padding: 4px 12px;
+      padding: 4px 0;
       border-radius: 12px;
       display: flex;
       justify-content: center;
@@ -268,22 +292,23 @@ export default {
 
       &-t {
         font-size: 12px;
-        color: #666;
-        font-weight: 500;
+        color: #ececec;
       }
     }
   }
 
   &-row {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-top: 16px;
     padding: 0 4px;
 
     &-text {
       border: 1px solid #7F5321;
-      padding: 6px 20px;
+      padding: 6px 24px;
       border-radius: 20px;
       font-size: 13px;
       color: #7F5321;

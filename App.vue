@@ -186,7 +186,7 @@ page::-webkit-scrollbar {
 	background-color: #fff;
 	height: 44px;
 
-	padding: 8px 16px;
+	padding: 8px 16px calc(env(safe-area-inset-bottom) + 8px);
 	box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
 
 	&-item {

@@ -17,7 +17,7 @@
 		<view class="pinfo" :style="{ 'padding-top': `${66}px` }">
 			<!-- <image class="pageback-pic" src="/static/per/bg.png" /> -->
 			<image class="pageback-pic" :src="getUserInfo.avatar" />
-			<view class="pinfo-top">
+			<view class="pinfo-top" @tap="onClickFnGrid({ title: '个人资料' })">
 				<view class="pinfo-top-l">
 					<image class="pinfo-top-l-pic" :src="getUserInfo.avatar" />
 				</view>
@@ -29,7 +29,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="pinfo-top">
+			<view class="pinfo-top" @tap="onClickFnGrid({ title: '个人资料' })">
 				<text class="pinfo-top-text">个人介绍: 个人介绍个人介绍个人介绍个人介绍</text>
 			</view>
 		</view>
@@ -62,16 +62,6 @@
 				</view>
 			</view>
 
-			<view class="panel-grid" v-if="false">
-				<view class="panel-grid-title">
-					<text class="panel-grid-title-t">我的订单</text>
-					<view class="panel-grid-title-r">
-						<text class="panel-grid-title-r-t">全部订单</text>
-						<u-icon name="arrow-right" color="#666" size="12"></u-icon>
-					</view>
-				</view>
-				<grid-box :list="glist" @event="onClickGrid" />
-			</view>
 		</view>
 
 		<view class="panel">
@@ -142,18 +132,17 @@ export default {
 			}[type])?.()
 		},
 
-		onClickGrid ({ value }) {
-			({
-				1: () => uni.$toast('待付款'),
-			}[value])?.()
-		},
 
 		onClickFnGrid ({ title }) {
 			({
+				'个人资料': () => {
+					uni.navigateTo({
+						url: '/pages/personal/detail'
+					})
+				},
 				'会员中心': () => {
 					uni.navigateTo({
 						url: '/pages/member/center'
-
 					})
 				},
 				'我的钱包': () => {

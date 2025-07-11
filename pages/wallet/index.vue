@@ -29,10 +29,10 @@
 
     <view class="panel">
       <view class="panel-topposition">
-        <view class="panel-topposition-item">
+        <view class="panel-topposition-item" @tap="tapFn({ title: '提现' })">
           <text class="panel-topposition-item-t">提现</text>
         </view>
-        <view class="panel-topposition-item">
+        <view class="panel-topposition-item" @tap="tapFn({ title: '兑换会员' })">
           <text class="panel-topposition-item-t">兑换会员</text>
         </view>
       </view>
@@ -120,37 +120,16 @@ export default {
       this.customAmount = ''; // 清空自定义金额输入框
     },
 
-    onClickFnGrid ({ title }) {
+    tapFn ({ title }) {
       ({
-        '我的钱包': () => {
+        '提现': () => {
           uni.navigateTo({
-            url: '/pages/wallet/index'
-
+            url: '/pages/wallet/withdraw'
           })
         },
-        '个人认证': () => {
+        '兑换会员': () => {
           uni.navigateTo({
-            url: '/pages/certification/individual'
-
-          })
-        },
-        '商户入驻': () => {
-          uni.navigateTo({
-            url: '/pages/certification/business'
-
-          })
-        },
-        '我的推广': () => {
-          uni.navigateTo({
-            // url: '/reward/pages/invite/index'
-            url: '/pages/personal/invite'
-
-          })
-        },
-        '会员中心': () => {
-          // 跳转到分包member
-          uni.navigateTo({
-            url: '/member/pages/center/index'
+            url: '/pages/member/center'
           })
         },
       }[title])?.()
@@ -160,9 +139,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.pagecontainer{
+.pagecontainer {
   overflow: hidden;
 }
+
 .navbar {
   position: fixed;
   top: 0;

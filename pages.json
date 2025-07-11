@@ -42,6 +42,13 @@
 			}
 		},
 		{
+			"path": "pages/personal/detail",
+			"style": {
+				"navigationBarTitleText": "个人资料",
+				"navigationStyle": "custom"
+			}
+		},
+		{
 			"path": "pages/certification/individual",
 			"style": {
 				"navigationBarTitleText": "个人认证"
