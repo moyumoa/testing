@@ -75,40 +75,6 @@
     },
     "vueVersion" : "2",
     "h5" : {
-        "title" : "你的应用标题",
-        "pwa" : {
-            "serviceWorker" : true,
-            "manifest" : {
-                "name" : "你的应用名称",
-                "short_name" : "短名称",
-                "start_url" : "/?source=pwa",
-                "scope" : "/",
-                "display" : "standalone",
-                "orientation" : "portrait",
-                "background_color" : "#ffffff",
-                "theme_color" : "#007AFF",
-                "description" : "这是一个基于 uniapp 的PWA应用",
-                "lang" : "zh-CN",
-                "dir" : "ltr",
-                "icons" : [
-                    {
-                        "src" : "/static/icon-72.png",
-                        "sizes" : "72x72",
-                        "type" : "image/png"
-                    },
-                    {
-                        "src" : "/static/icon-192.png",
-                        "sizes" : "192x192",
-                        "type" : "image/png"
-                    },
-                    {
-                        "src" : "/static/icon-512.png",
-                        "sizes" : "512x512",
-                        "type" : "image/png"
-                    }
-                ]
-            }
-        },
         "router" : {
             "mode" : "history",
             "base" : "/"

@@ -28,7 +28,8 @@ if (process.env.NODE_ENV === "development") {
 } else if (process.env.NODE_ENV === "production") {
 	// 正式环境
 
-	baseUrl = 'http://192.168.9.99:7777/f'
+	// baseUrl = 'http://192.168.9.99:7777/f'
+	baseUrl = '/f'
 
 
 	publicUrl = 'https://h5.dajiapaipai.com/h5'
@@ -36,7 +37,8 @@ if (process.env.NODE_ENV === "development") {
 	appKey = '2NYALH4DWRTS80BVCGPMZ1I6U3EKQ795'
 	secretKey = 'L6GEVS98FTMYYX4S5X0ZPXDW36ZKETQKTUCXBORIOKN66W1W28IH8KSKXHHUUWA7'
 } else {
-	baseUrl = 'http://192.168.9.99:7777/f'
+	// baseUrl = 'http://192.168.9.99:7777/f'
+	baseUrl = '/f'
 
 	publicUrl = 'https://h5.dajiapaipai.com/h5'
 	webhUrl = 'https://h5.dajiapaipai.com/dist'
