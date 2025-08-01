@@ -1,23 +1,21 @@
 <template>
-	<view class="tui-slide-view" :style="{marginTop:marginTop+'rpx',marginBottom:marginBottom+'rpx'}">
+	<view class="tui-slide-view" :style="{ marginTop: marginTop + 'rpx', marginBottom: marginBottom + 'rpx' }">
 		<!-- #ifdef APP || MP-WEIXIN || H5-->
-		<view @transitionend="handler.transitionEnd" :show="shown" :change:show="handler.showChange"
-			:rebounce="rebounce" :change:rebounce="handler.rebounceChange" :change:duration="handler.durationChange"
-			:duration="duration" :change:disable="handler.disableChange" :disable="disable"
-			:change:prop="handler.sizeReady" :prop="size" @touchstart="handler.touchstart"
-			@touchmove="handler.touchmove" @touchend="handler.touchend" @mousedown="handler.touchstart"
-			@mousemove="handler.touchmove" @mouseup="handler.touchend" class="tui-slideview__left tui_wxs_left"
-			:style="{ zIndex: zIndex }">
+		<view @transitionend="handler.transitionEnd" :show="shown" :change:show="handler.showChange" :rebounce="rebounce"
+			:change:rebounce="handler.rebounceChange" :change:duration="handler.durationChange" :duration="duration"
+			:change:disable="handler.disableChange" :disable="disable" :change:prop="handler.sizeReady" :prop="size"
+			@touchstart="handler.touchstart" @touchmove="handler.touchmove" @touchend="handler.touchend"
+			@mousedown="handler.touchstart" @mousemove="handler.touchmove" @mouseup="handler.touchend"
+			class="tui-slideview__left tui_wxs_left" :style="{ zIndex: zIndex }">
 			<slot></slot>
 		</view>
-		<view class="tui-slideview__right tui_wxs_right" :style="{zIndex:zIndex}">
+		<view class="tui-slideview__right tui_wxs_right" :style="{ zIndex: zIndex }">
 			<view class="tui-slideview__buttons" v-if="buttons && buttons.length">
 				<view v-for="(item, index) in buttons" :key="index" class="tui-slideview__btn__wrap tui_wxs_btn">
-					<view @tap="handler.hideButton" :data-isclose="autoClose?1:0" :data-data="item.data"
-						:data-index="index" class="tui-slideview__btn"
+					<view @tap="handler.hideButton" :data-isclose="autoClose ? 1 : 0" :data-data="item.data" :data-index="index"
+						class="tui-slideview__btn"
 						:style="{ width: width, height: height, padding: padding, borderRadius: radius, background: item.background }">
-						<view v-if="!item[srcField]"
-							:style="{ fontSize: fontSize + 'rpx', color: item.color || color }">
+						<view v-if="!item[srcField]" :style="{ fontSize: fontSize + 'rpx', color: item.color || color }">
 							{{ item[textField] || item.text }}
 						</view>
 						<image v-else :src="item[srcField]"
@@ -29,19 +27,20 @@
 		<!-- #endif -->
 
 		<!-- #ifndef APP || MP-WEIXIN || H5 -->
-		<view class="tui-slideview__left" :style="{transform:moveLeft}" :class="{'tui-swipe__action-ani':ani}"
+		<view class="tui-slideview__left" :style="{ transform: moveLeft }" :class="{ 'tui-swipe__action-ani': ani }"
 			@touchstart="touchstart" @touchmove="touchmove" @touchend="touchend">
 			<slot></slot>
 		</view>
-		<view class="tui-slideview__right-mp" :class="[elClass]" :style="{zIndex:zIndex,transform:moveRight}">
+		<view class="tui-slideview__right-mp" :class="[elClass]" :style="{ zIndex: zIndex, transform: moveRight }">
 			<view class="tui-slideview__buttons" v-if="buttons && buttons.length">
 				<view v-for="(item, index) in buttons" :key="index" class="tui-slideview__btn__wrap_mp">
-					<view @tap="onBtnClick(index,item.data)" class="tui-slideview__btn"
+					<view @tap="onBtnClick(index, item.data)" class="tui-slideview__btn"
 						:style="{ width: width, height: height, padding: padding, borderRadius: radius, background: item.background }">
 						<view v-if="!item[srcField]" :style="{ fontSize: fontSize + 'rpx', color: item.color || color }">
 							{{ item[textField] }}
 						</view>
-						<image v-else :src="item[srcField]" :style="{ width: item.width || '48rpx', height: item.height || '48rpx' }" />
+						<image v-else :src="item[srcField]"
+							:style="{ width: item.width || '48rpx', height: item.height || '48rpx' }" />
 					</view>
 				</view>
 			</view>
@@ -220,83 +219,83 @@
 </script>
 
 <style scoped>
-	.tui-slide-view {
-		position: relative;
-		overflow: hidden;
-		box-sizing: border-box;
-	}
+.tui-slide-view {
+	position: relative;
+	overflow: hidden;
+	box-sizing: border-box;
+}
 
-	.tui-slideview__left {
-		width: 100%;
-		position: relative;
-		z-index: 10;
-		cursor: pointer;
-	}
+.tui-slideview__left {
+	width: 100%;
+	position: relative;
+	z-index: 10;
+	cursor: pointer;
+}
 
-	.tui-slideview__right {
-		position: absolute;
-		left: 100%;
-		top: 0;
-		height: 100%;
-	}
+.tui-slideview__right {
+	position: absolute;
+	left: 100%;
+	top: 0;
+	height: 100%;
+}
 
-	.tui-slideview__right-mp {
-		position: absolute;
-		bottom: 0;
-		top: 0;
-		right: 0;
-		height: 100%;
-		transform: translateX(100%);
-	}
+.tui-slideview__right-mp {
+	position: absolute;
+	bottom: 0;
+	top: 0;
+	right: 0;
+	height: 100%;
+	transform: translateX(100%);
+}
 
-	.tui-slideview__btn__wrap {
-		position: absolute;
-		left: 0;
-		bottom: 0;
-		text-align: center;
-		min-width: 136rpx;
-		height: 100%;
-		white-space: nowrap;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
+.tui-slideview__btn__wrap {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	text-align: center;
+	min-width: 136rpx;
+	height: 100%;
+	white-space: nowrap;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
-	.tui-slideview__btn__wrap_mp {
-		text-align: center;
-		min-width: 136rpx;
-		height: 100%;
-		white-space: nowrap;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
+.tui-slideview__btn__wrap_mp {
+	text-align: center;
+	min-width: 136rpx;
+	height: 100%;
+	white-space: nowrap;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
-	.tui-slideview__buttons {
-		width: 100%;
-		height: 100%;
-		cursor: pointer;
-	}
+.tui-slideview__buttons {
+	width: 100%;
+	height: 100%;
+	cursor: pointer;
+}
 
-	.tui-slideview__btn {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
+.tui-slideview__btn {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
-	.tui-swipe__action-ani {
-		transition-property: transform;
-		transition-duration: 0.3s;
-		transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
-	}
+.tui-swipe__action-ani {
+	transition-property: transform;
+	transition-duration: 0.3s;
+	transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+}
 
-	.tui-slideview__mask {
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 0, 0);
-		position: fixed;
-		left: 0;
-		top: 0;
-		z-index: 50;
-	}
+.tui-slideview__mask {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0);
+	position: fixed;
+	left: var(--window-left);
+	right: var(--window-right);
+	z-index: 50;
+}
 </style>

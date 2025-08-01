@@ -343,8 +343,8 @@ export default {
   position: fixed;
   // bottom: calc(env(safe-area-inset-bottom) + 16px);
   bottom: env(safe-area-inset-bottom);
-  left: 0;
-  right: 0;
+  left: var(--window-left);
+	right: var(--window-right);
 
   display: flex;
   justify-content: center;

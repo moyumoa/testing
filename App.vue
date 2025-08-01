@@ -1,6 +1,7 @@
 <script>
 // import * as serve from './config/api.js' //引入接口文件
 import * as rf from './config/public.js'
+import * as globalContent from './config/global.js'
 import * as utils from './utils'
 import { envs } from 'config'
 import { mapGetters } from 'vuex'
@@ -79,6 +80,7 @@ export default {
 		uni.$rf = rf
 		uni.$fn = utils
 		uni.$env = envs
+		uni.$gc = globalContent
 		uni.$toast = (title = '', duration = 1200) => {
 			uni.showToast({
 				title: title,
@@ -107,11 +109,36 @@ export default {
 			})
 		},
 
-			// 检查token是否过期
-			setInterval(() => {
-				console.log('定时检查token是否过期')
-				this.checkTokenExpiration()
-			}, 2000);
+			uni.$paging = {
+				pageKey: 'pageNum',
+				limitKey: 'pageSize',
+				extraList: res => res.rows,
+				extraTotal: res => res.total,
+				defaultPagination: { page: 1, limit: 20 },
+			}
+
+		// 检查token是否过期
+		setInterval(() => {
+			console.log('定时检查token是否过期')
+			this.checkTokenExpiration()
+		}, 2000);
+
+		uni.$previewVideo = (file) => {
+			console.log('预览视频文件', file);
+			let url = '';
+
+			if (typeof file === 'string') {
+				url = file;
+			} else if (file && file.url) {
+				url = file.url;
+			} else {
+				return uni.$toast('视频文件不存在');
+			}
+
+			uni.navigateTo({
+				url: `/pages/common/videoPreview?url=${encodeURIComponent(url)}`
+			});
+		}
 	},
 	onShow: function () {
 		console.log('App Show')
@@ -147,7 +174,7 @@ export default {
 			const token = uni.getStorageSync('mtttoken')
 			const imToken = uni.getStorageSync('imToken')
 			if (!token || !imToken) {
-				uni.navigateTo({
+				uni.reLaunch({
 					url: '/pages/login',
 					success: () => {
 						uni.hideLoading()
@@ -163,7 +190,8 @@ export default {
 
 <style>
 page {
-	background: #F8F9FA;
+	/* background: #F8F9FA; */
+	background: #FAFCFE;
 }
 
 page::-webkit-scrollbar {
@@ -175,38 +203,157 @@ page::-webkit-scrollbar {
 /*每个页面公共css */
 @import "@/uni_modules/uview-ui/index.scss";
 
+.u-empty {
+	margin-top: 20% !important;
+	opacity: 0.5;
+}
+
 .subbtns {
 	position: fixed;
 	bottom: 0;
-	left: 0;
-	right: 0;
+	left: var(--window-left);
+	right: var(--window-right);
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
 	background-color: #fff;
-	height: 44px;
+	height: 40px;
+	z-index: 5;
 
 	padding: 8px 16px calc(env(safe-area-inset-bottom) + 8px);
 	box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
 
 	&-item {
 		flex: 1;
-		height: 44px;
+		height: 40px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		// padding: 12px;
 		border-radius: 44px;
 		background-color: $btn-bc;
-		margin-right: 12px;
+		margin-right: 10px;
+		font-size: 14px;
+		color: $btn-c;
+		// background: linear-gradient(72deg, rgba(116, 143, 242, 0.4) 0%, rgba(116, 143, 242, 0.8) 100%);
+
 
 		&:last-child {
 			margin-right: 0;
 		}
 
-		&-t {
-			font-size: 15px;
-			color: $btn-c;
+		&-gray {
+			background-color: #F5F5F5;
+			color: #232323;
+		}
+
+		&-disabled {
+			background-color: #ddd;
+			color: #999;
+			cursor: not-allowed;
+			pointer-events: none;
+		}
+
+
+
+		// &-t {
+		// 	font-size: 15px;
+		// 	// color: $btn-c;
+		// 	color: #8ddfff;
+
+		// }
+	}
+
+	&-nobg {
+		// background: transparent;
+		// border: 1px solid #ddd;
+		color: #555;
+		font-size: 14px;
+		background: linear-gradient(45deg, rgba(240, 242, 255, 0.4) 0%, rgba(230, 230, 230, 0.64) 100%);
+
+	}
+}
+
+.ctext {
+	display: flex;
+	margin: 8px 0;
+
+	&-inner {
+		display: flex;
+		align-items: center;
+	}
+
+	&-t {
+		flex-shrink: 0;
+		font-size: 14px;
+		color: #777;
+	}
+
+	&-t2 {
+		width: 0;
+		flex: 1;
+		font-size: 14px;
+		color: #333;
+	}
+
+	&-t3 {
+		background-color: #f5f5f5;
+		border-radius: 8px;
+		padding: 8px;
+		// margin: 8px;
+		font-size: 14px;
+		color: #333;
+
+		&>text {
+			display: -webkit-box;
+			-webkit-box-orient: vertical;
+			-webkit-line-clamp: 2;
+			overflow: hidden;
+		}
+	}
+}
+
+.uoverview {
+	display: flex;
+	align-items: center;
+
+	&-l {
+		flex-shrink: 0;
+		width: 44px;
+		height: 44px;
+		border-radius: 50%;
+		border: 1px solid #eee;
+		box-sizing: border-box;
+		overflow: hidden;
+
+		&-avatar {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+
+	&-c {
+		flex-grow: 1;
+		margin-left: 12px;
+
+		&-top {
+			display: flex;
+			align-items: center;
+
+			&-t {
+				font-size: 15px;
+				color: #333;
+				margin-right: 8px;
+			}
+		}
+
+		&-bottom {
+
+			&-t {
+				font-size: 12px;
+				color: #999;
+			}
 		}
 	}
 }

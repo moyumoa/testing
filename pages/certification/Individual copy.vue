@@ -8,7 +8,7 @@
         <view class="pinfo-top-r">
           <text class="pinfo-top-r-t">{{ getUserInfo.nickName }}</text>
           <view class="pinfo-top-r-t2">
-            <u-icon :label="getUserInfo.isVip ? '会员' : '普通用户'" size="16" labelColor="#ccc" labelSize="12"
+            <u-icon :label="getUserInfo.isVip ? '高级会员' : '普通用户'" size="16" labelColor="#ccc" labelSize="12"
               name="/static/per/hy-icon.png" />
           </view>
         </view>

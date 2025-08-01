@@ -1,4 +1,5 @@
 import { envs } from './index.js'
+import qs from 'qs';
 
 let baseUrlH5 = '/f' // h5配置了反向代理 解决跨域问题
 // let urls
@@ -25,9 +26,18 @@ export function server ({ params, loading, popTips, ...args }) {
 
     loading && uni.showLoading({ mask: true })
     popTips && uni.$emit('popTips', true, true)
+    // console.log('请求地址:', args.url, '请求方式:', args.method, '请求参数:', params)
+    // GET 请求手动拼接参数 将对象序列化为 URL 查询字符串
+    if (args.method === 'GET') {
+      const queryString = qs.stringify(params, { encode: true });
+      if (queryString) {
+        args.url += (args.url.includes('?') ? '&' : '?') + queryString;
+      }
+    }
+
     uni.request({
       ...args,
-      data: params,
+      data: args.method === 'GET' ? {} : params,
       dataType: "json",
       header: {
         'content-type': args.method === 'POST' || args.method === 'PUT' ? 'application/json;charset=UTF-8' : 'x-www-form-urlencoded; charset=UTF-8',
@@ -35,7 +45,6 @@ export function server ({ params, loading, popTips, ...args }) {
         'Authorization': token || '',
       },
 
-      // 当请求成功时调用的函数。这个函数会得到一个参数：从服务器返回的数据。当请求成功时调用函数，即status==200。
       success: function (res) {
         // console.log(res)
         if (args.url.search('/im-api') !== -1) {
@@ -53,13 +62,13 @@ export function server ({ params, loading, popTips, ...args }) {
 
         if (res?.data?.code !== 200) {
           uni.showToast({ title: res?.data?.msg || '服务器异常', duration: 2000, icon: 'none', position: 'top' })
-          setTimeout(() => {
-            uni.hideLoading()
-            uni.stopPullDownRefresh() // 收回下拉
-          }, 3000)
+          uni.hideLoading()
+          uni.stopPullDownRefresh() // 收回下拉
           return reject(res.data)
         }
         resolve(res.data)
+        loading && uni.hideLoading()
+
 
         // 判断如果有token就更新token
         // if (res.header.Token) {
@@ -97,10 +106,8 @@ export function server ({ params, loading, popTips, ...args }) {
       fail: function (err) {
         console.warn("请求异常", err)
         uni.showToast({ title: '服务器异常', duration: 2000, icon: 'none', position: 'top' })
-        setTimeout(() => {
-          uni.hideLoading()
-          uni.stopPullDownRefresh()
-        }, 3000)
+        uni.hideLoading()
+        uni.stopPullDownRefresh()
         reject(err)
         popTips && uni.$emit('popTipsFail', true)
       },
@@ -112,33 +119,23 @@ export function server ({ params, loading, popTips, ...args }) {
 
 // 针对文件类型(图片)请求单独处理
 export function upLoad (url, params, tkn = true) {
-  console.log('上传地址', params);
-  // uni.showLoading({ title:'加载中' })
   let promise = new Promise((resolve, reject) => {
-    // 这里是获取 token
-    let token = uni.getStorageSync("mtttoken")
+    const token = uni.getStorageSync('mtttoken') || ''
+    const imToken = uni.getStorageSync('imToken') || ''
+
     uni.uploadFile({
-      // #ifdef H5
-      url: baseUrlH5 + '/api/front' + url,// H5下
-      // #endif
-
-      // #ifndef H5
-      url: envs.baseUrl + '/api/front' + url, // 非H5下 小程序和app
-      // #endif
-      fileType: "image", //ZFB必填,不然报错
-      filePath: params, //这个就是我们上面拍照返回或者先中照片返回的数组
-
-      formData: {
-        // 'sign': getSign(params),
-        // 'appKey': envs.appKey,
-        // 'reqTime': envs.reqTime,
-        model: "compress",
-        pid: 1,
-      },
-      // name: 'file',
-      name: 'multipart',
+      url: envs.baseUrl + url,
+      fileType: "image",
+      filePath: params,
+      // formData: {
+      //   model: "compress",
+      //   pid: 1,
+      // },
+      name: 'file',
+      // name: 'multipart',
       header: {
-        'Authorization': tkn ? token : ''
+        'Token': imToken,
+        'Authorization': token || '',
       },
       success: (uploadFileRes) => {
         const data = JSON.parse(uploadFileRes.data)
@@ -146,7 +143,6 @@ export function upLoad (url, params, tkn = true) {
           uni.$toast(data.message)
         }
         resolve(data)
-        // uni.hideLoading();
       },
       fail: function (res) {
         console.warn("请求异常", res)

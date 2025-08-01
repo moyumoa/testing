@@ -4,13 +4,33 @@
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "瓢虫",
-				"navigationStyle": "custom"
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true
 			}
 		},
 		{
 			"path": "pages/index/test",
 			"style": {
 				"navigationBarTitleText": "测试列表"
+			}
+		},
+		{
+			"path": "pages/release/index",
+			"style": {
+				"navigationBarTitleText": "发布",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/release/post",
+			"style": {
+				"navigationBarTitleText": "发布帖子"
+			}
+		},
+		{
+			"path": "pages/release/dynamic",
+			"style": {
+				"navigationBarTitleText": "发布动态"
 			}
 		},
 		{
@@ -42,10 +62,101 @@
 			}
 		},
 		{
+			"path": "pages/personal/info",
+			"style": {
+				"navigationBarTitleText": "个人信息",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/personal/follow",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/personal/release/list",
+			"style": {
+				"navigationBarTitleText": "我的发布"
+			}
+		},
+		{
+			"path": "pages/personal/collect",
+			"style": {
+				"navigationBarTitleText": "我的收藏"
+			}
+		},
+		{
+			"path": "pages/order/list",
+			"style": {
+				"navigationBarTitleText": "我的订单"
+			}
+		},
+		{
+			"path": "pages/order/detail",
+			"style": {
+				"navigationBarTitleText": "订单详情"
+			}
+		},
+		{
+			"path": "pages/order/report",
+			"style": {
+				"navigationBarTitleText": "评价报告"
+			}
+		},
+		{
+			"path": "pages/others/post",
+			"style": {
+				"navigationBarTitleText": "Ta的帖子"
+			}
+		},
+		{
+			"path": "pages/common/videoPreview",
+			"style": {
+				"navigationBarTitleText": "视频预览",
+				"app-plus": {
+					"scrollIndicator": "none",
+					"titleNView": {
+						"immersed": "true",
+						"type": "transparent",
+						"buttons": [ ]
+					}
+				}
+			}
+		},
+		{
+			"path": "pages/merchant/info",
+			"style": {
+				"navigationBarTitleText": "商户信息",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/personal/contactInformation",
+			"style": {
+				"navigationBarTitleText": "我的联系方式"
+			}
+		},
+		{
 			"path": "pages/personal/detail",
 			"style": {
 				"navigationBarTitleText": "个人资料",
-				"navigationStyle": "custom"
+				// "navigationStyle": "custom",
+				"app-plus": {
+					"scrollIndicator": "none",
+					"titleNView": {
+						"immersed": "true",
+						"type": "transparent"
+						// "buttons": [
+						// 	{
+						// 		"text": "举报",
+						// 		"fontSize": "14px",
+						// 		"color": "#ffffff"
+						// 	}
+						// ]
+					}
+				}
 			}
 		},
 		{
@@ -61,9 +172,47 @@
 			}
 		},
 		{
+			"path": "pages/merchant/index",
+			"style": {
+				"navigationBarTitleText": "我的店铺"
+			}
+		},
+		{
+			"path": "pages/merchant/shopUserList",
+			"style": {
+				"navigationBarTitleText": "店铺用户列表",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/merchant/nvl",
+			"style": {
+				"navigationBarTitleText": "女郎认证列表"
+			}
+		},
+		{
+			"path": "pages/merchant/detail",
+			"style": {
+				"navigationBarTitleText": "店铺详情"
+			}
+		},
+		{
 			"path": "pages/wallet/index",
 			"style": {
 				"navigationBarTitleText": "钱包",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/wallet/detail",
+			"style": {
+				"navigationBarTitleText": "账单明细"
+			}
+		},
+		{
+			"path": "pages/wallet/withdraw",
+			"style": {
+				"navigationBarTitleText": "提现",
 				"navigationStyle": "custom"
 			}
 		},
@@ -78,6 +227,27 @@
 			"path": "pages/setting/index",
 			"style": {
 				"navigationBarTitleText": "设置"
+			}
+		},
+		{
+			"path": "pages/setting/changePassword",
+			"style": {
+				"navigationBarTitleText": "修改密码"
+			}
+		},
+		{
+			"path": "pages/setting/selectLocation",
+			"style": {
+				"navigationBarTitleText": "城市选择",
+				"enablePullDownRefresh": false,
+				"onReachBottomDistance": 50,
+				"backgroundColorTop": "#F5F5F5",
+				"backgroundColorBottom": "#F5F5F5",
+				"navigationBarBackgroundColor": "#F5F5F5",
+				"navigationBarTextStyle": "black",
+				"app-plus": {
+					"scrollIndicator": "none"
+				}
 			}
 		},
 		{
@@ -124,11 +294,13 @@
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "大家拍",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8",
+		"navigationBarTitleText": "瓢虫",
+		"navigationBarBackgroundColor": "#FAFCFE",
+		"backgroundColor": "#FAFCFE",
 		// 不显示滚动条
 		"scrollIndicator": "none"
+		// 最大宽度
+		// "maxWidth": "480"
 	},
 	"tabBar": {
 		"color": "#D1D4DA",
@@ -145,6 +317,12 @@
 			{
 				"pagePath": "pages/index/test",
 				"text": "社区",
+				"iconPath": "static/tabbar/shequ.png",
+				"selectedIconPath": "static/tabbar/shequ_.png"
+			},
+			{
+				"pagePath": "pages/release/index",
+				"text": "发布",
 				"iconPath": "static/tabbar/shequ.png",
 				"selectedIconPath": "static/tabbar/shequ_.png"
 			},

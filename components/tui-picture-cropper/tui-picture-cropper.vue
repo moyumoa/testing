@@ -532,8 +532,8 @@
 		padding: 0;
 		background-color: rgba(0, 0, 0, 0.6);
 		position: fixed;
-		top: 0;
-		left: 0;
+		left: var(--window-left);
+	right: var(--window-right);
 		z-index: 1;
 	}
 
@@ -640,7 +640,7 @@
 		padding: 0 40rpx;
 		box-sizing: border-box;
 		position: fixed;
-		left: 0;
+		left: var(--window-left);
 		bottom: 0;
 		z-index: 99;
 		display: flex;

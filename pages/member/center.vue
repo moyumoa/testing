@@ -17,18 +17,18 @@
         <view class="pinfo-top-r">
           <text class="pinfo-top-r-t">{{ getUserInfo.nickName }}</text>
           <view class="pinfo-top-r-t2">
-            <u-icon :label="getUserInfo.isVip ? '会员' : '普通用户'" size="16" labelColor="#9C7E58" labelSize="12"
+            <u-icon :label="getUserInfo.isVip ? '高级会员' : '普通用户'" size="16" labelColor="#9C7E58" labelSize="12"
               name="/static/per/hy-icon.png" />
           </view>
         </view>
 
         <view class="pinfo-top-position">
-          <text class="pinfo-top-position-t">
-            0000-00-00 00:00 到期
+          <text class="pinfo-top-position-t" v-if="getUserInfo.vipExpireTime">
+            {{ getUserInfo.vipExpireTime }} 到期
           </text>
         </view>
       </view>
-      <view class="pinfo-row">
+      <view class="pinfo-row" @tap="submit" v-if="getUserInfo.isVip">
         <text class="pinfo-row-text">
           立即续费
         </text>
@@ -39,10 +39,10 @@
       <view class="xwarp">
         <view class="xwarp-item" :class="{ 'xwarp-item-active': current.id === item.id }"
           v-for="(item, index) in rowData" :key="item.id" @tap="selectType(item, index)">
-          <text class="xwarp-item-t1">{{ item.expireDays }}天</text>
-          <text class="xwarp-item-t2">¥{{ item.payAccount / 100 }}</text>
+          <text class="xwarp-item-t1">{{ item.days }}天</text>
+          <text class="xwarp-item-t2">¥{{ item.payMoney / 100 }}</text>
           <view class="xwarp-item-bottom">
-            <text class="xwarp-item-t3">≈{{ (item.expireDays / item.payAccount).toFixed(2) }}/天</text>
+            <text class="xwarp-item-t3">≈{{ ((item.payMoney / 100) / item.days).toFixed(2) }}/天</text>
           </view>
         </view>
       </view>
@@ -56,25 +56,26 @@
         </view>
         <view class="panel-grid-centext">
           <text class="panel-grid-centext-t">
-            1.会员专属筛选\n
-            2.每月有5次免费解锁联系方式\n
-            3.会员能入驻商户直接进行对话\n
-            4.专属发布权益（动态、帖子、报告\n
-            5.会员专属举报\n
-            6.可对帖子动态等进行评价\n
-            7.拥有会员专属标志
+            帖子解锁：每日尊享 {{ current.invitationNum }} 次免费解锁普通帖文联系方式的权益，一键触达心动线索，不错过任何缘分契机。\n
+            专属客服：配备一对一专属客服团队，全程护航您的社交体验。\n
+            即时畅聊：每日 {{ current.chatNum || 0 }} 次即时通讯解锁特权，与心仪对象直接开启无界对话，让交流更具效率与温度。\n
+            定制服务：每月可发布 {{ current.intentionNum }} 次定制服务预约单，以专属规格匹配您的个性化社交需求。\n
+            互动特权：全面解锁帖文评论功能，自由参与深度互动。\n
+            身份勋章：专属会员标识荣耀加持，彰显不凡身份。\n
+            发布特权：尊享专属动态、帖子及报告发布权益，随心展现个人魅力。\n
+            精准筛选：启用高级筛选功能，快速锁定契合的社交目标，让每一次互动都更具意义\n
           </text>
         </view>
       </view>
     </view>
 
-    <view class="subbtns">
-      <view class="subbtns-item" @tap="show = true">
+    <view class="subbtns" v-if="!getUserInfo.isVip">
+      <view class="subbtns-item" @tap="submit">
         <text class="subbtns-item-t">立即开通</text>
       </view>
     </view>
 
-     <t-pay-way :info="payInfo" :orderNoId="payInfo.orderId" :show="show" @close="show = false"/>
+    <t-pay-way neededs="4" :payPrice="current.payMoney" :show="showPay" @close="showPay = false" @pay="submitPay" />
   </view>
 </template>
 
@@ -84,16 +85,10 @@ import { userInfo } from '@/config/public';
 
 export default {
   data: () => ({
+    showPay: false,
     rowData: [],
     current: {},
     show: true,
-    payInfo: {
-      orderId: '',
-      payAccount: 0,
-      payType: 1, // 1-微信 2-支付宝
-      payName: '微信支付',
-      payDesc: '扫码支付',
-    },
   }),
   computed: {
     ...mapGetters(['getUserInfo']),
@@ -109,60 +104,37 @@ export default {
       uni.navigateBack();
     },
 
-    // 获取商户认证类型
+    // 获取套餐列表
     async getAuthType () {
-      const res = await uni.$api.authType();
+      const res = await uni.$api.memberPackage({ pageNum: 1, pageSize: 100, packageType: 1 });
       console.log('商户认证类型', res);
       this.rowData = res.rows || [];
       this.selectType(this.rowData[0], 0);
     },
 
-    // 选择认证类型
     selectType (item, index) {
       this.current = item;
     },
 
-
-    navtap (type) {
-      ({
-        kefu: () => {
-          // 跳转到客服页面
-          uni.navigateTo({
-            url: '/pages/kefu/index'
-          })
-        },
-        setting: () => {
-          // 跳转到设置页面
-          uni.navigateTo({
-            url: '/pages/setting/index'
-          })
-        },
-      }[type])?.()
+    submit () {
+      if (!this.current.id) {
+        uni.$toast('请选择套餐');
+        return;
+      }
+      this.showPay = true;
     },
 
-    onClickGrid ({ value }) {
-      ({
-        1: () => uni.$toast('待付款'),
-      }[value])?.()
+    async submitPay ({ amount, payType }) {
+      const res = await uni.$api.openMember({
+        amount, payType,
+        days: this.current.days,
+        packageId: this.current.id,
+      });
+      uni.$toast('支付成功');
+      this.showPay = false;
+      await new Promise(resolve => setTimeout(resolve, 1000));
     },
 
-    onClickFnGrid ({ title }) {
-      ({
-        '我的推广': () => {
-          uni.navigateTo({
-            // url: '/reward/pages/invite/index'
-            url: '/pages/personal/invite'
-
-          })
-        },
-        '会员中心': () => {
-          // 跳转到分包member
-          uni.navigateTo({
-            url: '/member/pages/center/index'
-          })
-        },
-      }[title])?.()
-    }
   }
 }
 </script>
@@ -176,8 +148,8 @@ export default {
 .navbar {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  left: var(--window-left);
+  right: var(--window-right);
   z-index: 999;
   display: flex;
   justify-content: space-between;
@@ -461,6 +433,7 @@ export default {
     }
 
     &-centext {
+      margin-top: 16px;
       padding: 12px 0;
       font-size: 12px;
       color: #666;

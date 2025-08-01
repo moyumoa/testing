@@ -7,7 +7,7 @@
       <view class="navbar-center">
         <text class="navbar-center-t">钱包</text>
       </view>
-      <view class="navbar-right">
+      <view class="navbar-right" @tap="oper('detail')">
         <text class="navbar-right-t">明细</text>
       </view>
     </view>
@@ -17,12 +17,12 @@
         <view class="pbox-top">
           <view class="pbox-top-item">
             <text class="pbox-top-item-t">余额</text>
-            <text class="pbox-top-item-t2">{{ getUserInfo.balance }}</text>
+            <text class="pbox-top-item-t2">{{ getUserInfo.balance / 100 }}</text>
           </view>
-          <view class="pbox-top-item">
+          <!-- <view class="pbox-top-item">
             <text class="pbox-top-item-t">可用余额</text>
-            <text class="pbox-top-item-t2">{{ getUserInfo.balance }}</text>
-          </view>
+            <text class="pbox-top-item-t2">{{ getUserInfo.balance / 100 }}</text>
+          </view> -->
         </view>
       </view>
     </view>
@@ -58,11 +58,13 @@
       </view>
     </view>
 
-    <view class="subbtns">
+    <view class="subbtns" @tap="topup">
       <view class="subbtns-item">
         <text class="subbtns-item-t">确认充值</text>
       </view>
     </view>
+
+    <t-pay-way neededs="1,2" :payPrice="payPrice" :show="showPay" @close="showPay = false" @pay="submitPay" />
   </view>
 </template>
 
@@ -72,6 +74,8 @@ import { userInfo } from '@/config/public';
 
 export default {
   data: () => ({
+    showPay: false,
+    payPrice: 0, // 充值金额
     gridData: [
       { name: '88', price: 88, id: 1 },
       { name: '188', price: 188, id: 2 },
@@ -82,21 +86,26 @@ export default {
     ],
     current: {}, // 当前选中的充值金额
     customAmount: '', // 自定义金额输入框的值
+    
   }),
   computed: {
     ...mapGetters(['getUserInfo']),
   },
   async onLoad () {
+    console.log('--', JSON.stringify(this.getUserInfo, null, 2))
+
     await userInfo()
     this.current = this.gridData[0] // 默认选中第一个充值金额
   },
   methods: {
+    ...mapActions(['updateUserInfo']),
 
     goback () {
       uni.navigateBack({
         delta: 1
       })
     },
+
 
     navtap (type) {
       ({
@@ -133,6 +142,46 @@ export default {
           })
         },
       }[title])?.()
+    },
+
+    oper (type) {
+      ({
+        detail: () => {
+          uni.navigateTo({
+            url: '/pages/wallet/detail?source=wallet'
+          });
+        }
+      }[type] || (() => { }))();
+    },
+
+    async topup () {
+      if (this.customAmount) {
+        // 如果有自定义金额，则使用自定义金额
+        this.payPrice = parseInt(this.customAmount * 100); // 转换为分
+      } else {
+        // 否则使用当前选中的充值金额
+        this.payPrice = this.current.price ? parseInt(this.current.price * 100) : 0; // 转换为分
+      }
+
+      if (this.payPrice <= 0) {
+        uni.$toast('请输入有效的充值金额');
+        return;
+      }
+      // 打开支付方式选择弹窗
+      this.showPay = true;
+    },
+
+    async submitPay ({ amount, payType }) {
+      // 处理支付逻辑
+      const res = await uni.$api.recharge({ amount, payType });
+      console.log('充值订单信息', res);
+      if (payType === 'offline') {
+        uni.$toast('等待后台确认充值');
+        this.showPay = false;
+      } else {
+        // 如果是在线支付，跳转到支付页面
+        uni.$web(res.data.url)
+      }
     }
   }
 }
@@ -146,8 +195,8 @@ export default {
 .navbar {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  left: var(--window-left);
+  right: var(--window-right);
   z-index: 999;
   display: flex;
   justify-content: space-between;

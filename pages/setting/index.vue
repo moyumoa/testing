@@ -1,7 +1,8 @@
 <template>
   <view class="warps">
     <view class="list" v-for="(item, index) in list" :key="index">
-      <view class="list-item" v-for="(option, optionIndex) in item.attr" :key="optionIndex" @tap="navigator(option.to)">
+      <view class="list-item" v-for="(option, optionIndex) in item.attr" :key="optionIndex"
+        @tap="navigator(option.to, option.name)">
         <view class="list-item-l">
           <image class="list-item-l-icon" :src="option.icon" />
           <text class="list-item-l-t">{{ option.name }}</text>
@@ -10,8 +11,8 @@
         <u-icon name="arrow-right" size="16" color="#bbb" class="tpers-panel-uinfo-icon-r" />
       </view>
     </view>
-    
-    <view class="list">
+
+    <view class="list" v-if="false">
       <view class="list-item">
         <view class="list-item-l">
           <image class="list-item-l-icon" src="/static/images/icons/yaoyiyao.png" />
@@ -59,7 +60,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   data: () => ({
@@ -77,14 +78,15 @@ export default {
       {
         attr: [
           { name: '个人信息', icon: '/static/images/icons/pers.png', to: '/pages/personal/info' },
-          { name: '收款信息', icon: '/static/images/icons/shoukuan.png', to: '/pages/personal/other/collectionInformation' },
+          { name: '修改密码', icon: '/static/images/icons/pers.png', to: '/pages/setting/changePassword' },
+          // { name: '收款信息', icon: '/static/images/icons/shoukuan.png', to: '/pages/personal/other/collectionInformation' },
           // { name: '银行卡', icon: '/static/images/icons/bankcrad.png', to: '/pages/wallet/bankList' },
-          { name: '地址管理', icon: '/static/images/icons/dzgl.png', to: '/pages/personal/address' },
+          // { name: '地址管理', icon: '/static/images/icons/dzgl.png', to: '/pages/personal/address' },
         ]
       },
       {
         attr: [
-          { name: '关于我们', icon: '/static/images/icons/gywm.png', to: '/pages/personal/other/about' },
+          // { name: '关于我们', icon: '/static/images/icons/gywm.png', to: '/pages/personal/other/about' },
           { name: '问题反馈', icon: '/static/images/icons/wtfk.png', to: '/pages/setting/problemFeedback' }
         ]
       }
@@ -111,7 +113,9 @@ export default {
     this.switchs = JSON.parse(uni.getStorageSync('settings') || seeting)
     // #endif
   },
-
+  computed: {
+    ...mapGetters(['getUserInfo'])
+  },
   methods: {
     ...mapActions(['updateUserInfo']),
     tap_version () { },
@@ -127,7 +131,10 @@ export default {
       });
     },
 
-    navigator (url) {
+    navigator (url, name) {
+      if (name === '个人信息') {
+        return uni.navigateTo({ url: `/pages/personal/detail?userId=${this.getUserInfo.id}` })
+      }
       uni.navigateTo({ url })
     },
 
@@ -144,17 +151,9 @@ export default {
                   content: '注销账号后，您的所有信息将被清除，且无法恢复，确定注销吗？',
                   success: (res) => {
                     if (res.confirm) {
-                      uni.$api.logoutAccount().then(() => {
-                        uni.$api.logout().then(() => {
-                          uni.removeStorageSync('mtttoken')
-                          uni.removeStorageSync('userInfo')
-                          uni.removeStorageSync('isLogin')
-                          uni.removeStorageSync('settings')
-                          uni.removeStorageSync('shopManager')
-                          uni.reLaunch({
-                            url: '/pages/login/login'
-                          })
-                        })
+                      uni.$api.cancelAccount().then(() => {
+                        uni.removeStorageSync('remember')
+                        this.clearLoginInfo()
                       })
                     }
                   }
@@ -173,18 +172,22 @@ export default {
 
     itemClick ({ value }) {
       uni.$api.logout().then(() => {
-        uni.removeStorageSync('mtttoken')
-        uni.removeStorageSync('imToken')
-        uni.removeStorageSync('userInfo')
-        uni.removeStorageSync('isLogin')
-        this.updateUserInfo({}) // 清空 Vuex 中的用户信息
-
-        uni.reLaunch({
-          url: '/pages/login'
-        })
-
+        this.clearLoginInfo()
         this.showActionSheet = false
+      }).catch(err => {
+        console.error('退出登录失败:', err)
+        this.clearLoginInfo()
       })
+    },
+
+    // 清除登录信息并跳转到登录页面
+    clearLoginInfo () {
+      uni.removeStorageSync('mtttoken')
+      uni.removeStorageSync('imToken')
+      uni.removeStorageSync('userInfo')
+      uni.removeStorageSync('isLogin')
+      this.updateUserInfo({}) // 清空 Vuex 中的用户信息
+      uni.reLaunch({ url: '/pages/login' })
     }
   }
 }
@@ -282,8 +285,8 @@ export default {
   background-color: #fff;
   position: fixed;
   bottom: 0;
-  left: 0;
-  right: 0;
+  left: var(--window-left);
+  right: var(--window-right);
   display: flex;
   align-items: center;
   justify-content: center;

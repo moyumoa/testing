@@ -17,31 +17,37 @@
 			<view class="warps-place" :style="{ 'padding-top': `${statusBar + 60}px` }"></view>
 		</view>
 
-		<ipage-one v-show="currentPage === 1" ref="list1"></ipage-one>
+		<ipage-one v-if="paginated && !paginated.loading && currentPage === 1" :location="location"
+			:rows="paginated.data" />
 
-		<ipage-two v-show="currentPage === 2" ref="list2"></ipage-two>
+		<ipage-two v-if="paginated && !paginated.loading && currentPage === 2" :location="location"
+			:rows="paginated.data" />
 
-		<ipage-three v-show="currentPage === 3" ref="list3"></ipage-three>
+		<!-- <ipage-three ref="list3" /> -->
 
-		<image src="https://thorui.cn/images/mall/activity/img_coupon_banner.png" class="tui-img__coupon" @tap="coupon">
-    </image>
+		<tui-loadmore v-if="paginated && paginated.loading" :index="3" type="red"></tui-loadmore>
+		<tui-nomore v-if="paginated && !paginated.loading && finished" backgroundColor="#f8f8f8"></tui-nomore>
 
 	</view>
 </template>
 <script>
+import { getLocationAndAddress } from '@/utils/getLocation';
+import { formatNum } from '@mvmoo/us'
+import { createPaginated } from '@mvmoo/optionsapi'
+
 export default {
 	data () {
 		return {
 			statusBar: uni.getSystemInfoSync().statusBarHeight,
 			opacity: 0,
 
-
 			pageTab: [{ index: 1, name: '认证专区' }, { index: 2, name: '赔付专区' }, { index: 3, name: '瓢虫贴' }],
-			currentPage: 1,
+			currentPage: 0, // 当前页面
 
-			currentTab2: 1,
+			location: {},
+			paginated: null, // 分页数据
+			finished: false, // 是否加载完毕
 
-			finished: false,
 			condition: {
 				keyword: '',
 				cid: '',
@@ -57,95 +63,83 @@ export default {
 			loadding: false,
 		};
 	},
+
+	watch: {
+		async currentPage (newVal) {
+			const { lng, lat } = this.location
+			await ({
+				1: () => this.paginated = createPaginated(uni.$api.authList, { certificationType: 1, lng: lng || 0, lat: lat || 0, }, {
+					...uni.$paging,
+					extraList: res => res.data,
+					transformData: (rows, res, query) => rows?.map(item => ({
+						...item,
+						bg: item.images.split(',')[0] || item.images || '', // 背景图
+						ageGroup: this.ageGroup(item.birthday), // 年龄段
+						onlineTime: this.onlineTime(item.seconds), // 在线时间
+						distance: item.distance ? formatNum(item.distance) : '未知', // 距离
+						authStatusTxt: { 0: '未认证', 1: '认证中', 2: '已认证', 3: '认证失败' }[item.authStatus] || '未知状态',
+						isShowbtn: item.authStatus === 3, // 是否显示修改按钮
+					})) || []
+				}, 'concat'),
+				2: () => this.paginated = createPaginated(uni.$api.compensationList, { certificationType: 2, lng: lng || 0, lat: lat || 0, }, {
+					...uni.$paging,
+					extraList: res => res.data,
+					transformData: (rows, res, query) => rows?.map(item => ({
+						...item,
+						bg: item.images.split(',')[0] || item.images || '', // 背景图
+						ageGroup: this.ageGroup(item.birthday), // 年龄段
+						onlineTime: this.onlineTime(item.seconds), // 在线时间
+						distance: item.distance ? formatNum(item.distance) : '未知', // 距离
+						authStatusTxt: { 0: '未认证', 1: '认证中', 2: '已认证', 3: '认证失败' }[item.authStatus] || '未知状态',
+						isShowbtn: item.authStatus === 3, // 是否显示修改按钮
+					})) || []
+				}, 'concat'),
+			}[newVal]?.())
+			await this.paginated.reload({}, 1)
+		}
+	},
 	methods: {
 		/* 切换页面 */
 		async change_page (row) {
 			// this.currentPage = this.currentPage === 1 ? 2 : 1;
 			if (this.currentPage === row.index) return
 			this.currentPage = row.index
-			await this.getCategory()
-			this.$refs[`list${this.currentPage}`].scrollTo()
+			// await this.getCategory()
+			// this.$refs[`list${this.currentPage}`].scrollTo()
 		},
 
-		// 截取价格
-		get_price (price) {
-			return [price.split('.')[0], price.split('.')[1]]
-		},
-		// 搜索商品
-		search (e) {
-			// this.condition.keyword = e.value
-			uni.navigateTo({ url: `/pages/index/productList/search` })
-		},
-		// 搜索热词
-		search_hot (item) {
-			this.condition.keyword = item
-		},
-		// 获取轮播图
-		async getBanner () {
-			const res = await uni.$api.banner()
-			this.banner = res.data.list
+		/* 根据传入的出生日计算年龄段 例如:85后 90后 00后 10后 */
+		ageGroup (birthday) {
+			const year = new Date(birthday).getFullYear();
+			if (isNaN(year)) return '未知';
+			const groupBase = Math.floor(year / 5) * 5; // 向下取整至5的倍数
+			return `${String(groupBase).slice(-2)}后`; // 取后两位 + '后'
 		},
 
-		// 获取兑换商品列表
-		async getExchangeList () {
-			const res = await uni.$api.getExchangeList({ page: 1, limit: 10 })
-			this.couponList = res.data.list
-		},
-
-		// 获取商品分类
-		async getCategory () {
-			const res = await uni.$api.category({ category: this.currentPage === 1 ? 1 : 8 })
-			this.category = res.data
-			this.hotSearch = res.data.map(item => item.name)
-			// this.getProductList()
-			// this.currentClassify = res.data[0]
-			// console.log(this.currentClassify, '分类')
-			// this.tap_category(res.data[0])
-		},
-
-		// 获取商品列表
-		async getProductList (callback) {
-			this.loadding = true
-			const res = await uni.$api['goodsList'](this.condition)
-			callback ? callback(res.data.list) : this.productList = this.productList.concat(res.data.list)
-			this.loadding = false
-			this.finished = res.data.list.length < this.condition.limit
-		},
-
-		// 跳转商品详情
-		to_detail (item) { uni.navigateTo({ url: `/pages/detail/goods?i=${item.id}` }) },
-
-		// 跳转商品列表
-		to_list (item) {
-			uni.navigateTo({ url: `/pages/index/productList/productList?cid=${item.id}&title=${item.name}` })
-		},
-
-		// 跳转兑换区
-		to_exchange () { uni.navigateTo({ url: '/pages/index/exchange' }) },
-
-		// 跳转兑换详情
-		to_exchangeArea (item) { uni.navigateTo({ url: `/pages/detail/goods?i=${item.id}&category=${item.category || 4}` }) },
-
-		// 暂未开放
-		not_to () { uni.$toast('该板块暂未开放') },
-
-		// 跳转文章
-		to_html (item) {
-			uni.navigateTo({
-				url: `/pages/detail/article?id=${item.id}`
-			});
-		},
-
-		seckill (type) {
-			let url = type == 1 ? '/pages/index/seckillList/seckillList' : '/pages/index/seckillDetail/seckillDetail';
-			this.tui.href(url);
+		/* 根据秒数计算在线时间分钟/小时/天数 */
+		onlineTime (Second) {
+			if (Second < 60) return `${Second}秒`;
+			if (Second < 3600) return `${Math.floor(Second / 60)}分钟`;
+			if (Second < 86400) return `${Math.floor(Second / 3600)}小时`;
+			return `${Math.floor(Second / 86400)}天`;
 		},
 	},
-	onLoad () {
+	async onLoad () {
 		// this.getBanner()
 		// this.getCategory()
 		// this.getExchangeList()
 		// uni.navigateTo({ url: `/pages/index/startPage` })
+		// this.change_page({ index: 1, name: '认证专区' })
+		const { lng, lat } = await getLocationAndAddress()
+		console.log('lng lat', lng, lat)
+		this.location = { lng, lat }
+		this.currentPage = 1
+		// this.$nextTick(async () => {
+		// 	console.log('refs after mount:', this.$refs)
+		// 	await this.$refs['list1']?.init()
+		// 	// await this.$refs['list2']?.init()
+		// })
+
 	},
 	onShow () {
 		// #ifdef APP-PLUS
@@ -160,11 +154,12 @@ export default {
 		this.$refs[`list${this.currentPage}`].scrollBarPosition = e.scrollTop
 	},
 	async onPullDownRefresh () {
-		this.finished = false
-		this.condition.page = 1
-		await this.getProductList(list => this.productList = list)
+		// this.finished = false
+		// this.condition.page = 1
+		// await this.getProductList(list => this.productList = list)
+		// this.loadding = false
+		await this.$refs[`list${this.currentPage}`].init()
 		uni.stopPullDownRefresh()
-		this.loadding = false
 	},
 	async onReachBottom () {
 		// if (this.finished) return
@@ -172,7 +167,11 @@ export default {
 		// await this.getProductList()
 
 		// console.log(this.$refs[`list${this.currentPage}`].reachBottom())
-		this.$refs[`list${this.currentPage}`].reachBottom()
+		// this.$refs[`list${this.currentPage}`].reachBottom()
+
+		const { page, limit, total, count } = this.paginated.pagination
+		if (count < limit) return
+		this.paginated.onChangePage(page + 1, limit)
 	},
 
 };
@@ -201,9 +200,9 @@ $ec: #72A5FD;
 	padding: 0 12px 8px;
 	position: fixed;
 	top: 0;
-	left: 0;
-	right: 0;
-	z-index: 9999;
+	left: var(--window-left);
+	right: var(--window-right);
+	z-index: 66;
 
 	&-l {
 		flex: 1;

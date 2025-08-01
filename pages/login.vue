@@ -223,6 +223,34 @@ export default {
       }
     },
 
+    /* async bulkRegister () {
+      for (let i = 1001; i <= 1099; i++) {
+        const loginName = i.toString();
+        const password = '1';
+
+        try {
+          const getAvatar = await uni.$api.generateAvatar({ username: loginName });
+          const getUsername = await uni.$api.generateUsername();
+
+          const res = await uni.$api.register({
+            loginName,
+            password,
+            nickName: getUsername.data.nickname,
+            username: loginName,
+            avatar: getAvatar.data.avatarUrl
+          });
+
+          console.log(`注册成功：${loginName}`);
+        } catch (err) {
+          console.error(`注册失败：${loginName}`, err);
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 200)); // 避免频率过快
+      }
+
+      uni.$toast('批量注册完成');
+    }, */
+
     submit (type) {
 
       return {
@@ -233,15 +261,20 @@ export default {
           if (this.password2.length === 0) return uni.$toast('请再次输入密码')
           if (this.password !== this.password2) return uni.$toast('两次输入的密码不一致')
 
-          const getAvatar = await uni.$api.generateAvatar({
-            username: this.loginName,
-          })
-          this.avatar = getAvatar.data.avatarUrl
+
           console.log('获取头像', getAvatar)
 
           const getUsername = await uni.$api.generateUsername()
           this.nickName = getUsername.data.nickname
           console.log('获取用户名', getUsername)
+
+          const getAvatar = await uni.$api.generateAvatar({
+            userName: getUsername.data.nickname,
+          })
+
+          const originalAvatar = getAvatar.data.avatarUrl
+          const decoded = decodeURIComponent(originalAvatar);
+          this.avatar = decoded
 
           const result = await uni.$api.register({
             loginName: this.loginName,
@@ -272,8 +305,8 @@ export default {
             password: this.password,
             lng: this.lng,
             lat: this.lat,
-            city: this.regeocode.city || '',
-            address: this.address || '',
+            city: this?.regeocode?.city || '',
+            address: this?.address || '',
           })
           const userInfo = {
             ...info.data.user,

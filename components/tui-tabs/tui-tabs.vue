@@ -255,7 +255,7 @@
 
 	.tui-tabs-fixed {
 		position: fixed;
-		left: 0;
+		left: var(--window-left);
 	}
 
 	.tui-tabs-fixed::before,

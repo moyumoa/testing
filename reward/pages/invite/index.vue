@@ -159,8 +159,8 @@ export default {
 .nav {
 	position: fixed;
 	top: 0;
-	left: 0;
-	right: 0;
+	left: var(--window-left);
+	right: var(--window-right);
 	z-index: 999;
 	display: flex;
 	justify-content: space-between;

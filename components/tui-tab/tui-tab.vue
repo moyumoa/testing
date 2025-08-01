@@ -265,7 +265,7 @@
 
 	.tui-tabs__fixed {
 		position: fixed;
-		left: 0;
+		left: var(--window-left);
 	}
 
 	.tui-tabs__sticky {

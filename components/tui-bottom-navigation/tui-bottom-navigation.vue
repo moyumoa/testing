@@ -375,8 +375,8 @@ export default {
 .tui-navigation-mask {
 	position: fixed;
 	top: 0;
-	left: 0;
-	right: 0;
+	left: var(--window-left);
+	right: var(--window-right);
 	bottom: 0;
 	z-index: 995;
 	transition: all 0.3s ease-in-out;

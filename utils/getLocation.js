@@ -40,13 +40,23 @@ function initAMap (resolve, reject) {
             resolve({ lng, lat, address, regeocode });
           } else {
             console.log('地址解析失败', result);
-            reject(new Error('地址解析失败'));
+            // reject(new Error('地址解析失败'));
+            resolve(null); // 不抛异常
           }
         });
       } else {
         console.log('定位失败', result);
-        reject(new Error('定位失败'));
+        // reject(new Error('定位失败'));
+        resolve({
+          lng: null,
+          lat: null,
+          address: null,
+          regeocode: null
+        }); // 不抛异常
       }
     });
-  }).catch(reject);
+  }).catch(err => {
+    console.error('AMap 加载失败', err);
+    resolve(null); // 不抛异常
+  });
 }

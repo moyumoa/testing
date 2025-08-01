@@ -48,7 +48,7 @@
       </view>
     </view>
 
-    <tui-loadmore v-if="loadding" :index="3" type="red"></tui-loadmore>
+    <tui-loadmore v-if="loading" :index="3" type="red"></tui-loadmore>
     <tui-nomore v-if="finished"></tui-nomore>
   </view>
 </template>

@@ -8,7 +8,7 @@
         <view class="pinfo-top-r">
           <text class="pinfo-top-r-t">{{ getUserInfo.nickName }}</text>
           <view class="pinfo-top-r-t2">
-            <u-icon :label="getUserInfo.isVip ? '会员' : '普通用户'" size="16" labelColor="#ccc" labelSize="12"
+            <u-icon :label="getUserInfo.isVip ? '高级会员' : '普通用户'" size="16" labelColor="#ccc" labelSize="12"
               name="/static/per/hy-icon.png" />
           </view>
         </view>
@@ -33,8 +33,7 @@
           <text class="panel-grid-title-t">关于价格</text>
         </view>
         <view class="panel-grid-centext">
-          <text
-            class="panel-grid-centext-t">90天 1000元</text>
+          <text class="panel-grid-centext-t">{{ current.expireDays }}天 {{ current.payAccount / 100 }}元</text>
         </view>
       </view>
       <view class="panel-grid">
@@ -53,55 +52,134 @@
           <text class="panel-grid-title-t">认证记录</text>
         </view>
         <view class="panel-grid-centext">
-          <u-steps current="1" direction="column" dot>
-            <u-steps-item title="失败" desc="0000-00-00 10:30">
-            </u-steps-item>
-            <u-steps-item title="失败" desc="0000-00-00 10:35">
-            </u-steps-item>
-            <u-steps-item title="审核中" desc="0000-00-00 11:40"></u-steps-item>
-          </u-steps>
+          <view class="pgc-items" v-for="(item, index) in paginated.data" :key="index">
+            <image class="pgc-items-avatar" src="/static/bgs/bg_chat.jpeg" />
+            <text class="pgc-items-t">{{ item.nickName }}</text>
+            <text class="pgc-items-t">{{ item.check_remark || '无' }}</text>
+            <text class="pgc-items-t">{{ item.authStatusTxt }}</text>
+            <text class="pgc-items-t pgc-items-t-edit" v-if="item.isShowbtn">去修改</text>
+          </view>
         </view>
       </view>
     </view>
 
     <view class="subbtns">
-      <view class="subbtns-item">
-        <text class="subbtns-item-t">去支付</text>
+      <view class="subbtns-item" :class="{ 'subbtns-item-disabled': btnStatus.disabled }" @tap="submit">
+        <text class="subbtns-item-t">
+          {{ btnStatus.txt }}
+        </text>
       </view>
     </view>
+
+    <t-pay-way neededs="4" :payPrice="current.payAccount" :show="showPay" @close="showPay = false" @pay="submitPay" />
+
   </view>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { userInfo } from '@/config/public';
+import { createPaginated } from '@mvmoo/optionsapi'
 
 export default {
-  data: () => ({}),
+  data: () => ({
+    showPay: false,
+    rowData: [],
+    current: {},
+    finished: false,
+    paginated: createPaginated(uni.$api.authRecord, null, {
+      pageKey: 'pageNum',
+      limitKey: 'pageSize',
+      extraList: res => res.rows,
+      extraTotal: res => res.total,
+      defaultPagination: { page: 1, limit: 100 },
+      transformData: (rows, res, query) => {
+        return rows.map(item => ({
+          ...item,
+          authStatusTxt: { 0: '未认证', 1: '认证中', 2: '已认证', 3: '认证失败' }[item.authStatus] || '未知状态',
+          isShowbtn: item.authStatus === 3, // 是否显示修改按钮
+        }))
+      }
+    }, '')
+  }),
   computed: {
     ...mapGetters(['getUserInfo']),
+    btnStatus () {
+      const status = this.paginated.data[0]?.authStatus || 0;
+      const isUpdateCount = this.getUserInfo?.isUpdateCount || 0;
+
+      if (!isUpdateCount && !status) return { txt: '去认证', disabled: false, navi: 'pay' };
+
+      const statusMap = {
+        1: { txt: '认证中', disabled: true, navi: '' },
+        2: { txt: '重新认证', disabled: false, navi: 'pay' },
+        3: { txt: '去修改', disabled: false, navi: 'info' }
+      };
+
+      if (statusMap[status]) return statusMap[status];
+
+      if (isUpdateCount > 0) return { txt: '填写资料', disabled: false, navi: 'info' };
+
+      return { txt: '', disabled: true, navi: '' };
+
+    }
+  },
+  async onShow () {
+    await userInfo()
+    // 获取认证记录
+    this.paginated.reload({ userId: this.getUserInfo.id }, 1)
   },
   async onLoad () {
-    await userInfo()
     console.log('--', JSON.stringify(this.getUserInfo, null, 2))
+    this.getAuthType()
+    // this.getAuthRecord()
   },
   methods: {
+    ...mapActions(['updateUserInfo']),
 
-    navtap (type) {
+    // 获取认证类型
+    async getAuthType () {
+      const res = await uni.$api.authType({ authTypeValue: 1 });
+      console.log('认证类型', res);
+      this.rowData = res.rows || [];
+      this.current = this.rowData[0] || {};
+    },
+
+    submit () {
+      if (this.btnStatus.disabled) return
       ({
-        kefu: () => {
-          // 跳转到客服页面
-          uni.navigateTo({
-            url: '/pages/kefu/index'
-          })
+        pay: () => {
+          // 跳转到支付页面
+          this.showPay = true;
         },
-        setting: () => {
-          // 跳转到设置页面
-          uni.navigateTo({
-            url: '/pages/setting/index'
-          })
-        },
-      }[type])?.()
+        info: () => {
+          // 跳转到个人信息填写页面
+         this.toPersonalInfo();
+        }
+      }[this.btnStatus.navi])?.()
+    },
+
+
+    async submitPay ({ amount, payType }) {
+      const res = await uni.$api.authPay({
+        amount, payType,
+        certificationType: 1, // 1-个人认证
+        days: this.current.expireDays,
+        updateCount: this.current.updateCount,
+        createCount: this.current.createCount,
+        putAwayCount: this.current.putAwayCount
+      });
+      await userInfo()
+      // 提交支付逻辑
+      console.log('提交支付，价格:', res);
+      uni.$toast('支付成功');
+      this.showPay = false;
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      this.toPersonalInfo()
+    },
+
+    toPersonalInfo () {
+      uni.navigateTo({ url: '/pages/personal/info' })
     },
 
   }
@@ -279,10 +357,53 @@ export default {
 
     &-centext {
       padding: 12px 0;
-      font-size: 12px;
-      color: #666;
-      line-height: 1.5;
-      opacity: 0.8;
+
+      &-t {
+        font-size: 14px;
+        color: #333;
+        line-height: 1.5;
+      }
+
+      .pgc-items {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 0;
+        margin-bottom: 12px;
+
+        &-avatar {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          margin-right: 10px;
+        }
+
+        &-t {
+          width: 0;
+          flex: 1;
+          font-size: 14px;
+          color: #333;
+          margin-right: 10px;
+          text-align: center;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          &:first-child {
+            text-align: left;
+          }
+
+          &:last-child {
+            margin-right: 0;
+            text-align: right;
+          }
+
+          &-edit {
+            color: #72A5FD;
+          }
+        }
+
+      }
     }
   }
 }

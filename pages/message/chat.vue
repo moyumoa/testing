@@ -209,8 +209,8 @@ export default {
 <style lang="scss" scoped>
 .page-bg {
   position: fixed;
-  top: 0;
-  left: 0;
+  left: var(--window-left);
+	right: var(--window-right);
   width: 100%;
   height: 100%;
   z-index: 0;
@@ -276,8 +276,8 @@ export default {
   display: flex;
   align-items: center;
   position: fixed;
-  left: 0;
-
+  left: var(--window-left);
+  
   .input {
     flex: 1;
     height: 40px;
