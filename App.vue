@@ -19,7 +19,8 @@ export default {
 			handler (newVal) {
 				if (newVal?.imUid && newVal?.imToken && (newVal.imUid !== this.$im?.sdk?.config?.uid || newVal.imToken !== this.$im?.sdk?.config?.token)) {
 					// this.$im.init(newVal)
-					this.$im.init({ imUid: newVal.imUid, imToken: newVal.imToken });
+					/* IM没起来 临时注释一下 */
+					// this.$im.init({ imUid: newVal.imUid, imToken: newVal.imToken });
 				}
 			},
 			immediate: true

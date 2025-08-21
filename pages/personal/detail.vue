@@ -215,7 +215,6 @@
               </view>
             </view>
           </view>
-
         </view>
 
         <view class="unlock-btns">
@@ -312,8 +311,6 @@ export default {
       }
     }, 'concat')
     await this.paginated.reload({ }, 1)
-    const { limit, count } = this.paginated?.pagination
-    this.finished = count < limit
     this.$nextTick(() => {
       this.loading = false
     })

@@ -48,7 +48,7 @@ export default {
   watch: {
     async currentNav (val) {
       console.log('切换tab', val);
-      const params = { userId: this.getUserInfo.id, }
+      const params = this.options.source === 'sq' ? null : { userId: this.getUserInfo.id, }
       // checkStatus: 1
       await ({
         1: async () => {
@@ -88,7 +88,7 @@ export default {
     }
   },
   async onLoad (options) {
-    if (options.source === 'mc') {
+    if (['mc', 'sq'].includes(options.source)) {
       uni.setNavigationBarTitle({ title: options.tt || '' })
       this.currentNav = Number(options.n)
     } else {

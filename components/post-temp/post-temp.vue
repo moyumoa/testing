@@ -1,5 +1,5 @@
 <template>
-  <view class="pbox">
+  <view class="pbox" @tap="todetail(item)">
     <u-icon size="16" name="close" class="pbox-close"
       v-if="getFirstAvailable(item, ['appUserInvitation.userId', 'userId']) === getUserInfo.id"
       @tap="remove(item, item.id)" />
@@ -100,6 +100,11 @@ export default {
         }
       }
       return defaultValue;
+    },
+    todetail (item) {
+      uni.navigateTo({
+        url: `/pages/details/post?id=${item.id}`
+      })
     }
   }
 }

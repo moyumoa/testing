@@ -1,5 +1,5 @@
 <template>
-  <view class="blocktgrid-items">
+  <view class="blocktgrid-items" @tap="todetail" v-if="item">
     <u-icon size="16" name="close" class="blocktgrid-items-close" @tap="remove(item, item.appUserReport.id)" v-if="item.appUserReport.userId === getUserInfo.id" />
     <view class="uoverview">
       <view class="uoverview-l">
@@ -51,7 +51,7 @@
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  name: 'PostTemp',
+  name: 'ReportTemp',
   props: {
     item: {
       type: Object,
@@ -88,6 +88,12 @@ export default {
       })
 
       // this.$emit('remove', item, id)
+    },
+
+    todetail () {
+      uni.navigateTo({
+        url: `/pages/details/report?id=${this.item.id}`
+      })
     }
   }
 }

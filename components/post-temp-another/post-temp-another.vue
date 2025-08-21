@@ -1,37 +1,38 @@
 <template>
   <view class="blocktgrid-items">
     <u-icon size="16" name="close" class="blocktgrid-items-close" @tap="remove(item, item.id)"
-      v-if="getFirstAvailable(item, ['appUser.id', 'appUserDynamic.userId']) === getUserInfo.id" />
+      v-if="item.appUser.id === getUserInfo.id" />
 
     <view class="uoverview">
       <view class="uoverview-l">
-        <image class="uoverview-l-avatar" :src="getFirstAvailable(item, ['appUser.avatar', 'appUserDynamic.avatar'])" />
+        <image class="uoverview-l-avatar" :src="item.appUser.avatar" />
       </view>
       <view class="uoverview-c">
         <view class="uoverview-c-top">
-          <text class="uoverview-c-top-t">{{ getFirstAvailable(item, ['appUser.nickName']) }}</text>
+          <text class="uoverview-c-top-t">{{ item.appUser.nickName }}</text>
           <u-icon label="黄金会员" size="16" labelColor="#9C7E58" labelSize="12" name="/static/per/hy-icon.png"
-            v-if="getFirstAvailable(item, ['appUser.isVip'])" />
+            v-if="item.appUser.isVip" />
         </view>
         <view class="uoverview-c-bottom">
           <view style="display: flex; align-items: center;">
-            <template v-if="getFirstAvailable(item, ['appUserDynamic.addHidden'])">
+            <template v-if="item.appUserPost.addHidden">
               <u-icon name="map" color="#333" size="12" style="margin-right: 2px;" />
-              <text class="uoverview-c-bottom-t">{{ getFirstAvailable(item, ['appUserDynamic.cityAddress']) }}</text>
+              <text class="uoverview-c-bottom-t">{{ item.appUserPost.cityAddress }}</text>
             </template>
-            <text class="uoverview-c-bottom-t">{{ formatSmartTime(getFirstAvailable(item, ['appUserDynamic.createTime'])) }} 发布</text>
+            <text class="uoverview-c-bottom-t">{{ formatSmartTime(item.appUserPost.createTime) }} 发布</text>
           </view>
         </view>
       </view>
+      <follow-btn :customerId="item.appUser.id" v-if="item.appUser.id !== getUserInfo.id" />
     </view>
 
     <view class="description">
-      <text>{{ getFirstAvailable(item, ['appUserDynamic.description']) }}</text>
+      <text>{{ item.appUserPost.description }}</text>
     </view>
 
     <view class="cell-item-several">
-      <view class="cell-item-pic" v-if="getFirstAvailable(item, ['appUserDynamic.videoUrl'])" @tap="previewVideo(getFirstAvailable(item, ['appUserDynamic.videoUrl']))">
-        <video :src="getFirstAvailable(item, ['appUserDynamic.videoUrl'])" />
+      <view class="cell-item-pic" v-if="item.appUserPost.videoUrl" @tap="previewVideo(item.appUserPost.videoUrl)">
+        <video :src="item.appUserPost.videoUrl" />
       </view>
       <template v-else>
         <view class="cell-item-pic" v-for="(pic, _index) in item.images" :key="_index">
@@ -41,14 +42,13 @@
     </view>
 
     <view class="blocktgrid-bottom">
-      <view class="blocktgrid-bottom-l">
-      </view>
+      <view class="blocktgrid-bottom-l"></view>
       <view class="blocktgrid-bottom-r">
-        <u-icon class="blocktgrid-bottom-r-icon" name="eye" :label="formatNum(getFirstAvailable(item, ['appUserDynamic.viewCount'])) || 0"
+        <u-icon class="blocktgrid-bottom-r-icon" name="eye" :label="formatNum(item.appUserPost.viewCount) || 0"
           size="15" labelColor="#222" labelSize="12" v-if="false" />
-        <u-icon class="blocktgrid-bottom-r-icon" name="heart" :label="formatNum(getFirstAvailable(item, ['appUserDynamic.praiseCount'])) || 0"
+        <u-icon class="blocktgrid-bottom-r-icon" name="heart" :label="formatNum(item.appUserPost.praiseCount) || 0"
           size="15" labelColor="#222" labelSize="12" />
-        <u-icon class="blocktgrid-bottom-r-icon" name="chat" :label="formatNum(getFirstAvailable(item, ['appUserDynamic.reviewCount'])) || 0"
+        <u-icon class="blocktgrid-bottom-r-icon" name="chat" :label="formatNum(item.appUserPost.reviewCount) || 0"
           size="15" labelColor="#222" labelSize="12" v-if="false" />
       </view>
     </view>
@@ -62,7 +62,7 @@ import { mapGetters, mapActions } from 'vuex'
 import { formatSmartTime, formatNum } from '@mvmoo/us'
 
 export default {
-  name: 'DynamicTemp',
+  name: 'PostTemp',
   props: {
     item: {
       type: Object,
@@ -70,7 +70,8 @@ export default {
     }
   },
   data: () => ({
-    formatSmartTime: formatSmartTime
+    formatSmartTime: formatSmartTime,
+    relation: {},
   }),
   computed: {
     ...mapGetters(['getUserInfo'])
@@ -88,15 +89,6 @@ export default {
       }
       // 返回第一个图片地址
       return images.length > 0 ? images[0] : ''
-    },
-    getFirstAvailable (obj, paths, defaultValue = '') {
-      for (const path of paths) {
-        const value = path.split('.').reduce((acc, key) => acc && acc[key], obj);
-        if (value !== undefined && value !== null && value !== '') {
-          return value;
-        }
-      }
-      return defaultValue;
     },
     remove (item, id) {
       uni.showModal({

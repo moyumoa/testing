@@ -71,6 +71,7 @@ export default {
         console.log('rows', rows)
         return rows.map(item => ({
           ...item,
+          id: item.appUser.id,
           status: item.status === 1 ? item.status : this.currentNav === 1 ? STATUS.FOLLOWED : STATUS.NONE, // 确保有状态
         }))
       }
@@ -132,10 +133,11 @@ export default {
           // console.log('操作结果', this.getUserRelation(item.appUser.id))
         },
         detail: () => {
-          uni.navigateTo({ url: `/pages/personal/detail?id=${item.id}&source=mc` })
-          uni.$api.authDetailById({ id: item.id }).then(res => {
-            console.log('女郎详情', res)
-          })
+          // uni.navigateTo({ url: `/pages/personal/detail?id=${item.id}&source=mc` })
+          uni.navigateTo({ url: `/pages/personal/detail?userId=${item.id}` })
+          // uni.$api.authDetailById({ id: item.id }).then(res => {
+          //   console.log('女郎详情', res)
+          // })
         }
       }[type]?.())
     },

@@ -1,7 +1,7 @@
 <template>
   <view class="container">
     <view class="slogan">
-      <image class="slogan-img" src="/static/logo.png" />
+      <image class="slogan-img" src="/static/bgs/fabu-logo.png" />
     </view>
 
     <view class="warps">
@@ -74,7 +74,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px;
+  padding: 64px 32px 0;
 
   &-img {
     width: 100%;

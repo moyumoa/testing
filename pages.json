@@ -15,6 +15,12 @@
 			}
 		},
 		{
+			"path": "pages/community/index",
+			"style": {
+				"navigationBarTitleText": "社区"
+			}
+		},
+		{
 			"path": "pages/release/index",
 			"style": {
 				"navigationBarTitleText": "发布",
@@ -109,6 +115,18 @@
 			"path": "pages/others/post",
 			"style": {
 				"navigationBarTitleText": "Ta的帖子"
+			}
+		},
+		{
+			"path": "pages/details/report",
+			"style": {
+				"navigationBarTitleText": "Ta报告"
+			}
+		},
+		{
+			"path": "pages/details/post",
+			"style": {
+				"navigationBarTitleText": "帖子详情"
 			}
 		},
 		{
@@ -315,7 +333,7 @@
 				"selectedIconPath": "static/tabbar/index_.png"
 			},
 			{
-				"pagePath": "pages/index/test",
+				"pagePath": "pages/community/index",
 				"text": "社区",
 				"iconPath": "static/tabbar/shequ.png",
 				"selectedIconPath": "static/tabbar/shequ_.png"
